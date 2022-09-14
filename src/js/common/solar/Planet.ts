@@ -13,13 +13,12 @@ export class Planet extends Object3D {
     orbitPath:EllipticalPath;
     rotationSpeed:number;
 
-    constructor(_data:OrbitElements) {
+    constructor(name: string, _data:OrbitElements) {
         super();
 
         this.data = _data;        
-        this.name = _data.id;
+        this.name = name;
         
-
         this.mesh = new Mesh(GEO, MAT);
         this.mesh.scale.multiplyScalar(.02);
         this.add(this.mesh);
