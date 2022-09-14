@@ -17,6 +17,8 @@ export class Planet extends Object3D {
         super();
 
         this.data = _data;        
+        this.name = _data.id;
+        
 
         this.mesh = new Mesh(GEO, MAT);
         this.mesh.scale.multiplyScalar(.02);
