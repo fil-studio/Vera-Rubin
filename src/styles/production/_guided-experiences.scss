@@ -29,16 +29,33 @@
 		text-align: center;
 	}
 
-	a {
-		margin: var(--distance-30) 0 0 0;
+	.buttons__wrapper {
+		display: flex;
+		justify-content: center;
+		flex-grow: 1;
+		align-items: flex-end;
+
+		padding-top: 50px;
+
 		width: 100%;
-		max-width: var(--default-max-width);
-		text-align: center;	
 
 		@include desktop {
-			margin: var(--distance-100) 0 0 0;
-			max-width: 700px;
+			width: 520px;
 		}
+	}
+
+}
+
+[data-template="guided-experiences"] .experience-link {
+	position: relative;
+	margin: var(--distance-30) 0 0 0;
+	width: 100%;
+	max-width: var(--default-max-width);
+	text-align: center;	
+
+	@include desktop {
+		margin: var(--distance-100) 0 0 0;
+		max-width: 700px;
 	}
 
 	h3 {
@@ -49,16 +66,34 @@
 
 	.image {
 		border: 1px solid var(--red-0);
+
 		border-radius: 15px;
 		width: 100%;
+		z-index: 1;
 
-		background-position: center;
-		background-size: cover;
+		overflow: hidden;
 
 		@include aspect-ratio(16,9);
 	}
 
-	.image svg {
+	.image-zoom {
+		background-position: center;
+		background-size: cover;
+
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate3d(-50%, -50%, 0);
+		transform-origin: center;
+
+		transition: transform 0.2s ease-in-out;
+
+		width: 100%;
+		height: 100%;
+	}
+
+	svg {
+		z-index: 2;
 		position: absolute;
 		top: 0;
 		right: 7%;
@@ -76,29 +111,23 @@
 
 		text {
 			fill: var(--white-0);
-		
+
 			@include light-2;
-			
+
 			&.num {
 				@include bold-2;
 			}
 		}
 	}
 
+	&:hover {
 
-	.buttons__wrapper {
-		display: flex;
-		justify-content: center;
-		flex-grow: 1;
-		align-items: flex-end;
-
-		padding-top: 50px;
-		
-		width: 100%;
-
-		@include desktop {
-			width: 520px;
+		.image-zoom {
+			transition: transform 0.5s ease-in-out;
+			transform: translate3d(-50%,-50%, 0) scale3d(1.05, 1.05, 1);
 		}
 	}
-
 }
+
+
+
