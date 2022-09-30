@@ -1,9 +1,9 @@
 import { WebGLSketch } from "@jocabola/gfx";
 import { io } from "@jocabola/io";
 import { AmbientLight, Clock, Group, PerspectiveCamera, PointLight, SphereGeometry, TextureLoader } from "three";
-import { css2D } from "../../production/ui/expandable-items/Css2D";
-import { expandableItems, initExpandableItems, resizeExpandableItems } from "../../production/ui/expandable-items/ExpandableItems";
-import { initRaycaster, updateRaycaster, updateRaycasterWatch } from "../../production/ui/expandable-items/Raycaster";
+import { css2D } from "../../production/ui/popups/Css2D";
+import { Popups, initExpandableItems, resizeExpandableItems } from "../../production/ui/popups/PopupsManager";
+import { initRaycaster, updateRaycaster, updateRaycasterWatch } from "../../production/ui/popups/Raycaster";
 import { getEntryById } from "../data/DataManager";
 import { loadData } from "../data/DataMap";
 import { getSolarSystemElements } from "../data/FiltersManager";
@@ -164,10 +164,10 @@ export class CoreApp extends WebGLSketch {
 
 			const planet = new Planet(el.id, false, mel);
 
-            const expandableItem = expandableItems.find(x => x.name === planet.name);            
-            if(expandableItem) {
-                expandableItem.ref = planet;
-                expandableItem.loaded();
+            const Popup = Popups.find(x => x.name === planet.name);            
+            if(Popup) {
+                Popup.ref = planet;
+                Popup.loaded();
             }
             
 			this.planets.add(planet);

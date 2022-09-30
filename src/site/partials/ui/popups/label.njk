@@ -1,0 +1,20 @@
+{% from 'ui/filter-icons/filter-icon.njk' import filterIcon as filterIcon %}
+
+{% set cat = element.elementCategory[0] %}
+
+{% for category in categories[lang] %}
+	{% if category.slug == cat.slug %}
+		{% set cat = category %}
+	{% endif %}
+{% endfor %}
+
+<div class="popup-label" data-id="{{ element.elementID }}">	
+	<div class="icon">
+		{{ filterIcon(cat.slug, cat.title, cat.mainColor ) }}
+	</div>
+	<div class="icon-text">
+		<h3>{{ element.title }}</h3>
+		<p>{{ generic[lang]['popups'].tap }}</p>
+	</div>
+</div>
+

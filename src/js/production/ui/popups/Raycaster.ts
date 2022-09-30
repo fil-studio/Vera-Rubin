@@ -1,5 +1,5 @@
 import { Object3D, OrthographicCamera, PerspectiveCamera, Raycaster, Vector3 } from "three";
-import { expandableItems } from "./ExpandableItems";
+import { Popups } from "./PopupsManager";
 
 export class InteractiveObject {
 	selected:boolean;
@@ -68,7 +68,7 @@ const raycasterClick = () => {
 
 const clickedElement = (element:any) => {
 
-	const item = expandableItems.find(x => x.name === element.name);	
+	const item = Popups.find(x => x.name === element.name);	
 
 	if(!item) {
 		console.log('No expandable item by this name:', element.name);

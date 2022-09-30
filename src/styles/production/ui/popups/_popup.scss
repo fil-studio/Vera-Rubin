@@ -1,5 +1,5 @@
 
-.expandable-item {
+.popup {
 	transition-property: opacity;
 	transition-duration: 0.25s;
 	transition-timing-function: ease-in-out;
@@ -22,21 +22,16 @@
 	}
 }
 
-.expandable-item {
+.popup {
 	position: absolute;
 
 	width: 0;
 	height: 0;
 
 	overflow: visible;
-
-	.item-scale-wrapper {
-		transform-origin: 50% 100%;
-		transition-duration: 0s;
-	}
 }
 
-.expandable-item .item-wrapper {
+.popup .item-wrapper {
 	width: 180px;
 	height: 0;
 
@@ -51,7 +46,7 @@
 	align-items: center;
 }
 
-.expandable-item .close-item {
+.popup .close-item {
 	position: absolute;
 	z-index: 1;
 
@@ -80,7 +75,7 @@
 	}
 }
 
-.expandable-item .cover {
+.popup .cover {
 	position: relative;
 
 	width: 60px;
@@ -147,7 +142,7 @@
 
 }
 
-.expandable-item.no-picture .cover {
+.popup.no-picture .cover {
 	height: 0;
 	width: 0;
 }
@@ -222,7 +217,7 @@
 
 }
 
-.expandable-item.visible.active {
+.popup.visible.active {
 	z-index: 100 !important;
 	
 	.item-wrapper {
@@ -259,7 +254,7 @@
 	}
 }
 
-.expandable-item.visible {
+.popup.visible {
 
 	.close-item,
 	.cover{

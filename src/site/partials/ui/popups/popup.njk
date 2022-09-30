@@ -1,0 +1,50 @@
+{% from 'ui/filter-icons/filter-icon.njk' import filterIcon as filterIcon %}
+
+{% set cat = element.elementCategory[0] %}
+
+{% for category in categories[lang] %}
+	{% if category.slug == cat.slug %}
+		{% set cat = category %}
+	{% endif %}
+{% endfor %}
+
+<div class="popup" data-id="{{ element.elementID }}">	
+	<div class="item-wrapper">
+{# 
+		<button class="close-item">
+			{% include "ui/icons/times-circle.njk" %}
+		</button> #}
+
+		<div class="cover" style="background-image: url(/assets/ceres-lorem.jpeg);"></div>
+		
+		<div class="hidden-tabs">
+
+			<section>
+				<div class="head">
+					<p>{{ generic[lang]['popups'].overview }}</p>
+				</div>
+				<div class="content">
+					<p>Pending</p>
+				</div>
+			</section>
+
+			<section>
+				<div class="head">
+					<p>{{ generic[lang]['popups'].context }}</p>
+				</div>
+				<div class="content">
+					{{ element.text | safe }}
+				</div>
+			</section>
+
+			<section>
+				<div class="head">
+					<p>{{ generic[lang]['popups'].data }}</p>
+				</div>
+				<div class="content">
+					<p>Pending</p>
+				</div>
+			</section>
+		</div>
+	</div>
+</div>

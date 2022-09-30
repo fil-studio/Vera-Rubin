@@ -1,17 +1,17 @@
 import { CameraManager } from "../../../common/core/CameraManager";
 import { SUN } from "../../../common/core/CoreApp";
 import { particles } from "../../../common/solar/SolarParticlesManager";
-import { ExpandableItem } from "./ExpandableItem";
+import { Popup } from "./Popup";
 import { RAYCASTER } from "./Raycaster";
 
-export const expandableItems: Array<ExpandableItem> = [];
+export const Popups: Array<Popup> = [];
 
 export const initExpandableItems = () => {;
 
 	const items = document.querySelectorAll('.expandable-item');
 
 	for(const item of items){	
-		expandableItems.push(new ExpandableItem(item));
+		Popups.push(new Popup(item));
 	}
 
 }
@@ -32,5 +32,5 @@ export function onHide() {
 }
 
 export const resizeExpandableItems = () => {
-	for(const expandableItem of expandableItems) expandableItem.onResize();
+	for(const Popup of Popups) Popup.onResize();
 }
