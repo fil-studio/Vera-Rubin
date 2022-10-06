@@ -65,7 +65,7 @@ export class OrbitViewer extends Page implements PanelsListener {
 		setTimeout(() => {
 			document.body.classList.remove('customize-labels-fast-transition');
 		}, 500);
-		CoreAppSingleton.instance.planetsVisibility = this.toggleLabelsInput.checked;
+		CoreAppSingleton.instance.orbitsVisibility = this.toggleLabelsInput.checked;
 	}
 
 	togglePanel(){		

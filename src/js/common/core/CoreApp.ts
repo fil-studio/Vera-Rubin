@@ -341,6 +341,18 @@ export class CoreApp extends WebGLSketch {
         for(let i = 0, len = this.solarElements.length; i < len; i++) {
             this.solarElements[i].visible = value;
         }
+
+    }
+
+    set orbitsVisibility(value:boolean) {
+
+        for(let i = 0, len = this.solarElements.length; i < len; i++) {
+            if(!this.solarElements[i].orbitPath) continue;
+            if(!this.solarElements[i].orbitPath.ellipse) continue;
+            this.solarElements[i].orbitPath.ellipse.visible = value;
+            console.log(this.solarElements[i]);
+            
+        }
     }
 
     set backgroundVisibility(value:boolean) {
