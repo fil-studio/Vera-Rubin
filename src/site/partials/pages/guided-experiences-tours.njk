@@ -28,8 +28,8 @@
 
   {% for slide in experience.flexible %}
 
-    <section data-slide="{{ slide.typeHandle }}" data-slide-index="{{ loop.index }}" {{ 'data-closeup=' + slide.closeUp[0].slug  if slide.closeUp.length}}>
-      
+    <section data-slide="{{ slide.typeHandle }}" data-slide-index="{{ loop.index }}" {{ 'data-closeup=' + slide.closeUp[0].elementID  if slide.closeUp.length}}>
+
       {% if slide.typeHandle == 'introSlide' or slide.typeHandle == 'funFactSlide' %}
 
           <div class="media">

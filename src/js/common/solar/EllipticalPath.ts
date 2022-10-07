@@ -33,7 +33,7 @@ export class EllipticalPath {
         const first = new Vector3();
 
         if(el.type != OrbitType.Elliptical) {
-            console.warn("Object does not have an elliptical orbit");
+            console.warn("Object does not have an elliptical orbit", el);
         }
 
         this.type = el.type;

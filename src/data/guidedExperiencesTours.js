@@ -36,7 +36,9 @@ async function getPage() {
 								subTitle
 								slideContent
 								closeUp {
-									slug
+									... on elements_default_Entry {
+										elementID
+									}
 								}
 						}
 						... on flexible_funFactSlide_BlockType {

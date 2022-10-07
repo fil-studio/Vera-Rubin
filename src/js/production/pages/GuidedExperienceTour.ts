@@ -1,6 +1,7 @@
 import gsap from "gsap";
 import { CameraManager } from "../../common/core/CameraManager";
-import { CoreAppSingleton } from "../../common/core/CoreApp";
+import { CoreAppSingleton, solarClock } from "../../common/core/CoreApp";
+import { SolarElement } from "../../common/solar/SolarElement";
 import { Page } from "./Page";
 
 interface slides {
@@ -19,6 +20,7 @@ export class GuidedExperienceTour extends Page {
 	slides:Array<slides> = [];
 	activeSlide: number = 0;
 	changeInProgress: boolean = false;
+	solarElement:SolarElement;
 
 	onLoaded(){
 		this.createSlides();
@@ -47,10 +49,7 @@ export class GuidedExperienceTour extends Page {
 				tlIn: this.tlIn(slide, slide.getAttribute('data-slide')),
 				tlOut: this.tlOut(slide, slide.getAttribute('data-slide')),
 				closeup
-			}
-			
-			console.log(slideItem);
-			
+			}		
 			
 			this.slides.push(slideItem)
 		}
@@ -146,6 +145,12 @@ export class GuidedExperienceTour extends Page {
 					if(this.changeInProgress) return;
 					
 					this.slides[this.activeSlide].tlOut.play(0);
+					
+					solarClock.resume();
+
+					if(this.solarElement){
+						this.solarElement.selected = false;
+					}
 
 					if(type === 'prev') {
 						this.prev();
@@ -168,7 +173,6 @@ export class GuidedExperienceTour extends Page {
 	}
 
 	prev(){
-		console.log('prev');
 
 		if(this.activeSlide === 0){
 			return;
@@ -179,7 +183,6 @@ export class GuidedExperienceTour extends Page {
 	}
 
 	next(){
-		console.log('next');
 
 		this.activeSlide++;
 
@@ -191,11 +194,17 @@ export class GuidedExperienceTour extends Page {
 	move(){
 
 		if(this.slides[this.activeSlide].closeup){
-			const solarElement = CoreAppSingleton.instance.solarElements.find(x => x.name === this.slides[this.activeSlide].closeup);
-			if(solarElement) {
-				CameraManager.goToTarget(solarElement, false, true);
+			
+			this.solarElement = CoreAppSingleton.instance.solarElements.find(x => x.name === this.slides[this.activeSlide].closeup);
+			
+			if(this.solarElement) {
+				CoreAppSingleton.instance.lock();
+				solarClock.pause();
+				this.solarElement.selected = true;
+				CameraManager.goToTarget(this.solarElement, false, false);
 			}
 		} else {
+			this.solarElement = null;
 			CameraManager.goToTarget(CoreAppSingleton.instance.sun, true);
 		}
 		
