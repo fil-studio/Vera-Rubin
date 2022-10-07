@@ -49,6 +49,10 @@
 	}
 }
 
-[data-template="guided-experiences-tours"] .page-content {
-	background-color: transparent;
+[data-template="guided-experiences-tours"]{
+
+	.page-content {
+		background-color: transparent;
+		justify-content: center;
+	}
 }
