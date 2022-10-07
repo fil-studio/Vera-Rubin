@@ -35,6 +35,9 @@ async function getPage() {
 								slideTitle
 								subTitle
 								slideContent
+								closeUp {
+									slug
+								}
 						}
 						... on flexible_funFactSlide_BlockType {
 								typeHandle

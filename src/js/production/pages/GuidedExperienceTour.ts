@@ -1,4 +1,6 @@
 import gsap from "gsap";
+import { CameraManager } from "../../common/core/CameraManager";
+import { CoreAppSingleton } from "../../common/core/CoreApp";
 import { Page } from "./Page";
 
 interface slides {
@@ -6,7 +8,8 @@ interface slides {
 	type: string,
 	dom: HTMLElement,
 	tlIn: GSAPTimeline,
-	tlOut: GSAPTimeline
+	tlOut: GSAPTimeline,
+	closeup: string
 }
 
 const D = .5;
@@ -33,7 +36,9 @@ export class GuidedExperienceTour extends Page {
 
 		const slides = this.dom.querySelectorAll('[data-slide]');
 
-		for(const slide of slides){
+		for(const slide of slides){			
+			const closeup = slide.hasAttribute('data-closeup') ? slide.getAttribute('data-closeup') : null;
+
 			const slideItem = {
 				index: parseInt(slide.getAttribute('data-slide-index')),
 				type: slide.getAttribute('data-slide'),
@@ -41,7 +46,12 @@ export class GuidedExperienceTour extends Page {
 				dom: slide as HTMLElement,
 				tlIn: this.tlIn(slide, slide.getAttribute('data-slide')),
 				tlOut: this.tlOut(slide, slide.getAttribute('data-slide')),
+				closeup
 			}
+			
+			console.log(slideItem);
+			
+			
 			this.slides.push(slideItem)
 		}
 	}
@@ -180,7 +190,14 @@ export class GuidedExperienceTour extends Page {
 
 	move(){
 
-		console.log('move');
+		if(this.slides[this.activeSlide].closeup){
+			const solarElement = CoreAppSingleton.instance.solarElements.find(x => x.name === this.slides[this.activeSlide].closeup);
+			if(solarElement) {
+				CameraManager.goToTarget(solarElement, false, true);
+			}
+		} else {
+			CameraManager.goToTarget(CoreAppSingleton.instance.sun, true);
+		}
 		
 		setTimeout(() => {
 

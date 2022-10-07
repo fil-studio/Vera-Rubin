@@ -1,3 +1,4 @@
+
 <div class="page-content" data-animation-type="slide">
   <section class="active" data-slide="initialSlide" data-slide-index="0">
 
@@ -20,14 +21,14 @@
         </button>
 
       </div>
-      
+
     </div>
 
   </section>
 
   {% for slide in experience.flexible %}
 
-    <section data-slide="{{ slide.typeHandle }}" data-slide-index="{{ loop.index }}">
+    <section data-slide="{{ slide.typeHandle }}" data-slide-index="{{ loop.index }}" {{ 'data-closeup=' + slide.closeUp[0].slug  if slide.closeUp.length}}>
       
       {% if slide.typeHandle == 'introSlide' or slide.typeHandle == 'funFactSlide' %}
 
