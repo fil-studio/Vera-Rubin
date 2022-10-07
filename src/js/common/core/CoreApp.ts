@@ -168,7 +168,9 @@ export class CoreApp extends WebGLSketch {
 
         popupsLoaded();
 
-        // --------------------------------------------- Launch        
+        // --------------------------------------------- Launch      
+        document.querySelector('.site__wrapper').classList.remove('loading');  
+        document.querySelector('.site__wrapper').classList.add('loaded');  
         this.launch();
     }
 

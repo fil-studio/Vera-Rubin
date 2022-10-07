@@ -29,7 +29,7 @@ export class GuidedExperienceTour extends Page {
 		for(const slide of this.slides){
 			if(slide === this.slides[this.activeSlide]) continue;
 			gsap.set(slide.dom, {
-				xPercent: -20,
+				xPercent: -5,
 				autoAlpha: 0,
 			})
 		}
@@ -89,7 +89,7 @@ export class GuidedExperienceTour extends Page {
 		tl
 		.addLabel('start')
 		.set(dom, {
-			xPercent: -20,
+			xPercent: -5,
 			autoAlpha: 0,
 		})
 		.to(dom, {
@@ -127,7 +127,7 @@ export class GuidedExperienceTour extends Page {
 		.addLabel('start')
 		.to(dom, {
 			duration: D,
-			xPercent: -20,
+			xPercent: -5,
 			autoAlpha: 0,
 			ease: 'power1.inOut'
 		})
