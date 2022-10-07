@@ -54,7 +54,7 @@ export const popupsLoaded = () => {
 	}
 }
 
-export function enablePopup(name: string) {
+export function enablePopup(name: string, info: boolean = true) {
 	
 	CoreAppSingleton.instance.lock();
 
@@ -64,7 +64,7 @@ export function enablePopup(name: string) {
 	const popup = popups.find(x => x.name === name);
 	if(!popup) return
 	popup.label.select();
-	popup.info.show(popup.label.ref.closeUp);
+	if(info) popup.info.show(popup.label.ref.closeUp);
 	if(!popup.label.ref.closeUp) document.body.classList.add('popups-no-closeup');
 	else document.querySelector('.popups-labels').classList.add('hidden');
 
@@ -73,7 +73,7 @@ export function enablePopup(name: string) {
 	hideUI();
 }
 
-export function disablePopup() {	
+export function disablePopup(isTour:boolean = true) {	
 	
 	for(const popup of popups) {		
 		popup.label.unselect();
@@ -83,11 +83,13 @@ export function disablePopup() {
 	CameraManager.unlock();
 	CoreAppSingleton.instance.unlock();
 
-	solarClock.resume();
+	solarClock.resume()
 
-	document.querySelector('.popups-labels').classList.remove('hidden');
-	document.body.classList.remove('popups-active');
-	document.body.classList.remove('popups-no-closeup');
+	if(isTour){	
+		document.querySelector('.popups-labels').classList.remove('hidden');
+		document.body.classList.remove('popups-active');
+		document.body.classList.remove('popups-no-closeup');
+	}
 
 	showUI();
 }

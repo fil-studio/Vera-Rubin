@@ -65,6 +65,15 @@
 	}
 }
 
+.page__guided-experiences-tours .popups-wrapper.popups-labels {
+	&, * {
+		transition-delay: 0s;
+		transition-duration: 0s;
+		pointer-events: none;
+	}
+}
+
+
 .popups-no-closeup .popups-wrapper.popups-labels .popup-label:not(.selected) {
 	transition-delay: 0s;
 	opacity: 0 !important;

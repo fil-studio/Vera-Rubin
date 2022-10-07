@@ -2,6 +2,8 @@ import gsap from "gsap";
 import { CameraManager } from "../../common/core/CameraManager";
 import { CoreAppSingleton, solarClock } from "../../common/core/CoreApp";
 import { SolarElement } from "../../common/solar/SolarElement";
+import { PopupLabel } from "../ui/popups/PopupLabel";
+import { disablePopup, enablePopup, popups, popups } from "../ui/popups/PopupsManager";
 import { Page } from "./Page";
 
 interface slides {
@@ -20,7 +22,6 @@ export class GuidedExperienceTour extends Page {
 	slides:Array<slides> = [];
 	activeSlide: number = 0;
 	changeInProgress: boolean = false;
-	solarElement:SolarElement;
 
 	onLoaded(){
 		this.createSlides();
@@ -32,6 +33,11 @@ export class GuidedExperienceTour extends Page {
 				autoAlpha: 0,
 			})
 		}
+	}
+
+	disable(): void {
+		super.disable();
+		document.querySelector('.popups-labels').style.opacity = '';
 	}
 
 	createSlides() {
@@ -145,13 +151,9 @@ export class GuidedExperienceTour extends Page {
 					if(this.changeInProgress) return;
 					
 					this.slides[this.activeSlide].tlOut.play(0);
-					
-					solarClock.resume();
-
-					if(this.solarElement){
-						this.solarElement.selected = false;
-					}
-
+					document.querySelector('.popups-labels').style.opacity = '0';
+					disablePopup(false);
+	
 					if(type === 'prev') {
 						this.prev();
 						return;
@@ -165,10 +167,6 @@ export class GuidedExperienceTour extends Page {
 
 		}
 
-
-	}
-
-	share(){
 
 	}
 
@@ -192,19 +190,13 @@ export class GuidedExperienceTour extends Page {
 	}
 
 	move(){
-
-		if(this.slides[this.activeSlide].closeup){
-			
-			this.solarElement = CoreAppSingleton.instance.solarElements.find(x => x.name === this.slides[this.activeSlide].closeup);
-			
-			if(this.solarElement) {
-				CoreAppSingleton.instance.lock();
-				solarClock.pause();
-				this.solarElement.selected = true;
-				CameraManager.goToTarget(this.solarElement, false, false);
-			}
+		
+		const closeup = this.slides[this.activeSlide].closeup;
+		if(closeup){
+			const solarElement = CoreAppSingleton.instance.solarElements.find(x => x.name === closeup);
+			if(!solarElement.closeUp) document.querySelector('.popups-labels').style.opacity = '1';
+			enablePopup(closeup, false);
 		} else {
-			this.solarElement = null;
 			CameraManager.goToTarget(CoreAppSingleton.instance.sun, true);
 		}
 		
