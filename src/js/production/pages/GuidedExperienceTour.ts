@@ -1,20 +1,32 @@
-import { onChange } from "../pagination/History";
+import gsap from "gsap";
 import { Page } from "./Page";
 
 interface slides {
 	index: number,
 	type: string,
-	active: boolean,
-	dom: HTMLElement
+	dom: HTMLElement,
+	tlIn: GSAPTimeline,
+	tlOut: GSAPTimeline
 }
+
+const D = .5;
 
 
 export class GuidedExperienceTour extends Page {
 	slides:Array<slides> = [];
 	activeSlide: number = 0;
+	changeInProgress: boolean = false;
 
 	onLoaded(){
 		this.createSlides();
+
+		for(const slide of this.slides){
+			if(slide === this.slides[this.activeSlide]) continue;
+			gsap.set(slide.dom, {
+				xPercent: -20,
+				autoAlpha: 0,
+			})
+		}
 	}
 
 	createSlides() {
@@ -26,12 +38,88 @@ export class GuidedExperienceTour extends Page {
 				index: parseInt(slide.getAttribute('data-slide-index')),
 				type: slide.getAttribute('data-slide'),
 				active: false,
-				dom: slide as HTMLElement
+				dom: slide as HTMLElement,
+				tlIn: this.tlIn(slide, slide.getAttribute('data-slide')),
+				tlOut: this.tlOut(slide, slide.getAttribute('data-slide')),
 			}
 			this.slides.push(slideItem)
 		}
+	}
 
-		this.slides[0].active = true;		
+	tlIn(dom, type):GSAPTimeline{
+		
+
+		const tl = gsap.timeline({paused: true, onComplete: () => {
+			this.changeInProgress = false;
+		}});
+
+		if(type === 'initialSlide'){
+
+			tl
+			.addLabel('start')
+			.set(dom, {
+				yPercent: 5,
+				autoAlpha: 0,
+			})
+			.to(dom, {
+				duration: D,
+				yPercent: 0,
+				autoAlpha: 1,
+				ease: 'power1.inOut'
+			})
+
+			return tl;
+		}
+
+		tl
+		.addLabel('start')
+		.set(dom, {
+			xPercent: -20,
+			autoAlpha: 0,
+		})
+		.to(dom, {
+			duration: D,
+			xPercent: 0,
+			autoAlpha: 1,
+			ease: 'power1.inOut'
+		})
+
+		return tl;
+	}
+
+	tlOut(dom, type):GSAPTimeline{
+
+		const tl = gsap.timeline({paused: true, onStart: () => {
+			this.changeInProgress = true;
+		}})
+
+		if(type === 'initialSlide'){
+
+			tl
+			.addLabel('start')
+			.to(dom, {
+				duration: D,
+				yPercent: 5,
+				autoAlpha: 0,
+				ease: 'power1.inOut'
+			})
+
+			return tl;
+		}
+
+
+		tl
+		.addLabel('start')
+		.to(dom, {
+			duration: D,
+			xPercent: -20,
+			autoAlpha: 0,
+			ease: 'power1.inOut'
+		})
+
+
+		return tl;
+
 	}
 
 	addEventListeners(): void {
@@ -45,16 +133,16 @@ export class GuidedExperienceTour extends Page {
 				const type = id.includes('prev') ? 'prev' : id.includes('next') ? 'next' : 'share';
 
 				button.addEventListener('click', () => {
+					if(this.changeInProgress) return;
+					
+					this.slides[this.activeSlide].tlOut.play(0);
+
 					if(type === 'prev') {
 						this.prev();
 						return;
 					}
 					if(type === 'next') {
 						this.next();
-						return;
-					}
-					if(type === 'share') {
-						this.share();
 						return;
 					}
 				})
@@ -70,6 +158,7 @@ export class GuidedExperienceTour extends Page {
 	}
 
 	prev(){
+		console.log('prev');
 
 		if(this.activeSlide === 0){
 			return;
@@ -80,6 +169,7 @@ export class GuidedExperienceTour extends Page {
 	}
 
 	next(){
+		console.log('next');
 
 		this.activeSlide++;
 
@@ -89,11 +179,20 @@ export class GuidedExperienceTour extends Page {
 	}
 
 	move(){
-		for(const slide of this.slides){
-			slide.active = false;
-			slide.dom.classList.remove('active')
-		}
 
-		this.slides[this.activeSlide].dom.classList.add('active');
+		console.log('move');
+		
+		setTimeout(() => {
+
+			for(const slide of this.slides)	slide.dom.classList.remove('active')
+
+			this.slides[this.activeSlide].dom.classList.add('active');
+			this.slides[this.activeSlide].tlIn.play(0);
+
+			
+		}, D * 1000);
+
+		
+
 	}
 }

@@ -2,13 +2,6 @@
 	max-height: 100vh;
 	overflow-y: auto;
 
-	opacity: 0;
-
-	&.active {
-		z-index: 1;
-		opacity: 1;
-	}
-
 	.buttons__wrapper {
 		display: flex;
 		justify-content: center;
@@ -54,18 +47,21 @@
 	justify-content: center;
 	background-color: var(--black-alpha);
 	width: 100%;
+	@include mobile {
+		width: calc(100% - var(--distance-40));
+	}
 
 	.content {
-		width: auto;
+		width: 100%;
+
+		@include desktop {	max-width: 600px; }
 
 		border: var(--panels-border);
-
-		@include desktop {	min-width: 600px; }
 
 		height: auto;
 		border-radius: 5px;
 
-		padding: var(--distance-60);
+		padding: var(--distance-20);
 		@include desktop { padding: var(--distance-60); }
 	}
 
