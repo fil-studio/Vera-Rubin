@@ -15,6 +15,9 @@ async function getPage() {
       }
       landingCenterTitle
       landingVersion
+      landingLogo {
+        url
+      }
     }
   `;
 

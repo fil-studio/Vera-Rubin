@@ -187,6 +187,10 @@ module.exports = function (eleventyConfig) {
 		return `${src}?v=${Date.now()}`;
 	});
 
+	eleventyConfig.addNunjucksFilter('imageUrl', (str) => {
+		return `https://orbitviewer-api-dot-skyviewer.uw.r.appspot.com${str}`
+	})
+
 	eleventyConfig.addPassthroughCopy({ 'src/assets': 'assets' });
 	eleventyConfig.addPassthroughCopy({ '_redirects': '_redirects' });
 
