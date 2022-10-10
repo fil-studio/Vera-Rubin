@@ -51,8 +51,6 @@ export class OrbitViewer extends Page implements PanelsListener {
 			this.toggleLabelsInput.checked = true;
 			this.toggleLabels();
 		}
-
-		for(const input of this.inputs.inputs) input.checkState();
 	}
 
 	toggleStars(){

@@ -73,7 +73,7 @@ export function enablePopup(name: string, info: boolean = true) {
 	hideUI();
 }
 
-export function disablePopup(isTour:boolean = true) {	
+export function disablePopup() {	
 	
 	for(const popup of popups) {		
 		popup.label.unselect();
@@ -85,11 +85,10 @@ export function disablePopup(isTour:boolean = true) {
 
 	solarClock.resume()
 
-	if(isTour){	
-		document.querySelector('.popups-labels').classList.remove('hidden');
-		document.body.classList.remove('popups-active');
-		document.body.classList.remove('popups-no-closeup');
-	}
+	document.querySelector('.popups-labels').classList.remove('hidden');
+	document.body.classList.remove('popups-active');
+	document.body.classList.remove('popups-no-closeup');
+
 
 	showUI();
 }

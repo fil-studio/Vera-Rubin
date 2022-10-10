@@ -151,8 +151,7 @@ export class GuidedExperienceTour extends Page {
 					if(this.changeInProgress) return;
 					
 					this.slides[this.activeSlide].tlOut.play(0);
-					document.querySelector('.popups-labels').style.opacity = '0';
-					disablePopup(false);
+					this.hidePopups();
 	
 					if(type === 'prev') {
 						this.prev();
@@ -168,6 +167,16 @@ export class GuidedExperienceTour extends Page {
 		}
 
 
+	}
+
+	hide(): void {
+		super.hide();
+		this.hidePopups()
+	}
+
+	hidePopups() {
+		document.querySelector('.popups-labels').style.opacity = '0';
+		disablePopup();
 	}
 
 	prev(){

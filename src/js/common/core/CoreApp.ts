@@ -160,6 +160,7 @@ export class CoreApp extends WebGLSketch {
         css2D.setSize(width, height);
         resizePopups();
 		this.vfx.resize(width, height);
+
 	}
 
     onDataLoaded() {

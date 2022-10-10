@@ -1,4 +1,4 @@
-import { addPanelListener, broadcastPanelsClose, PanelsListener } from "./PanelsManager";
+import { addPanelListener, PanelsListener } from "./PanelsManager";
 
 
 export class Panel implements PanelsListener {

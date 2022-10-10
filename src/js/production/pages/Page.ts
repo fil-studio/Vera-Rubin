@@ -1,8 +1,8 @@
 import { solarClock } from "../../common/core/CoreApp";
 import { shareInit } from "../partials/Share";
-import { Inputs } from "../ui/inputs/Inputs";
+import { addInputs, Inputs } from "../ui/inputs/InputsManager";
 import { Panels } from "../ui/panels/Panels";
-import { broadcastPanelsClose } from "../ui/panels/PanelsManager";
+import { addPanels, broadcastPanelsClose } from "../ui/panels/PanelsManager";
 
 export class Page {
 	dom:HTMLElement = null;
@@ -50,8 +50,8 @@ export class Page {
 
 		shareInit(this.dom);
 
-		this.inputs = new Inputs(this.dom);
-		this.panels = new Panels(this.dom);
+		addInputs(this.dom);
+		addPanels(this.dom);
 
 		this.enable(resolve);
 	}
@@ -66,12 +66,9 @@ export class Page {
 
 	onResize(){
 		if(!this.active || !this.loaded) return;
-		if(this.panels) this.panels.onResize();
 	}
 
 	update(){		
 		if(!this.active || !this.loaded) return;				
-		if(this.panels) this.panels.update();
-		if(this.inputs) this.inputs.update();
 	}
 }
