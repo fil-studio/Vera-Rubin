@@ -17,6 +17,10 @@ export class TimePickerRange extends Input {
 
 	}
 
+	reset(): void {
+		this.dom.value = 0;
+	}
+
 	update(){
 
 		this.value = this.dom.valueAsNumber;

@@ -27,7 +27,6 @@ export class OrbitViewer extends Page implements PanelsListener {
 	}
 
 	closePanel(): void {						
-		if(!this.active) return;
 		this.customizeViewWrapper.classList.remove('active');
 	}
 

@@ -1,16 +1,12 @@
 import { solarClock } from "../../common/core/CoreApp";
 import { shareInit } from "../partials/Share";
-import { addInputs, Inputs } from "../ui/inputs/InputsManager";
-import { Panels } from "../ui/panels/Panels";
+import { addInputs, inputs } from "../ui/inputs/InputsManager";
 import { addPanels, broadcastPanelsClose } from "../ui/panels/PanelsManager";
 
 export class Page {
 	dom:HTMLElement = null;
 	active:boolean = false;
 	loaded:boolean = false;
-
-	panels:Panels;
-	inputs:Inputs;
 
 	prepare() {		
 		this.active = true;
@@ -36,6 +32,8 @@ export class Page {
 	hide(){		
 		broadcastPanelsClose();
 		solarClock.pause();
+
+		for(const input of inputs) input.input.reset();
 	}
 	
 	disable () {
