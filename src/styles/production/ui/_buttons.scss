@@ -44,18 +44,14 @@
 }
 
 // Arrows
-.button_arrow {
+.button__icon {
 	svg {
 		height: 1.5em;
-	}
-	path, line {
-		fill: none;
-		stroke: var(--white-0);
-		stroke-width: 3;
+		color: var(--white-0);
 	}
 }
 
-.ui__button.button_arrow {
+.ui__button.button__icon {
 
 	svg {
 		display: none;
@@ -66,13 +62,13 @@
 		display: flex;
 		justify-content: space-between;
 
-		&.button_arrow {
+		&.button__icon {
 			svg {
 				width: 20px;
 			}
 		}
 
-		&.arrow-next {
+		&.icon__right {
 			svg {
 				order: 1;
 			}

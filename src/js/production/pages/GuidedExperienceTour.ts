@@ -1,9 +1,7 @@
 import gsap from "gsap";
 import { CameraManager } from "../../common/core/CameraManager";
-import { CoreAppSingleton, solarClock } from "../../common/core/CoreApp";
-import { SolarElement } from "../../common/solar/SolarElement";
-import { PopupLabel } from "../ui/popups/PopupLabel";
-import { disablePopup, enablePopup, popups, popups } from "../ui/popups/PopupsManager";
+import { CoreAppSingleton } from "../../common/core/CoreApp";
+import { disablePopup, enablePopup } from "../ui/popups/PopupsManager";
 import { Page } from "./Page";
 
 interface slides {
@@ -17,14 +15,16 @@ interface slides {
 
 const D = .5;
 
-
 export class GuidedExperienceTour extends Page {
 	slides:Array<slides> = [];
 	activeSlide: number = 0;
 	changeInProgress: boolean = false;
+	bullets: NodeListOf<HTMLElement>;
 
 	onLoaded(){
 		this.createSlides();
+
+		this.bullets = this.dom.querySelectorAll('.bullets div');
 
 		for(const slide of this.slides){
 			if(slide === this.slides[this.activeSlide]) continue;
@@ -199,6 +199,9 @@ export class GuidedExperienceTour extends Page {
 		} else {
 			CameraManager.goToTarget(CoreAppSingleton.instance.sun, true);
 		}
+
+		for(const bullet of this.bullets) bullet.classList.remove('active');
+		this.bullets[this.activeSlide].classList.add('active');
 		
 		setTimeout(() => {
 
@@ -209,8 +212,6 @@ export class GuidedExperienceTour extends Page {
 
 			
 		}, D * 1000);
-
-		
 
 	}
 }

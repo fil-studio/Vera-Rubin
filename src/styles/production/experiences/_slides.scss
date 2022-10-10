@@ -1,3 +1,66 @@
+[data-template="guided-experiences-tours"] .bullets {
+	position: absolute;
+	z-index: 1;
+
+	padding: var(--distance-10);
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	@include device {
+		bottom: var(--distance-5);
+		left: 50%;
+		transform: translateX(-50%);
+	}
+
+	@include desktop {
+		top: 50%;
+		right: 0;
+		flex-direction: column;
+		transform: translateY(-50%);
+	}
+
+	div {
+		width: var(--distance-10);
+		height: var(--distance-10);
+		border-radius: 100%;
+		background-color: rgba(255,255,255,0.15);
+		position: relative;
+
+		margin: 0 3px;
+		@include desktop {
+			margin: var(--distance-5) 0;
+		}
+
+		&:before {
+			content: '';
+
+			width: var(--distance-10);
+			height: var(--distance-10);
+			background-color: var(--white-0);
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			opacity: 0;
+			transform: translate(-50%,-50%) scale(0.5);
+			transition: all 0.5s ease-in-out;
+			border-radius: 100%;
+
+		}
+
+		&.active {
+
+			&:before {
+				transition: 0.5s all 0.5s ease-in-out;
+				transform: translate(-50%, -50%) scale(1);
+				opacity: 1;
+			}
+		}
+	}
+
+}
+
 [data-slide] {
 	max-height: 100vh;
 	overflow-y: auto;
@@ -8,7 +71,7 @@
 		align-items: flex-end;
 		flex-grow: 1;
 
-		padding-top: var(--distance-30);
+		padding: var(--distance-30) 0 var(--distance-20);
 		@include desktop { padding-top: var(--distance-100); }
 
 		width: 100%; 
@@ -114,6 +177,7 @@
 	}
 
 }
+
 [data-slide="introSlide"],
 [data-slide="funFactSlide"] {
 	background-color: var(--teal-2);

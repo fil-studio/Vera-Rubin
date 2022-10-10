@@ -1,5 +1,5 @@
 import { hideLoader, showLoader } from "../../production/ui/loader";
-import { hidePopupsByCategory, popups } from "../../production/ui/popups/PopupsManager";
+import { popups } from "../../production/ui/popups/PopupsManager";
 import { CoreAppSingleton } from "../core/CoreApp";
 import { HASURA_URL, VISUAL_SETTINGS } from "../core/Globals";
 import { buildSimWithData } from "../solar/SolarParticlesManager";
@@ -13,7 +13,7 @@ export type Filters = {
 	nearEarthObjects:boolean,
 	transNeptunianObjects:boolean,
 
-	planets: boolean
+	planets: boolean,
 }
 
 const CategoryToFilter:Record<string, string> = {
@@ -26,6 +26,19 @@ const CategoryToFilter:Record<string, string> = {
 	'trans-neptunian-objects': 'transNeptunianObjects'
 }
 
+const TIME_MIN = 1850;
+const TIME_MAX = new Date().getFullYear();
+
+const time = {
+	min: TIME_MIN,
+	max: TIME_MAX
+};
+
+const distance = {
+	min: 0,
+	max: 0
+};
+
 
 const filters:Filters = {
 	asteroids: true,
@@ -35,7 +48,7 @@ const filters:Filters = {
 	nearEarthObjects: true,
 	transNeptunianObjects: true,
 
-	planets: true
+	planets: true,
 }
 
 // Filters listeners
@@ -168,7 +181,6 @@ const syncFilter = (element:HTMLInputElement) => {
 }
 
 
-
 // Filters fetch
 export async function getSolarSystemElements() {
 	showLoader();
@@ -203,7 +215,8 @@ export async function getSolarSystemElementsByFilter() {
 		headers: {
 			'X-Hasura-Admin-Secret': '_qfq_tMbyR4brJ@KHCzuJRU7'
 		}
-	})
+	});
+	
 	return await response.json();
 }
 

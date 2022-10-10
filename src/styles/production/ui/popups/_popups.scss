@@ -2,6 +2,10 @@
 .popups-wrapper {
 	z-index: $css2DIndex;
 
+	&.popups-infos {
+		z-index: #{$css2DIndex + 1};
+	}
+
 	overflow: hidden;
 	
 	position: absolute;
