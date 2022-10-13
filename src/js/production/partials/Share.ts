@@ -3,7 +3,7 @@ import { getLanguage } from "../pagination/PagesRecap";
 
 
 export const shareInit = (dom:HTMLElement) => {
-	console.log('Share ready');
+	// console.log('Share ready');
 
 	const mail = dom.querySelectorAll('.share-button.email') as NodeListOf<HTMLLinkElement>;
 	for(const link of mail) shareEmail(link);

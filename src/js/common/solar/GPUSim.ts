@@ -191,8 +191,7 @@ export class GPUSim {
         const alive = geo.attributes.alive;
         const arr = alive.array as Float32Array;
 
-
-        console.log(this.totalItems, value.length);
+        console.log('Total Items:',this.totalItems, 'Value Lenght:', value.length);
         
         for(let i=0; i<Math.min(this.totalItems, value.length); i++) {
             arr[i] = 1;            

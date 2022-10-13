@@ -149,7 +149,7 @@ class CameraController {
         const dA = Math.abs(sphericalCoords.angle - sc.angle);
 
         if(dA > Math.PI) {
-            console.log('correct angle');
+            // console.log('correct angle');
             
             if(sc.angle > Math.PI) sc.angle += 2*Math.PI;
             else sc.angle -= 2*Math.PI;

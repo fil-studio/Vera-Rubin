@@ -38,7 +38,6 @@ export class Tours extends Page {
 
 	addEventListeners(): void {
 		super.addEventListeners();
-		console.log(this.chevs);
 		
 		this.chevs[0].addEventListener('mouseenter', () => {
 			this.playChev(this.chevs[0], 'left')

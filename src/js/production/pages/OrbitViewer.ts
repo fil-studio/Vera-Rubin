@@ -78,13 +78,13 @@ export class OrbitViewer extends Page implements PanelsListener {
 		this.active = !this.active;
 		this.customizeViewWrapper.classList.toggle('active');
 
-		if(this.active){
-			this.customizeViewWrapper.classList.add('to-front');
-		} else {
-			setTimeout(() => {
-				this.customizeViewWrapper.classList.remove('to-front');
-			}, 500);
-		}
+		// if(this.active){
+		// 	this.customizeViewWrapper.classList.add('to-front');
+		// } else {
+		// 	setTimeout(() => {
+		// 		this.customizeViewWrapper.classList.remove('to-front');
+		// 	}, 500);
+		// }
 
 	}
 	

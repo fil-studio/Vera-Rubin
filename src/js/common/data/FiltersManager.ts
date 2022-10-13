@@ -233,7 +233,5 @@ const applyFilterSolarElements = () => {
 		if(!filters[CategoryToFilter[popup.category]]) popup.label.dom.classList.add('filters-hidden')
 		else popup.label.dom.classList.remove('filters-hidden')
 	}
-	console.log(popups);
-	
 
 }
