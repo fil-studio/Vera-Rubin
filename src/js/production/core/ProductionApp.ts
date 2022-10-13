@@ -1,4 +1,5 @@
 import { CoreApp } from "../../common/core/CoreApp";
+import { DEV } from "../../common/core/Globals";
 import { historyInit, LOCATION, onChange } from "../pagination/History";
 import { PAGES } from "../pagination/PagesRecap";
 import { inputs } from "../ui/inputs/InputsManager";
@@ -9,7 +10,7 @@ export class ProductionApp extends CoreApp {
 
     constructor() {
         super();
-        console.log('Production App running');
+        if(DEV) console.log('Production App running');
 
         historyInit();
 

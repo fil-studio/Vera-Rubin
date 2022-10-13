@@ -105,7 +105,7 @@ export class CoreApp extends WebGLSketch {
         this.ambientLight = new AmbientLight(0xffffff, 0.35);
         this.scene.add(this.ambientLight);
 
-        console.log('Core App init');
+        if(DEV) console.log('Core App init');
 
         // background
         new TextureLoader().load('/assets/textures/8k_stars.jpg', (t) => {
@@ -113,7 +113,7 @@ export class CoreApp extends WebGLSketch {
             this.vfx.needsBGUpdate = true;
         });
         
-        console.log('Loading Planets...');
+        if(DEV) console.log('Loading Planets...');
         io.load(window.location.origin + `/assets/data/${PLANETS}`, (res) => {
             const planetsData = JSON.parse(res)
             
@@ -121,19 +121,19 @@ export class CoreApp extends WebGLSketch {
 
             this.createPlanets(planetsData);
 
-            console.log('Loading Dwarf Planets...');
+            if(DEV) console.log('Loading Dwarf Planets...');
             io.load(window.location.origin + `/assets/data/${DWARF_PLANETS}`, (res) => {
                 const dwarfData = JSON.parse(res);
                 this.createDwarfPlanets(dwarfData);
 
-                console.log('Loading Solar Elements...');                
+                if(DEV) console.log('Loading Solar Elements...');                
                 getSolarSystemElements().then((res) => {
                     
                     const d = res.mpcorb;       
                                        
                     buildSimWithData(d);
 
-                    console.log('Loading Interactive Solar Elements...');
+                    if(DEV) console.log('Loading Interactive Solar Elements...');
                     fetchSolarElements(solarItems).then((res) => {
 
                         const d = res;
@@ -165,7 +165,7 @@ export class CoreApp extends WebGLSketch {
 
     onDataLoaded() {
         
-        console.log('Data Loaded');
+        if(DEV) console.log('Data Loaded');
 
         popupsLoaded();
 

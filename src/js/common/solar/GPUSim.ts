@@ -1,6 +1,6 @@
 import { FboUtils, Size } from "@jocabola/gfx";
 import { BufferAttribute, BufferGeometry, FloatType, NearestFilter, OrthographicCamera, Points, Scene, ShaderMaterial, Texture, WebGLRenderer, WebGLRenderTarget } from "three";
-import { GPU_SIM_SIZES, VISUAL_SETTINGS } from "../core/Globals";
+import { DEV, GPU_SIM_SIZES, VISUAL_SETTINGS } from "../core/Globals";
 import { OrbitElements } from "./SolarSystem";
 
 export type SimQuality = 'low'|'medium'|'high'|'ultra';
@@ -191,7 +191,7 @@ export class GPUSim {
         const alive = geo.attributes.alive;
         const arr = alive.array as Float32Array;
 
-        console.log('Total Items:',this.totalItems, 'Value Lenght:', value.length);
+        if(DEV) console.log('Total Items:',this.totalItems, 'Value Lenght:', value.length);
         
         for(let i=0; i<Math.min(this.totalItems, value.length); i++) {
             arr[i] = 1;            
