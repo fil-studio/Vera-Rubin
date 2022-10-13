@@ -55,7 +55,7 @@ export class Panel implements PanelsListener {
 		if(buttons.length === 0) return;		
 
 		for(const button of buttons){
-			button.addEventListener('click', () => { 								
+			button.addEventListener('click', () => { 												
 				this.togglePanel();
 			})
 		}

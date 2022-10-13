@@ -37,7 +37,7 @@ export const addPanels = (dom:HTMLElement) => {
 		else if(id.includes('resolution')) panel = new ResolutionPanel(id);
 		else panel = new Panel(id);
 
-		panels.push(panel);
+		if(panel) panels.push(panel);
 	}		
 
 }

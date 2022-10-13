@@ -129,28 +129,34 @@ export class CoreApp extends WebGLSketch {
                 const dwarfData = JSON.parse(res);
                 this.createDwarfPlanets(dwarfData);
 
-                if(DEV) console.log('Loading Solar Elements...');                
-                getSolarSystemElements().then((res) => {
-                    
-                    const d = res.mpcorb;       
-                                       
-                    buildSimWithData(d);
-
-                    if(DEV) console.log('Loading Interactive Solar Elements...');
-                    fetchSolarElements(solarItems).then((res) => {
-
-                        const d = res;
-                        this.createSolarItems(d)
-
-                        loadData(()=> {
-                            this.onDataLoaded();
-                        });
-
-                    })
-        
-                }).catch(() => {
-                    console.error('Database fetch error.')
+                if(DEV) console.log('Loading Solar Elements...');  
+                
+                loadData(()=> {
+                    this.onDataLoaded();
                 });
+
+                // getSolarSystemElements().then((res) => {
+                    
+                //     const d = res.mpcorb;       
+                                       
+                //     buildSimWithData(d);
+
+                //     if(DEV) console.log('Loading Interactive Solar Elements...');
+
+                //     fetchSolarElements(solarItems).then((res) => {
+
+                //         const d = res;
+                //         this.createSolarItems(d)
+
+                //         loadData(()=> {
+                //             this.onDataLoaded();
+                //         });
+
+                //     })
+        
+                // }).catch(() => {
+                //     console.error('Database fetch error.')
+                // });
                         
             });
 
