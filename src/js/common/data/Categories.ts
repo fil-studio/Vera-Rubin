@@ -1,7 +1,7 @@
 import { Color } from "three";
 import { applyAFieldToPopups } from "../../production/ui/popups/PopupsManager";
 
-import { DEV, HASURA_URL } from "../core/Globals";
+import { HASURA_URL } from "../core/Globals";
 import { OrbitDataElements } from "../solar/SolarUtils";
 
 export type SolarCategory = 'trans-neptunian-objects'|'near-earth-objects'|'interstellar-objects'|'comets'|'centaurs'|'asteroids'|'planets-moons';
@@ -9,7 +9,7 @@ export type SolarCategory = 'trans-neptunian-objects'|'near-earth-objects'|'inte
 export const categories = data.categories;
 
 /**
- * Sorted by pririty (lowest index in the array holds higher priority)
+ * Sorted by priority (lowest index in the array holds higher priority)
  */
 export const categoriesSort:Array<SolarCategory> = [
 	'asteroids',
@@ -173,7 +173,8 @@ export async function getMinMaxAByCategory () {
 
 	// console.log('Loading "A"...');
 	
-	const data = DEV ? testObject : await getA();
+	const data = testObject;
+	// const data = await getA();
 	
 	CategoriesMinMaxA['total'].min = data.min.length ? data.min[0].a : null;
 	CategoriesMinMaxA['total'].max = data.max.length ? data.max[0].a : null;

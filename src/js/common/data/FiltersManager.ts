@@ -40,7 +40,7 @@ const distance = {
 };
 
 
-const filters:Filters = {
+export const filters:Filters = {
 	asteroids: true,
 	centaurs: true,
 	comets: true,
@@ -230,7 +230,10 @@ const applyFilterSolarElements = () => {
 
 	// Show hide labels & popups by category
 	for(const popup of popups){
-		popup.visible = filters[CategoryToFilter[popup.category]];
+		if(!filters[CategoryToFilter[popup.category]]) popup.label.dom.classList.add('filters-hidden')
+		else popup.label.dom.classList.remove('filters-hidden')
 	}
+	console.log(popups);
+	
 
 }
