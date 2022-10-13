@@ -66,6 +66,9 @@ export class CoreApp extends WebGLSketch {
             far: 100000
         }, false);
 
+        console.log('%cSite developed by Fil Studio', "color:white;font-family:system-ui;font-size:1rem;font-weight:bold");
+
+
         CoreAppSingleton.instance = this;
 
         document.body.appendChild(this.domElement);
@@ -106,6 +109,7 @@ export class CoreApp extends WebGLSketch {
         this.scene.add(this.ambientLight);
 
         if(DEV) console.log('Core App init');
+        
 
         // background
         new TextureLoader().load('/assets/textures/8k_stars.jpg', (t) => {
