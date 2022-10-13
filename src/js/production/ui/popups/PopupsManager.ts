@@ -64,15 +64,16 @@ export function enablePopup(name: string, info: boolean = true) {
 	const popup = popups.find(x => x.name === name);
 	if(!popup) return
 	popup.label.select();
+
+	if(info) {
+		popup.label.dom.classList.add('no-info-hidden')
+		popup.info.show();
+	}
 	
 	for(const _popup of popups){
 		if(_popup === popup) continue;
 		_popup.label.dom.classList.add('other-selected-hidden');
 	}
-
-	// if(info) popup.info.show(popup.label.ref.closeUp);
-	// if(!popup.label.ref.closeUp) document.body.classList.add('popups-no-closeup');
-	// else document.querySelector('.popups-labels').classList.add('hidden');
 
 	document.body.classList.add('popups-selected');
 
@@ -83,6 +84,7 @@ export function disablePopup() {
 	
 	for(const popup of popups) {	
 		popup.label.dom.classList.remove('other-selected-hidden')	
+		popup.label.dom.classList.remove('no-info-hidden')	
 		popup.label.unselect();
 		popup.info.hide();
 	}
@@ -92,7 +94,6 @@ export function disablePopup() {
 
 	solarClock.resume()
 
-	// document.querySelector('.popups-labels').classList.remove('hidden');
 	document.body.classList.remove('popups-selected');
 	// document.body.classList.remove('popups-no-closeup');
 

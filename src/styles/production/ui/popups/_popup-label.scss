@@ -65,7 +65,8 @@
 
 .popup-label.hidden,
 .popup-label.other-selected-hidden,
-.popup-label.filters-hidden {
+.popup-label.filters-hidden,
+.popup-label.no-info-hidden {
 	opacity: 0;
 
 	&, * {
@@ -73,7 +74,7 @@
 	}
 }
 
-.popup-label.selected {
+.popup-label.selected:not(.no-info-hidden) {
 	opacity: 1 !important;
 	&, * {
 		cursor: default !important;
@@ -83,7 +84,6 @@
 	.icon-text p {
 		opacity: 0;
 	}
-
 }
 
 
