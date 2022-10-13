@@ -68,7 +68,6 @@ export class CoreApp extends WebGLSketch {
 
         console.log('%cSite developed by Fil Studio', "color:white;font-family:system-ui;font-size:1rem;font-weight:bold");
 
-
         CoreAppSingleton.instance = this;
 
         document.body.appendChild(this.domElement);
