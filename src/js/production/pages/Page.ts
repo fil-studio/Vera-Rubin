@@ -43,13 +43,14 @@ export class Page {
 
 	load(resolve){				
 		this.loaded = true;	
-		this.onLoaded();
-		this.addEventListeners();
 
 		shareInit(this.dom);
 
 		addInputs(this.dom);
 		addPanels(this.dom);
+
+		this.onLoaded();
+		this.addEventListeners();
 
 		this.enable(resolve);
 	}

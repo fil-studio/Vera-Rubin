@@ -1,8 +1,11 @@
 import { CameraManager } from "../../common/core/CameraManager";
 import { CoreAppSingleton } from "../../common/core/CoreApp";
 import { Search } from "../partials/Search";
-import { addPanelListener, PanelsListener } from "../ui/panels/PanelsManager";
-import { updatePopups } from "../ui/popups/PopupsManager";
+import { shareInit } from "../partials/Share";
+import { Input } from "../ui/inputs/Input";
+import { addInputs, inputInterface, inputs } from "../ui/inputs/InputsManager";
+import { addPanelListener, addPanels, PanelsListener } from "../ui/panels/PanelsManager";
+import { popups, updatePopups } from "../ui/popups/PopupsManager";
 import { Page } from "./Page";
 
 
@@ -10,20 +13,30 @@ export class OrbitViewer extends Page implements PanelsListener {
 	customizeViewWrapper: HTMLElement;
 	active:boolean = false;
 
-	bgStarsInput: HTMLInputElement;
-	toggleLabelsInput: HTMLInputElement;
+	bgStarsInput: inputInterface;
+	toggleLabelsInput: inputInterface;
 	load(resolve: any): void {
-	
+
 		new Search(this.dom);
 
-		this.customizeViewWrapper = this.dom.querySelector('.customize-view');
-		this.bgStarsInput = this.customizeViewWrapper.querySelector('input[name="background-stars"]');
-		this.toggleLabelsInput = this.customizeViewWrapper.querySelector('input[name="toggle-labels"]');
+		shareInit(this.dom);
 
-		super.load(resolve)
+		addInputs(this.dom);
+		addPanels(this.dom);
+
+		this.customizeViewWrapper = this.dom.querySelector('.customize-view');
+
+		this.bgStarsInput = inputs.find(x => x.name === 'background-stars');
+		this.toggleLabelsInput = inputs.find(x => x.name === 'toggle-labels');
+
+		this.loaded = true;	
+
+		this.onLoaded();
+		this.addEventListeners();
 
 		addPanelListener(this);
 
+		this.enable(resolve);
 	}
 
 	closePanel(): void {						
@@ -39,30 +52,25 @@ export class OrbitViewer extends Page implements PanelsListener {
 	}
 
 	hide(): void {
-		super.hide();
-		
-		if(!this.bgStarsInput.checked) {
-			this.bgStarsInput.checked = true;
-			this.toggleStars();
-		}
+		this.bgStarsInput.input.checked = true;
+		this.bgStarsInput.input.checkState();
+		this.toggleStars();
 
-		if(!this.toggleLabelsInput.checked) {
-			this.toggleLabelsInput.checked = true;
-			this.toggleLabels();
-		}
+		this.toggleLabelsInput.input.checked = true;
+		this.toggleLabelsInput.input.checkState();
+		this.toggleLabels();
 	}
 
 	toggleStars(){
-		CoreAppSingleton.instance.backgroundVisibility = this.bgStarsInput.checked;
+		CoreAppSingleton.instance.backgroundVisibility = this.bgStarsInput.input.checked;
 	}
 
-	toggleLabels(){
-		document.body.classList.toggle('customize-labels-hidden');
-		document.body.classList.add('customize-labels-fast-transition');
-		setTimeout(() => {
-			document.body.classList.remove('customize-labels-fast-transition');
-		}, 500);
-		CoreAppSingleton.instance.orbitsVisibility = this.toggleLabelsInput.checked;
+	toggleLabels(){		
+		for(const popup of popups) {
+			if(this.toggleLabelsInput.input.checked) popup.label.dom.classList.remove('customize-hidden');
+			else popup.label.dom.classList.add('customize-hidden');
+		}
+		CoreAppSingleton.instance.orbitsVisibility = this.toggleLabelsInput.input.checked;
 	}
 
 	togglePanel(){		
@@ -88,11 +96,11 @@ export class OrbitViewer extends Page implements PanelsListener {
 			this.togglePanel();
 		})
 
-		// Sub tabs
-		this.bgStarsInput.addEventListener('change', () => {
+		// // Sub tabs
+		this.bgStarsInput.input.dom.addEventListener('change', () => {
 			this.toggleStars();			
 		})
-		this.toggleLabelsInput.addEventListener('change', () => {
+		this.toggleLabelsInput.input.dom.addEventListener('change', () => {
 			this.toggleLabels();			
 		})
 

@@ -13,8 +13,9 @@ import { Radio } from "./Radio";
 import { TimePickerRange } from "./TimePickerRange";
 import { ZoomRange } from "./ZoomRange";
 
-interface inputInterface {
+export interface inputInterface {
 	parentTemplate: string,
+	name: string,
 	type: string
 	input: Input
 }
@@ -34,6 +35,7 @@ export const addInputs = (dom: HTMLElement) => {
 				let item = {
 					parentTemplate: dom.getAttribute('data-template'),
 					type,
+					name: null,
 					input: null
 				}
 
@@ -54,6 +56,8 @@ export const addInputs = (dom: HTMLElement) => {
 					if(el.hasAttribute('data-timer')) item.input = new TimePickerRange(el)
 				}
 				if(el.hasAttribute('data-date')) item.input = new DateInput(el);
+
+				item.name = item.input.name;
 
 				if(item) inputs.push(item);
 

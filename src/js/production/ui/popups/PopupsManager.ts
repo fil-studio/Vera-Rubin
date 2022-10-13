@@ -95,7 +95,6 @@ export function disablePopup() {
 	solarClock.resume()
 
 	document.body.classList.remove('popups-selected');
-	// document.body.classList.remove('popups-no-closeup');
 
 
 	showUI();
@@ -103,7 +102,6 @@ export function disablePopup() {
 
 export const updatePopups = () => {
 	for(const popup of popups) {
-		// popup.label.visible = popup.visible;
 		if(popup.visible) popup.label.dom.classList.remove('hidden')
 		else popup.label.dom.classList.add('hidden')
 
