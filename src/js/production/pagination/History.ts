@@ -15,10 +15,10 @@ export const historyTriggerLink = (slug:string = null) => {
 	onChange(slug);
 }
 
-export const historyBack = () => {
-	const page = LOCATION.previous ? LOCATION.previous : getPage('landing')			
-	historyTriggerLink(page.slug);
-}
+// export const historyBack = () => {
+// 	const page = LOCATION.previous ? LOCATION.previous : getPage('landing')			
+// 	historyTriggerLink(page.slug);
+// }
 
 export const historyLinksEventListener = () => {
 
@@ -135,7 +135,7 @@ const onRequest = () => {
 	
 	// RESET LOCATION
 	historyLinksEventListener();
-	TriggerTransition(LOCATION.popstate);
+	TriggerTransition();
 	LOCATION.popstate = false;
 }
 

@@ -26,7 +26,7 @@ export const EndTransition = () => {
 	}
 }
 
-export const TriggerTransition = (skip:boolean = false) => {
+export const TriggerTransition = () => {
 	if(LOCATION.current === null) return;
 	if(TRANSITIONS.inProgress) return;
 
