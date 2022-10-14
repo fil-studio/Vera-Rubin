@@ -92,7 +92,7 @@ export function calculateOrbit(el:OrbitElements, d:number, target:Vector3= new V
     return calculateOrbitByType(el, d, el.type, target);
 }
 
-function getMeanAnomaly(id:PlanetId, d:number):number {
+function getPlanetMeanAnomaly(id:PlanetId, d:number):number {
     const el = PlanetDataMap[id];
     if(el === null) return 0;
     return (el.M + el.n * d) * DEG_TO_RAD;
@@ -127,9 +127,9 @@ export function keplerCalc(el:OrbitElements, d:number, target:Vector3= new Vecto
 
     if(el.id === 'jupiter' || el.id === 'saturn' || el.id === 'uranus') {
         // ---  Perturbations ----
-        const Mj = getMeanAnomaly('jupiter', d);
-        const Ms = getMeanAnomaly('saturn', d);
-        const Mu = getMeanAnomaly('uranus', d);
+        const Mj = getPlanetMeanAnomaly('jupiter', d);
+        const Ms = getPlanetMeanAnomaly('saturn', d);
+        const Mu = getPlanetMeanAnomaly('uranus', d);
 
         getCartesianCoordinates(v, r, el, target, false);
 
@@ -246,4 +246,14 @@ export function hyperbolicCalc(el:OrbitElements, d:number, target:Vector3) {
     const r = a * ( 1 - e*e ) / ( 1 + e * Math.cos(v) );
 
     return getCartesianCoordinates(v, r, el, target);
+}
+
+export function getMeanAnomaly(el:OrbitElements, d:number):number {
+    if(el.type === OrbitType.Hyperbolic) {
+        const a = el.a;
+        const dT = el.Tp;
+        return (d-dT) / (-a)**1.5;
+    }
+
+    return (el.M + el.n * d);
 }

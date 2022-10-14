@@ -1,7 +1,7 @@
 import { Vector3 } from "three";
 import { getCategory } from "../data/Categories";
 import { PlanetDataMap } from "./Planet";
-import { calculateOrbit, OrbitElements, OrbitType } from "./SolarSystem"
+import { calculateOrbit, DEG_TO_RAD, getMeanAnomaly, OrbitElements, OrbitType } from "./SolarSystem"
 import { MJD2JD, SolarTimeManager } from "./SolarTime";
 
 const tmp1 = new Vector3();
@@ -107,9 +107,14 @@ export const openFileDialog = (accept, callback) => {
 
 export function getClosestDateToSun(data:OrbitDataElements):Date {
 
-    const jd = MJD2JD(data.tperi);    
+    const d = SolarTimeManager.getMJDonDate(new Date());
+    const mel = mapOrbitElements(data);
+    const M = getMeanAnomaly(mel, d);
+    const tperi = MJD2JD(d - M / mel.n);
 
-    const unixMs = ( jd - 2440587.5) * 86400000;
+    // const jd = MJD2JD(data.tperi);
+
+    const unixMs = ( tperi - 2440587.5) * 86400000;
 
     const date = new Date(unixMs);
 
