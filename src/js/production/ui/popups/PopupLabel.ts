@@ -38,7 +38,7 @@ export class PopupLabel {
 
 	loaded(){
 		this.addEventListeners();
-		this.dom.classList.remove('hidden');
+		if(LOCATION.current.id === 'orbit-viewer') this.dom.classList.remove('hidden');
 	}
 
 	addEventListeners(){

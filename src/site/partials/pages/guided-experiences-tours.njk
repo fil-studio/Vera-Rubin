@@ -42,7 +42,7 @@
 
           <div class="media">
             {% if slide.typeHandle == 'introSlide' %}
-              <div class="thumb" style="background-image: url(/assets/ceres-lorem.jpeg); "></div>
+              {% if slide.thumbnail %}<div class="thumb" style="background-image: url({{ experience.tourPreview[0].url }}); "></div>{% endif %}
             {% else %}
               <div class="icon">
                 {% include "ui/icons/fun-fact.njk" %}

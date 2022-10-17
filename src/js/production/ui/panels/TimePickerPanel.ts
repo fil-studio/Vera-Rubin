@@ -274,6 +274,8 @@ export class TimePickerPanel extends Panel {
 
 		this.value = parseFloat(this.range.value);
 		
+		console.log(this.value);
+		
 		if(!this.holding){
 			this.value = MathUtils.lerp(this.value, 0, 0.1);
 			// this.range.value = this.value.toString();

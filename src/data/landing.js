@@ -11,12 +11,12 @@ async function getPage() {
       seoTitle
       seoDescription
       seoImage {
-        url(quality: 90)
+        url(quality: 95, width: 500)
       }
       landingCenterTitle
       landingVersion
       landingLogo {
-        url
+        url(quality: 95, width: 800)
       }
     }
   `;

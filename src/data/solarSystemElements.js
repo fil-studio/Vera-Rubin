@@ -14,6 +14,9 @@ async function getPage() {
 				elementCategory {
 					slug
 				}
+        elementPreview {
+          url(quality: 95, width: 500)
+        }
         viewInSkyviewerLink			
 		}
   `;
