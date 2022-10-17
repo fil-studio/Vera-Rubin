@@ -12,6 +12,8 @@ export const KM2AU = 6.6846e-9;
 export const AU2KM = 1 / KM2AU;
 export const SUN_RADIUS = 695700; // in KM
 
+const EPOCH = 51445.5;
+
 export type OrbitElements = {
     id:string;
     fulldesignation: string;
@@ -103,7 +105,7 @@ function getPlanetMeanAnomaly(id:PlanetId, d:number):number {
 export function keplerCalc(el:OrbitElements, d:number, target:Vector3= new Vector3()):Vector3 {
     // Mean Anomally and Eccentric Anomally
     const e = el.e;
-    const epoch = el.epoch || 0;
+    const epoch = el.epoch != undefined ? el.epoch : EPOCH;
     const M = (el.M + el.n * (d-epoch)) * DEG_TO_RAD;
     let E = M + e * Math.sin(M) * ( 1.0 + e * Math.cos(M) );
 
@@ -258,6 +260,6 @@ export function getMeanAnomaly(el:OrbitElements, d:number):number {
         return (d-dT) / (-a)**1.5;
     }
 
-    const epoch = el.epoch || 0;
+    const epoch = el.epoch != undefined ? el.epoch : EPOCH;
     return el.M + el.n * (d-epoch);
 }
