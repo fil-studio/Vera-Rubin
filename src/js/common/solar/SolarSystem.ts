@@ -27,6 +27,7 @@ export type OrbitElements = {
     n:number;
     q?:number;
     Tp?:number;
+    epoch?:number;
     type:OrbitType;
     category:SolarCategory;
 }
@@ -95,13 +96,15 @@ export function calculateOrbit(el:OrbitElements, d:number, target:Vector3= new V
 function getPlanetMeanAnomaly(id:PlanetId, d:number):number {
     const el = PlanetDataMap[id];
     if(el === null) return 0;
-    return (el.M + el.n * d) * DEG_TO_RAD;
+    const epoch = el.epoch || 0;
+    return (el.M + el.n * (d-epoch)) * DEG_TO_RAD;
 }
 
 export function keplerCalc(el:OrbitElements, d:number, target:Vector3= new Vector3()):Vector3 {
     // Mean Anomally and Eccentric Anomally
     const e = el.e;
-    const M = (el.M + el.n * d) * DEG_TO_RAD;
+    const epoch = el.epoch || 0;
+    const M = (el.M + el.n * (d-epoch)) * DEG_TO_RAD;
     let E = M + e * Math.sin(M) * ( 1.0 + e * Math.cos(M) );
 
     // E convergence check
@@ -255,5 +258,6 @@ export function getMeanAnomaly(el:OrbitElements, d:number):number {
         return (d-dT) / (-a)**1.5;
     }
 
-    return (el.M + el.n * d);
+    const epoch = el.epoch || 0;
+    return el.M + el.n * (d-epoch);
 }

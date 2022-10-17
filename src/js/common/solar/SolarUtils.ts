@@ -20,6 +20,7 @@ export type OrbitDataElements = {
     q?:number;
     M:number;
     mpch:number;
+    epoch:number;
     n:number;
     tperi?:number;
     peri:number;
@@ -59,6 +60,7 @@ export function mapOrbitElements(dEl:OrbitDataElements):OrbitElements {
         n: dEl.n,
         q: dEl.q,
         Tp: dEl.tperi,
+        epoch: dEl.epoch,
         type: getOrbitType(dEl),
         category: getCategory(dEl)
     }    
@@ -109,9 +111,10 @@ export function getClosestDateToSun(data:OrbitDataElements):Date {
 
     const d = SolarTimeManager.getMJDonDate(new Date());
     const mel = mapOrbitElements(data);
-    const M = getMeanAnomaly(mel, d);
-    const tperi = MJD2JD(d - M / mel.n);
+    const M = getMeanAnomaly(mel, d) % 360;
+    const tperi = MJD2JD(d + (360-M) / mel.n);
 
+    // console.log(mel.id, M, mel.n, mel.epoch, mel.e);
     // const jd = MJD2JD(data.tperi);
 
     const unixMs = ( tperi - 2440587.5) * 86400000;
