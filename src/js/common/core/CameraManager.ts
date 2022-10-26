@@ -81,7 +81,7 @@ class CameraController {
         this.mode = CameraMode.ORBIT;
         const s = CameraSettings.orbit;
         CONTROLS.orbit = this.controls;
-        this.controls.enablePan = DEV;
+        this.controls.enablePan = false;
         this.controls.minDistance = s.min;
         this.controls.maxDistance = s.max;
         this.controls.enableDamping = true;
