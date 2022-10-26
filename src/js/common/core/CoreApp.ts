@@ -151,7 +151,9 @@ export class CoreApp extends WebGLSketch {
 
                         })
             
-                    }).catch(() => {
+                    }).catch((err) => {
+                        console.log(err);
+                        
                         console.error('Database fetch error.')
                     });
                             

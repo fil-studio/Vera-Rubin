@@ -10,7 +10,9 @@ export class Page {
 
 	prepare() {		
 		this.active = true;
+		
 		return new Promise(resolve => {		
+			
 			if(this.loaded){			
 				this.enable(resolve);
 			} else {
@@ -41,7 +43,8 @@ export class Page {
 		this.active = false;
 	}
 
-	load(resolve){				
+	load(resolve){			
+			
 		this.loaded = true;	
 
 		shareInit(this.dom);

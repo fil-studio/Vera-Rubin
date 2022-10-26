@@ -26,16 +26,16 @@ const CategoryToFilter:Record<string, string> = {
 	'trans-neptunian-objects': 'transNeptunianObjects'
 }
 
-const TIME_MIN = 1850;
+const TIME_f = 1850;
 const TIME_MAX = new Date().getFullYear();
 
 const time = {
-	min: TIME_MIN,
+	f: TIME_f,
 	max: TIME_MAX
 };
 
 const distance = {
-	min: 0,
+	f: 0,
 	max: 0
 };
 
@@ -54,6 +54,7 @@ export const filters:Filters = {
 // Filters listeners
 export interface FiltersListener {
 	applyFilters(): void;
+	resetFilters():void;
 	syncFilters():void;
 }
 
@@ -120,6 +121,27 @@ export const applyFilters = (domFilters: NodeListOf<HTMLInputElement>) => {
 	if(!needsUpdate) {
 		applyFilterSolarElements();
 		return
+	}
+
+	broadcastFilterChange();
+
+	showLoader();
+
+	getSolarSystemElementsByFilter().then( (res) => {		
+		const d = res.mpcorb;                                  
+		buildSimWithData(d, false);
+
+		hideLoader();
+	}).catch(() => {
+		console.error('Database fetch error')
+	});
+
+}
+
+export const resetFilters = () => {
+
+	for(const key in filters){
+		filters[key] = true;
 	}
 
 	broadcastFilterChange();
