@@ -17,7 +17,7 @@ import { CLOCK_SETTINGS, DEV } from "./Globals";
 import Stats from 'three/examples/jsm/libs/stats.module.js';
 import { LOCATION } from "../../production/pagination/History";
 import { hideLoader } from "../../production/ui/loader";
-import { categories, getMinMaxPlanetsA } from "../data/Categories";
+import { categories, getMinMaxAByCategory, getMinMaxPlanetsA } from "../data/Categories";
 import { fetchSolarElements } from "../data/FetchSolarElements";
 import { SolarElement } from "../solar/SolarElement";
 import { JD2MJD } from "../solar/SolarTime";
@@ -121,38 +121,44 @@ export class CoreApp extends WebGLSketch {
             const planetsData = JSON.parse(res)
             
             getMinMaxPlanetsA(planetsData);
-
+            
             this.createPlanets(planetsData);
 
-            if(DEV) console.log('Loading Dwarf Planets...');
-            io.load(window.location.origin + `/assets/data/${DWARF_PLANETS}`, (res) => {
-                const dwarfData = JSON.parse(res);
-                this.createDwarfPlanets(dwarfData);
+            if(DEV) console.log('Loading A values...');
+            getMinMaxAByCategory().then(() => {                
+      
+                if(DEV) console.log('Loading Dwarf Planets...');
+                io.load(window.location.origin + `/assets/data/${DWARF_PLANETS}`, (res) => {
+                    const dwarfData = JSON.parse(res);
+                    this.createDwarfPlanets(dwarfData);
 
-                if(DEV) console.log('Loading Solar Elements...');                
-                getSolarSystemElements().then((res) => {
-                    
-                    const d = res.mpcorb;       
-                                       
-                    buildSimWithData(d);
-
-                    if(DEV) console.log('Loading Interactive Solar Elements...');
-                    fetchSolarElements(solarItems).then((res) => {
-
-                        const d = res;
-                        this.createSolarItems(d)
-
-                        loadData(()=> {
-                            this.onDataLoaded();
-                        });
-
-                    })
-        
-                }).catch(() => {
-                    console.error('Database fetch error.')
-                });
+                    if(DEV) console.log('Loading Solar Elements...');                
+                    getSolarSystemElements().then((res) => {
                         
-            });
+                        const d = res.mpcorb;       
+                                        
+                        buildSimWithData(d);
+
+                        if(DEV) console.log('Loading Interactive Solar Elements...');
+                        fetchSolarElements(solarItems).then((res) => {
+
+                            const d = res;
+                            this.createSolarItems(d)
+
+                            loadData(()=> {
+                                this.onDataLoaded();
+                            });
+
+                        })
+            
+                    }).catch(() => {
+                        console.error('Database fetch error.')
+                    });
+                            
+                });
+
+            
+            })
 
         });
 

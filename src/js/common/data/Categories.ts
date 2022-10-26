@@ -1,5 +1,4 @@
 import { Color } from "three";
-import { applyAFieldToPopups } from "../../production/ui/popups/PopupsManager";
 
 import { HASURA_URL } from "../core/Globals";
 import { OrbitDataElements } from "../solar/SolarUtils";
@@ -94,7 +93,7 @@ export const CategoriesMinMaxA = {
 // Filters fetch
 export async function getA() {
 
-	const url = `${HASURA_URL}/orbit-viewer/a`;	
+	const url = `${HASURA_URL}/a`;	
 
 	const response = await fetch(url, {
 		headers: {
@@ -104,108 +103,50 @@ export async function getA() {
 	return await response.json();
 }
 
-const testObject = {
-  "min": [
-    {
-      "a": 0.3099993920179865
-    }
-  ],
-  "max": [
-    {
-      "a": 29956.00000013633
-    }
-  ],
-  "asteroidsMin": [
-    {
-      "a": 0.3099993920179865
-    }
-  ],
-  "asteroidsMax": [
-    {
-      "a": 5.199997820187245
-    }
-  ],
-  "centaursMin": [
-    {
-      "a": 5.205557723674862
-    }
-  ],
-  "centaursMax": [
-    {
-      "a": 29.999801034619974
-    }
-  ],
-  "cometsMin": [
-    {
-      "a": 0.31899873124777356
-    }
-  ],
-  "cometsMax": [
-    {
-      "a": 29956.00000013633
-    }
-  ],
-  "isoMin": [],
-  "isoMax": [],
-  "neoMin": [
-    {
-      "a": 0.3099993920179865
-    }
-  ],
-  "neoMax": [
-    {
-      "a": 29956.00000013633
-    }
-  ],
-  "tnoMin": [
-    {
-      "a": 30.077002258599666
-    }
-  ],
-  "tnoMax": [
-    {
-      "a": 596.3466405348677
-    }
-  ]
-}
-
 export async function getMinMaxAByCategory () {
 
-	// console.log('Loading "A"...');
+	console.log('Loading "A"...');
 	
-	const data = testObject;
-	// const data = await getA();
+	const data = await getA();	
+
+	const find = (type, range) => {
+		const d = data.classification_ranges.find(x => {
+			if(x.observed_object_type === type && x.observed_range_type === range) return x;
+		})
+		return d.observed_value;
+	}
 	
-	CategoriesMinMaxA['total'].min = data.min.length ? data.min[0].a : null;
-	CategoriesMinMaxA['total'].max = data.max.length ? data.max[0].a : null;
+	CategoriesMinMaxA['asteroids'].min = find('asteroid', 'min');
+	CategoriesMinMaxA['asteroids'].max = find('asteroid', 'max');
+
+	CategoriesMinMaxA['centaurs'].min = find('centaur', 'min');
+	CategoriesMinMaxA['centaurs'].max = find('centaur', 'max');
+
+	CategoriesMinMaxA['comets'].min = find('comet', 'min');
+	CategoriesMinMaxA['comets'].max = find('comet', 'max');
+
+	CategoriesMinMaxA['near-earth-objects'].min = find('neo', 'min');
+	CategoriesMinMaxA['near-earth-objects'].max = find('neo', 'max');
+
+	CategoriesMinMaxA['trans-neptunian-objects'].min = find('tno', 'min');
+	CategoriesMinMaxA['trans-neptunian-objects'].max = find('tno', 'max');
+
+	let min = 10000;
+	let max = 0;
+	for(const key in CategoriesMinMaxA){
+		const item = CategoriesMinMaxA[key];
+		min = min < item.min ? min : item.min;
+		max = max > item.max ? max : item.max;
+	}
 	
-	CategoriesMinMaxA['asteroids'].min = data.asteroidsMin.length ? data.asteroidsMin[0].a : null;
-	CategoriesMinMaxA['asteroids'].max = data.asteroidsMax.length ? data.asteroidsMax[0].a : null;
-
-	CategoriesMinMaxA['centaurs'].min = data.centaursMin.length ? data.centaursMin[0].a : null;
-	CategoriesMinMaxA['centaurs'].max = data.centaursMax.length ? data.centaursMax[0].a : null;
-
-	CategoriesMinMaxA['comets'].min = data.cometsMin.length ? data.cometsMin[0].a : null;
-	CategoriesMinMaxA['comets'].max = data.cometsMax.length ? data.cometsMax[0].a : null;
-
-	CategoriesMinMaxA['interstellar-objects'].min = data.isoMin.length ? data.isoMin[0].a : null;
-	CategoriesMinMaxA['interstellar-objects'].max = data.isoMax.length ? data.isoMax[0].a : null;
-		
-	CategoriesMinMaxA['near-earth-objects'].min = data.neoMin.length ? data.neoMin[0].a : null;
-	CategoriesMinMaxA['near-earth-objects'].max = data.neoMax.length ? data.neoMax[0].a : null;
-		
-	CategoriesMinMaxA['trans-neptunian-objects'].min = data.tnoMin.length ? data.tnoMin[0].a : null;
-	CategoriesMinMaxA['trans-neptunian-objects'].max = data.tnoMax.length ? data.tnoMax[0].a : null;
-
-	// console.log('"A" Loaded:', CategoriesMinMaxA);
+	CategoriesMinMaxA['total'].min = min;
+	CategoriesMinMaxA['total'].max = max;	
 	
-	applyAFieldToPopups();
-
 }
 
 export const getMinMaxPlanetsA = (d:Array<OrbitDataElements>) => {
 
-	let min = 500;
+	let min = 10000;
 	let max = 0;
 	for(const el of d){
 		min = el.a < min ? el.a : min;
@@ -214,7 +155,5 @@ export const getMinMaxPlanetsA = (d:Array<OrbitDataElements>) => {
 
 	CategoriesMinMaxA['planets-moons'].min = min;
 	CategoriesMinMaxA['planets-moons'].max = max;
-
-	getMinMaxAByCategory();
 
 }

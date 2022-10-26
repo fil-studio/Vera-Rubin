@@ -66,10 +66,9 @@ export function enablePopup(name: string, info: boolean = true) {
 	popup.label.select();
 
 	if(info) {
-		popup.label.dom.classList.add('no-info-hidden')
 		popup.info.show();
-	}
-	
+	} 
+		
 	for(const _popup of popups){
 		if(_popup === popup) continue;
 		_popup.label.dom.classList.add('other-selected-hidden');
@@ -113,15 +112,6 @@ export const resizePopups = () => {
 	for(const popup of popups) {
 		// popup.label.onResize();
 		popup.info.onResize();
-	}
-}
-
-export const applyAFieldToPopups = () => {
-	// Already did that with fake data
-	// Todo
-	return;
-	for(const popup of popups){
-		popup.info.addAData();
 	}
 }
 

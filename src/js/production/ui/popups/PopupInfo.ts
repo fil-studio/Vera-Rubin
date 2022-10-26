@@ -1,6 +1,6 @@
 import { MathUtils } from "@jocabola/math";
 import gsap from "gsap";
-import { CategoriesMinMaxA, SolarCategory } from "../../../common/data/Categories";
+import { CategoriesMinMaxA } from "../../../common/data/Categories";
 import { getClosestDateToSun, getDistanceFromEarthNow, getDistanceFromSunNow, OrbitDataElements } from "../../../common/solar/SolarUtils";
 import { formatDateString } from "../../utils/Dates";
 import { disablePopup } from "./PopupsManager";
@@ -26,9 +26,6 @@ export class PopupInfo {
 		this.sections = this.dom.querySelectorAll('section');
 
 		this.closeButton = this.dom.querySelector('.close-item');
-
-
-
 	}
 
 	onResize(){
@@ -41,6 +38,7 @@ export class PopupInfo {
 
 		this.addEventListeners();
 		this.addData();
+		this.addAData();
 		this.setSize();
 
 	}
@@ -129,8 +127,6 @@ export class PopupInfo {
 		dSun.innerText = `${getDistanceFromSunNow(this.data).toFixed(2)} au`;
 		dEarth.innerText = `${getDistanceFromEarthNow(this.data).toFixed(2)} au`;
 				
-		this.addAData();
-
 	}
 
 	setSize(){
