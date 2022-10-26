@@ -1,4 +1,4 @@
-import { addPanelListener, PanelsListener } from "./PanelsManager";
+import { addPanelListener, broadcastPanelsClose, PanelsListener } from "./PanelsManager";
 
 
 export class Panel implements PanelsListener {
@@ -35,6 +35,8 @@ export class Panel implements PanelsListener {
 
 	togglePanel(){		
 
+		if(!this.active) broadcastPanelsClose();
+
 		this.active = !this.active;
 		this.dom.classList.toggle('active');
 
@@ -55,7 +57,7 @@ export class Panel implements PanelsListener {
 		if(buttons.length === 0) return;		
 
 		for(const button of buttons){
-			button.addEventListener('click', () => { 								
+			button.addEventListener('click', () => { 							
 				this.togglePanel();
 			})
 		}
