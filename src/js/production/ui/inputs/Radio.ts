@@ -15,7 +15,7 @@ export class Radio extends Input {
 		const parent = this.dom.parentElement;
 		const el = this.dom as HTMLInputElement;		
 
-		const checked = el.checked;		
+		const checked = el.checked;				
 
 		if(checked){
 

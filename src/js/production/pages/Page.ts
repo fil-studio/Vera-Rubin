@@ -49,8 +49,8 @@ export class Page {
 
 		shareInit(this.dom);
 
-		addInputs(this.dom);
-		addPanels(this.dom);
+		addInputs();
+		addPanels();
 
 		this.onLoaded();
 		this.addEventListeners();

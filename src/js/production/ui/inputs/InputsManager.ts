@@ -22,12 +22,15 @@ export interface inputInterface {
 
 export const inputs:Array<inputInterface> = [];
 
-export const addInputs = (dom: HTMLElement) => {
+export const addInputs = () => {
 
-			if(!dom) return;
+			const dom = document.body;
 
 			const _inputs = dom.querySelectorAll('.custom-input');
 			for(const input of _inputs){
+
+				if(input.classList.contains('input-initialized')) continue;
+				input.classList.add('input-initialized');
 
 				const el = input as HTMLElement;
 				const type = el.getAttribute('type');

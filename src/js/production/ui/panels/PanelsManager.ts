@@ -21,13 +21,15 @@ export const panelsAddListeners = () => {
 
 }
 
-export const addPanels = (dom:HTMLElement) => {
-	const _panels = dom.querySelectorAll('[data-panel]');
+export const addPanels = () => {
+	const _panels = document.body.querySelectorAll('[data-panel]');
 
 	for(const item of _panels){
 
 		const id = item.getAttribute('data-panel');
 		if(!!!item) continue;
+		if(item.classList.contains('panel-initialized')) continue;
+		item.classList.add('panel-initialized')
 
 		let panel = null
 		if(id === 'time-picker') panel = new TimePickerPanel(id);
@@ -36,6 +38,7 @@ export const addPanels = (dom:HTMLElement) => {
 		else if(id.includes('filters')) panel = new FilterPanel(id);
 		else if(id.includes('resolution')) panel = new ResolutionPanel(id);
 		else panel = new Panel(id);
+
 
 		panels.push(panel);
 	}		

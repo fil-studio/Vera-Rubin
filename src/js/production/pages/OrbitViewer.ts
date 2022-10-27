@@ -21,8 +21,8 @@ export class OrbitViewer extends Page implements PanelsListener {
 
 		shareInit(this.dom);
 
-		addInputs(this.dom);
-		addPanels(this.dom);
+		addInputs();
+		addPanels();
 
 		this.customizeViewWrapper = this.dom.querySelector('.customize-view');
 
