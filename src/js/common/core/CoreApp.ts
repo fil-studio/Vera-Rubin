@@ -15,7 +15,7 @@ import { SunLightHelper } from "../solar/SunLightHelper";
 import { CLOCK_SETTINGS, DEV } from "./Globals";
 
 import Stats from 'three/examples/jsm/libs/stats.module.js';
-import { LOCATION } from "../../production/pagination/History";
+import { historyBack, LOCATION } from "../../production/pagination/History";
 import { hideLoader } from "../../production/ui/loader";
 import { categories, getMinMaxAByCategory, getMinMaxPlanetsA } from "../data/Categories";
 import { fetchSolarElements } from "../data/FetchSolarElements";

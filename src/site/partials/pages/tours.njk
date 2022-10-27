@@ -1,6 +1,13 @@
 {% from 'tours/loop.njk' import loop as loop %}
 {% from 'ui/panel-times.njk' import panelTimes as panelTimes %}
 
+<div class="back-button navigation-item">
+  <a href="{{ '/' + lang + '/guided-experiences' | url }}">
+    {# {% include "ui/icons/times.njk" %} #}
+    {% include "ui/icons/arrow-prev.njk" %}
+  </a>
+</div>
+
 <div class="page-content" data-animation-type="fade">
 
   <div class="tours-header">

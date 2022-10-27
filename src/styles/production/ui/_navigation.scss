@@ -95,9 +95,11 @@
 	}
 }
 
-.page__index {
+.page__content.disabled {
 	.navigation-item {
 		opacity: 0;
-		pointer-events: none;
+		&, * {
+			pointer-events: none;
+		}
 	}
 }
