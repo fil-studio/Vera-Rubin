@@ -12,7 +12,7 @@ export const KM2AU = 6.6846e-9;
 export const AU2KM = 1 / KM2AU;
 export const SUN_RADIUS = 695700; // in KM
 
-const EPOCH = 51445.5;
+export const EPOCH = 51445.5;
 
 export type OrbitElements = {
     id:string;
