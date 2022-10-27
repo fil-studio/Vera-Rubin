@@ -2,6 +2,7 @@ import { Color } from "three";
 
 import { HASURA_URL } from "../core/Globals";
 import { OrbitDataElements } from "../solar/SolarUtils";
+import { distance } from "./FiltersManager";
 
 export type SolarCategory = 'trans-neptunian-objects'|'near-earth-objects'|'interstellar-objects'|'comets'|'centaurs'|'asteroids'|'planets-moons';
 
@@ -141,6 +142,9 @@ export async function getMinMaxAByCategory () {
 	
 	CategoriesMinMaxA['total'].min = min;
 	CategoriesMinMaxA['total'].max = max;	
+
+	distance.min = min;
+	distance.max = max;
 	
 }
 

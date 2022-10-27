@@ -1,6 +1,8 @@
 import { Checkbox } from "./Checkbox";
 import { DateInput } from "./DateInput";
 import { DoubleRange } from "./DoubleRange";
+import { DoubleRangeDistance } from "./DoubleRangeDistance";
+import { DoubleRangeYear } from "./DoubleRangeYear";
 import { Asteroids } from "./filters/Asteroids";
 import { Centaurs } from "./filters/Centaurs";
 import { Comets } from "./filters/Comets";
@@ -53,7 +55,10 @@ export const addInputs = () => {
 					else item.input = new Checkbox(el)
 				}
 				if(type === 'radio') item.input = new Radio(el)
-				if(type === 'double-range') item.input = new DoubleRange(el)
+				if(type === 'double-range'){
+					if(el.getAttribute('name') === 'distance-range') item.input = new DoubleRangeDistance(el)
+					if(el.getAttribute('name') === 'discovery-range') item.input = new DoubleRangeYear(el)
+				} 
 				if(type === 'range') {
 					if(el.hasAttribute('data-zoom')) item.input = new ZoomRange(el)
 					if(el.hasAttribute('data-timer')) item.input = new TimePickerRange(el)
