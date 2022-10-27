@@ -95,8 +95,13 @@
 	}
 }
 
+.navigation-item {
+	transition: opacity 0.3s linear;
+}
+
 .page__content.disabled {
 	.navigation-item {
+		
 		opacity: 0;
 		&, * {
 			pointer-events: none;
