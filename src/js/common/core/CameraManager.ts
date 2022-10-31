@@ -61,8 +61,6 @@ const KEYS = [
     "KeyS",
     "KeyA",
     "KeyD",
-    "KeyQ",
-    "KeyE",
     "Equal",
     "Minus",
     "NumpadAdd",
@@ -78,19 +76,19 @@ function isKeyRight(key:string):boolean {
 }
 
 function isKeyUp(key:string):boolean {
-    return key === "ArrowUp" || key === "KeyW" || key === "Equal" || key === "NumpadAdd";
+    return  key === "Equal" || key === "NumpadAdd";
 }
 
 function isKeyDown(key:string):boolean {
-    return key === "ArrowDown" || key === "KeyS" || key === "Minus" || key === "NumpadSubtract";
+    return key === "Minus" || key === "NumpadSubtract";
 }
 
 function isKeyElevateUp(key:string):boolean {
-    return key === "KeyE";
+    return key === "ArrowUp" || key === "KeyW";
 }
 
 function isKeyElevateDown(key:string):boolean {
-    return key === "KeyQ";
+    return key === "ArrowDown" || key === "KeyS";
 }
 
 const KEY_SPEED = {
