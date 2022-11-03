@@ -359,8 +359,7 @@ export class CoreApp extends WebGLSketch {
     }
 
     set orbitsVisibility(value:boolean) {     
-        
-        return;
+
         for(let i = 0, len = this.solarElements.length; i < len; i++) {
             if(!this.solarElements[i].orbitPath) continue;
             this.solarElements[i].orbitPath.hidden = value;            
