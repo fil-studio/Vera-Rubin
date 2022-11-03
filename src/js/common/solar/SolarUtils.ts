@@ -1,7 +1,7 @@
 import { Vector3 } from "three";
 import { getCategory } from "../data/Categories";
 import { PlanetDataMap } from "./Planet";
-import { calculateOrbit, DEG_TO_RAD, getMeanAnomaly, OrbitElements, OrbitType } from "./SolarSystem"
+import { calculateOrbit, EPOCH, getMeanAnomaly, OrbitElements, OrbitType } from "./SolarSystem";
 import { MJD2JD, SolarTimeManager } from "./SolarTime";
 
 const tmp1 = new Vector3();
@@ -60,7 +60,7 @@ export function mapOrbitElements(dEl:OrbitDataElements):OrbitElements {
         n: dEl.n,
         q: dEl.q,
         Tp: dEl.tperi,
-        epoch: dEl.epoch,
+        epoch: dEl.epoch != undefined ? dEl.epoch : EPOCH,
         type: getOrbitType(dEl),
         category: getCategory(dEl)
     }    
