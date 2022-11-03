@@ -4,6 +4,7 @@ import { popups } from "../../production/ui/popups/PopupsManager";
 import { CoreAppSingleton } from "../core/CoreApp";
 import { HASURA_URL, VISUAL_SETTINGS } from "../core/Globals";
 import { buildSimWithData } from "../solar/SolarParticlesManager";
+import { MJD2JD, SolarTimeManager } from "../solar/SolarTime";
 
 // Filters
 export type Filters = {
@@ -50,6 +51,19 @@ export const filters:Filters = {
 export const distance = {
 	min: 0,
 	max: 999999,
+	value: {
+		min: 0,
+		max: 1
+	},
+	search: {
+		min: 0,
+		max: 0
+	}
+}
+
+export const discover = {
+	min: SolarTimeManager.getMJDonDate(new Date(1850)),
+	max: SolarTimeManager.getMJDonDate(),
 	value: {
 		min: 0,
 		max: 1
@@ -127,8 +141,9 @@ export const applyFilters = (domFilters: NodeListOf<HTMLInputElement>) => {
 	
 	const needsUpdate = saveSelectedFilters(domFilters);	
 	const sameDistance = calculateDistance();
+	const sameDiscover = calculateDiscover();
 
-	if(!needsUpdate && sameDistance) {
+	if(!needsUpdate && sameDistance && sameDiscover) {
 		applyFilterSolarElements();
 		return
 	}
@@ -225,6 +240,19 @@ const calculateDistance = () => {
 	return same;
 }
 
+const calculateDiscover = () => {
+
+	const newMin = MathUtils.map(discover.value.min, 0, 1, discover.min, discover.max);
+	const newMax = MathUtils.map(discover.value.max, 0, 1, discover.min, discover.max);
+
+	const same = newMin === discover.search.min && newMax === discover.search.max;
+
+	discover.search.min = newMin;
+	discover.search.max = newMax;	
+
+	return same;
+}
+
 
 // Filters fetch
 export async function getSolarSystemElements() {
@@ -241,10 +269,8 @@ export async function getSolarSystemElements() {
 }
 
 export async function getSolarSystemElementsByFilter() {
-	
-	showLoader();
-	
-	const url = `${HASURA_URL}/orbit-elements-by-filter/${VISUAL_SETTINGS[VISUAL_SETTINGS.current]}/${distance.search.min}/${distance.search.max}/${filters.asteroids}/${filters.centaurs}/${filters.comets}/${filters.interestellarObjects}/${filters.nearEarthObjects}/${filters.transNeptunianObjects}`;	
+		
+	const url = `${HASURA_URL}/orbit-elements-by-filter/${VISUAL_SETTINGS[VISUAL_SETTINGS.current]}/${distance.search.min}/${distance.search.max}/${discover.search.min}/${discover.search.max}/${filters.asteroids}/${filters.centaurs}/${filters.comets}/${filters.interestellarObjects}/${filters.nearEarthObjects}/${filters.transNeptunianObjects}`;	
 
 	applyFilterSolarElements();
 

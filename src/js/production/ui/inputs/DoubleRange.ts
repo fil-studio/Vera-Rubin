@@ -75,6 +75,7 @@ export class DoubleRange extends Input {
 			window.addEventListener('mouseup', () => {
 				dragging = false;
 				x = 0;
+				this.updateValues();
 			}, { once: true })
 
 		})
