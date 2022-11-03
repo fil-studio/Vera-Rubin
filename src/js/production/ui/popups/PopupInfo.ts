@@ -185,30 +185,30 @@ export class PopupInfo {
 		})
 
 		const cover = this.dom.querySelector('.cover');
-		const coverRect = cover.getBoundingClientRect();
+		const coverRect = cover ? cover.getBoundingClientRect() : null;
 
-		gsap.set(cover, {
-			height: 0,
-		})
+		if(cover){
+			gsap.set(cover, {
+				height: 0,
+			})
+		}
 
 		this.dom.classList.add('active');
 
+		if(!closeUp) this.dom.classList.add('no-closeup');
+		
+
 		const delay = closeUp ? 4 : 2;	
-		const tl = gsap.timeline({ paused: true, delay })
+		const tl = gsap.timeline({ paused: true, delay })		
 
 		tl
 			.addLabel('start')
 			.to(this.closeButton, {
 				scale: 1,
 				duration: 1,
+				delay: 1,
 				ease: 'power2.inOut',
 				clearProps: 'all',
-			}, 'start')
-			.to(this.dom.querySelector('.cover'), {
-				height: coverRect.height,
-				duration: 1,
-				ease: 'power2.inOut',
-				clearProps: 'height',
 			}, 'start')
 			.to(this.sections, {
 				height: sectionRect.height,
@@ -227,6 +227,17 @@ export class PopupInfo {
 				}
 			})
 
+			if(cover){
+				tl.add(
+					gsap.to(cover, {
+						height: coverRect.height,
+						duration: 1,
+						ease: 'power2.inOut',
+						clearProps: 'height',
+					})
+				, 'start')
+			}
+
 			tl.play();
 	}
 
@@ -235,6 +246,7 @@ export class PopupInfo {
 		
 		this.active = false;
 		this.dom.classList.remove('active');
+		this.dom.classList.remove('no-closeup');
 		for(const section of this.sections) section.classList.remove('active');
 	}
 

@@ -66,7 +66,7 @@ export function enablePopup(name: string, info: boolean = true) {
 	popup.label.select();
 
 	if(info) {
-		popup.info.show();
+		popup.info.show(popup.label.ref.closeUp);
 	} 
 		
 	for(const _popup of popups){
