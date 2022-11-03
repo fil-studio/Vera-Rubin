@@ -1,6 +1,6 @@
 import { Vector3 } from "three";
 import { getCategory } from "../data/Categories";
-import { PlanetDataMap } from "./Planet";
+import { PlanetDataMap, PLANET_SCALE } from "./Planet";
 import { calculateOrbit, EPOCH, getMeanAnomaly, OrbitElements, OrbitType } from "./SolarSystem";
 import { MJD2JD, SolarTimeManager } from "./SolarTime";
 
@@ -74,21 +74,6 @@ export function getTypeStr(type:OrbitType): string {
     return 'Hyperbolic';
 }
 
-export function getDataString(dEl:OrbitDataElements):string {
-    const type = getOrbitType(dEl);
-    return `
-        ${dEl.Name}
-        Node: ${dEl.Node}
-        a: ${dEl.a}
-        e: ${dEl.e}
-        i: ${dEl.i}
-        Peri: ${dEl.Peri}
-        M: ${dEl.M}
-        n: ${dEl.n}
-        Orbit Type: ${getTypeStr(type)}
-    `;
-}
-
 export const openFileDialog = (accept, callback) => {
 	// Create an input element
 	var inputElement = document.createElement('input');
@@ -133,7 +118,7 @@ export function getDistanceFromSunNow(data:OrbitDataElements): number {
 
     calculateOrbit(mel, mjd, tmp1);
 
-    return tmp1.length()
+    return tmp1.length() / PLANET_SCALE;
 }
 
 export function getDistanceFromEarthNow(data:OrbitDataElements): number {
@@ -151,5 +136,5 @@ export function getDistanceFromEarthNow(data:OrbitDataElements): number {
     
     calculateOrbit(earthData, mjd, tmp2);    
     
-    return tmp2.distanceTo(tmp1);
+    return tmp2.distanceTo(tmp1) / PLANET_SCALE;
 }

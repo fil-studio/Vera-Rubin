@@ -209,12 +209,17 @@ class CameraController {
     private getTargetSC(target:InteractiveObject):ShpericalCoords {
         const sc = this.getSC(target.position, target.lockedOffset);
         const dA = Math.abs(sphericalCoords.angle - sc.angle);
+        const angle = sphericalCoords.angle;
+        const pi = Math.PI;
+        const tp = 2*pi;
 
-        if(dA > Math.PI) {
-            // console.log('correct angle');
-            
-            if(sc.angle > Math.PI) sc.angle += 2*Math.PI;
-            else sc.angle -= 2*Math.PI;
+        if(dA > pi) {
+            if(angle > pi && sc.angle < pi) {
+                sc.angle += tp;
+            }
+            if(angle < pi && sc.angle > pi) {
+                sc.angle -= tp;
+            }
         }
 
         return sc;
