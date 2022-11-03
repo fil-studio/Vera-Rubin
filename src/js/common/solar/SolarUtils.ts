@@ -92,27 +92,6 @@ export const openFileDialog = (accept, callback) => {
 	inputElement.dispatchEvent(new MouseEvent('click'));
 };
 
-/**
- * Returns a Date object at a given MJD
- * @param mjd MJD
- * @returns Date Object
- */
-export function MJD2Date(mjd:number):Date {
-    return JD2Date(MJD2JD(mjd));
-}
-
-/**
- * Returns a Date object at a given JD
- * @param d JD
- * @returns Date Object
- */
- export function JD2Date(d:number):Date {
-    const unixMs = ( d - 2440587.5) * 86400000;
-    const date = new Date(unixMs);
-
-    return date;
-}
-
 export function getClosestDateToSun(data:OrbitDataElements):Date {
 
     const d = SolarTimeManager.getMJDonDate(new Date());
@@ -120,7 +99,7 @@ export function getClosestDateToSun(data:OrbitDataElements):Date {
     const M = getMeanAnomaly(mel, d) % 360;
     const tperi = MJD2JD(d + (360-M) / mel.n);
 
-    return JD2Date(tperi);
+    return SolarTimeManager.JD2Date(tperi);
 }
 
 export function getDistanceFromSunNow(data:OrbitDataElements): number {
