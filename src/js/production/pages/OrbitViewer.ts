@@ -70,6 +70,9 @@ export class OrbitViewer extends Page implements PanelsListener {
 			if(this.toggleLabelsInput.input.checked) popup.label.dom.classList.remove('customize-hidden');
 			else popup.label.dom.classList.add('customize-hidden');
 		}
+
+		console.log('toggleLabels');
+
 		CoreAppSingleton.instance.orbitsVisibility = !this.toggleLabelsInput.input.checked;
 	}
 
@@ -77,14 +80,6 @@ export class OrbitViewer extends Page implements PanelsListener {
 
 		this.active = !this.active;
 		this.customizeViewWrapper.classList.toggle('active');
-
-		// if(this.active){
-		// 	this.customizeViewWrapper.classList.add('to-front');
-		// } else {
-		// 	setTimeout(() => {
-		// 		this.customizeViewWrapper.classList.remove('to-front');
-		// 	}, 500);
-		// }
 
 	}
 	

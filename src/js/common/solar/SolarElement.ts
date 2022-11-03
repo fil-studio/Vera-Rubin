@@ -64,14 +64,18 @@ export class SolarElement extends Object3D implements InteractiveObject {
 
         let scl = .001;
 
+        console.log(this.data.epoch);
+        
+
         this.scale.multiplyScalar(scl);
 
         const lineGeo = new BufferGeometry();
         const pos = new Float32Array([0,0,0,10,10,10]);
         lineGeo.setAttribute('position', new BufferAttribute(pos, 3));
         this.sunLine = new Line(lineGeo, L_DUMMY);        
-
+        
         this.orbitPath = new EllipticalPath(_data, scl*.8);
+        
 
         this.mesh = new Mesh(PLANET_GEO, this.initMaterial(opts));
         this.mesh.visible = false;

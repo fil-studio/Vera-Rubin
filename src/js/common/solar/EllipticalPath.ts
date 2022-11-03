@@ -31,7 +31,7 @@ export class EllipticalPath {
         // build path
         const date = new Date();
         const first = new Vector3();
-
+        
         if(el.type != OrbitType.Elliptical) {
             console.warn("Object does not have an elliptical orbit", el);
         }
@@ -41,6 +41,7 @@ export class EllipticalPath {
         this.orbitElements = el;
 
         if(el.type === OrbitType.Elliptical) {
+            
             let d = SolarTimeManager.getMJDonDate(date);
             calculateOrbitByType(el, d, OrbitType.Elliptical, first);
             this.pts.push(first);
@@ -64,7 +65,7 @@ export class EllipticalPath {
 
             const pos = [];
             const weight = [];
-            let k = 0;
+            let k = 0;            
 
             for(const p of this.pts) {
                 pos.push(p.x, p.y, p.z);
@@ -115,7 +116,7 @@ export class EllipticalPath {
             geo.computeBoundingBox();
             this.boundingBox = geo.boundingBox;
 
-            const dR = Math.min(r/20, .000025) / PLANET_SCALE;
+            const dR = Math.min(r/20, .000025) / PLANET_SCALE;            
 
             for (let i=0; i<20; i++) {
                 const l1 = new Line(geo, mat);
@@ -134,6 +135,7 @@ export class EllipticalPath {
                 this.ellipse.add(l4);
                 l4.position.set(0, 0, -dR*i); 
             }
+            
         } else {
             this.boundingBox = new Box3(
                 new Vector3(),
@@ -146,6 +148,7 @@ export class EllipticalPath {
 
     update(d:number, target:Vector3, radius:number) {
         if(this.type !== OrbitType.Elliptical) return;
+        
         const mat = this.material;
         if(mat.shader) {
             mat.shader.uniforms.d.value = d;
