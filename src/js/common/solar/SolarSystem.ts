@@ -57,6 +57,7 @@ export function cloneOrbitElements(src:OrbitElements):OrbitElements {
         n: src.n,
         q: src.q,
         Tp: src.Tp,
+        epoch: src.epoch,
         type: src.type,
         epoch: src.epoch,
         category: src.category

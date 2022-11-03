@@ -142,7 +142,7 @@ export class CoreApp extends WebGLSketch {
                         if(DEV) console.log('Loading Interactive Solar Elements...');
                         fetchSolarElements(solarItems).then((res) => {
 
-                            const d = res;
+                            const d = res;                            
                             this.createSolarItems(d)
 
                             loadData(()=> {
@@ -241,10 +241,10 @@ export class CoreApp extends WebGLSketch {
 
         for(const el of d) {
 
-            el.tperi = JD2MJD(el.tperi);
-
+            el.tperi = JD2MJD(el.tperi);            
             const mel = mapOrbitElements(el);
             const category = categories.find(x => x.slug === mel.category);
+            
             const planet = new SolarElement(el.id, mel, {
                 color: category.mainColor
             });

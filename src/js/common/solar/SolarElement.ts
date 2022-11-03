@@ -62,10 +62,7 @@ export class SolarElement extends Object3D implements InteractiveObject {
         this.name = id;
         this.category = _data.category;
 
-        let scl = .001;
-
-        console.log(this.data.epoch);
-        
+        let scl = .001;        
 
         this.scale.multiplyScalar(scl);
 
