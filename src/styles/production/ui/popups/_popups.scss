@@ -42,3 +42,13 @@
 .page__guided-experiences-tours .popups-close {
 	display: none;
 }
+
+.popups-selected .site__wrapper {
+	.navigation,
+	.back-button {
+		opacity: 0;
+		&, * {
+			pointer-events: none;
+		}
+	}
+}
