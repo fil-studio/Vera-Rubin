@@ -1,4 +1,3 @@
-import { MathUtils } from "@jocabola/math";
 import { isMobile } from "@jocabola/utils";
 import gsap from "gsap";
 import { solarClock } from "../../../common/core/CoreApp";
@@ -21,9 +20,9 @@ export class TimePickerPanel extends Panel {
 
 	state:STATE = 0;
 
-	reset: HTMLButtonElement;
-	edit: HTMLButtonElement;
-	pause: HTMLButtonElement;
+	resetButton: HTMLButtonElement;
+	editButton: HTMLButtonElement;
+	pauseButton: HTMLButtonElement;
 
 	subPanel: TimePickerSubPanel;
 
@@ -34,14 +33,16 @@ export class TimePickerPanel extends Panel {
 	date: Date; 
 	domDate: HTMLElement;
 
+	arrowsTl:GSAPTimeline;
+
 	create(){
 		this.timer = document.querySelector('.timer');
 		this.icon = this.timer.querySelector('.timer-icon');
 
 		const buttonsZone = this.dom.querySelector('.time-picker-details');
-		this.reset = buttonsZone.querySelector('[data-timer="reset"]');
-		this.edit = buttonsZone.querySelector('[data-timer="edit"]');
-		this.pause = buttonsZone.querySelector('[data-timer="pause"]');
+		this.resetButton = buttonsZone.querySelector('[data-timer="reset"]');
+		this.editButton = buttonsZone.querySelector('[data-timer="edit"]');
+		this.pauseButton = buttonsZone.querySelector('[data-timer="pause"]');
 
 		this.subPanel = panels.find(x => x.id === 'time-picker-subpanel') as TimePickerSubPanel;
 		
@@ -49,6 +50,8 @@ export class TimePickerPanel extends Panel {
 
 		this.date = new Date();
 		this.domDate = this.dom.querySelector('.time-picker-details p span');
+
+		this.arrowsTl = createArrowsTl();
 	}
 
 	addEventListeners(): void {
@@ -61,25 +64,28 @@ export class TimePickerPanel extends Panel {
 			}
 		})
 
-		this.reset.addEventListener('click', () => {	
-			solarClock.setDate();
-			this.subPanel.dateInputReset();
-			this.range.value = '0';
+		this.resetButton.addEventListener('click', () => {	
+			this.reset()
 		})
 
-		this.pause.addEventListener('click', () => {	
+		this.pauseButton.addEventListener('click', () => {	
 			this.state = STATE.ACTIVE;
 			this.range.value = '0';
 		})
 
-		this.edit.addEventListener('click', () => {
+		this.editButton.addEventListener('click', () => {
 			this.state = STATE.EDIT;
 			this.toggleSubPanel();
 		})
 
-
 		super.addEventListeners();
 		
+	}
+
+	reset(){
+		solarClock.setDate();
+		this.subPanel.dateInputReset();
+		this.range.value = '0';
 	}
 
 	toggleSubPanel(){
@@ -113,20 +119,104 @@ export class TimePickerPanel extends Panel {
 	changeState(){
 		this.timer.setAttribute('state', `${this.state}`);
 		if(this.state === STATE.HIDDEN){
+			this.arrowsTlReverse();
 			setTimeout(() => {
 				this.timer.classList.remove('on-top');
 			}, 500);
 		}
 		if(this.state === STATE.ACTIVE){
-			this.timer.classList.add('on-top');
+			this.timer.classList.add('on-top');			
+			this.arrowsTlPlay();
 			this.togglePanel();
 		}
+	}
+
+	arrowsTlPlay(){
+		this.arrowsTl.timeScale(1.2);
+		this.arrowsTl.play();
+	}
+	arrowsTlReverse(){
+		this.arrowsTl.timeScale(5);
+		this.arrowsTl.reverse();
 	}
 
 	update(): void {
 		const date = formatDate(solarClock.currentDate);
 		this.domDate.innerText = date;		
 	}
+}
+
+const createArrowsTl = ():GSAPTimeline => {
+	const tl = gsap.timeline({ paused: true });
+
+	tl.addLabel('start', 0.2)
+
+	const wrapper = document.querySelector('.timer-chevs');
+
+	// Set all paths to alpha 0
+	const paths = wrapper.querySelectorAll('path');
+	for(const path of paths) {
+		gsap.set(path, { autoAlpha: 0 })
+	}
+
+	// Range tween
+	// gsap.set(this.range, { scaleX: 0, transformOrigin: 'center' });
+	// tl.add(gsap.to(this.range, { scaleX: 1, duration: 2, ease: 'expo.out' }), 'start');
+
+	// Create chevron tweens
+	const past = wrapper.querySelectorAll('[class^="past"]');
+	const future = wrapper.querySelectorAll('[class^="future"]');
+
+	for(let i = 0; i<=2; i++){
+
+		const ii = i + 1;
+
+		const distance = isMobile() ? 40 : 58;
+		const initialOffset = 20;
+		const distanceBetweenChevrons = 7;
+
+		gsap.set(past[i].querySelectorAll('path'), {
+			x: (index, element) => {
+				const offset = distanceBetweenChevrons * index;
+				return (distance * ii) + offset - initialOffset;
+			},
+		})
+		gsap.set(future[i].querySelectorAll('path'), {
+			x: (index, element) => {
+				const offset = distanceBetweenChevrons * index;
+				return -(distance * ii) - offset + initialOffset;
+			},
+		})
+
+		const pastTween = gsap.to(past[i].querySelectorAll('path'), {
+			x: (index, element) => {
+				const offset = distanceBetweenChevrons * index;
+				return (distance * ii) + offset
+			},
+			autoAlpha: 1,
+			ease: 'expo.out',
+			duration: 1.5,
+			stagger: 0.1
+		})
+		const futureTween = gsap.to(future[i].querySelectorAll('path'), {
+			x: (index, element) => {
+				const offset = distanceBetweenChevrons * index;
+				return -(distance * ii) - offset
+			},
+			autoAlpha: 1,
+			ease: 'expo.out',
+			duration: 1.5,
+			stagger: 0.1
+		})
+
+		const start = 0.2 * ii;
+		tl.add(pastTween, `start+=${start}`)
+		tl.add(futureTween, `start+=${start}`)
+
+	}
+
+
+	return tl;
 }
 
 
@@ -184,80 +274,7 @@ export class TimePickerPanel extends Panel {
 
 // 	}
 
-// 	createTl(){
-// 		this.tl = gsap.timeline({
-// 			paused: true,
-// 		});
 
-// 		this.tl.addLabel('start', 0.5)
-
-// 		this.tl.timeScale(1.2);
-
-// 		const wrapper = this.dom.querySelector('.time-picker-input svg');
-	
-// 		// Set all paths to alpha 0
-// 		const paths = wrapper.querySelectorAll('path');
-// 		for(const path of paths) {
-// 			gsap.set(path, { autoAlpha: 0 })
-// 		}
-
-// 		// Range tween
-// 		gsap.set(this.range, { scaleX: 0, transformOrigin: 'center' });
-// 		this.tl.add(gsap.to(this.range, { scaleX: 1, duration: 2, ease: 'expo.out' }), 'start');
-
-// 		// Create chevron tweens
-// 		const past = wrapper.querySelectorAll('[class^="past"]');
-// 		const future = wrapper.querySelectorAll('[class^="future"]');
-
-// 		for(let i = 0; i<=2; i++){
-
-// 			const ii = i + 1;
-
-// 			const distance = isMobile() ? 40 : 60;
-// 			const initialOffset = 20;
-// 			const distanceBetweenChevrons = 7;
-
-// 			gsap.set(past[i].querySelectorAll('path'), {
-// 				x: (index, element) => {
-// 					const offset = distanceBetweenChevrons * index;
-// 					return (distance * ii) + offset - initialOffset;
-// 				},
-// 			})
-// 			gsap.set(future[i].querySelectorAll('path'), {
-// 				x: (index, element) => {
-// 					const offset = distanceBetweenChevrons * index;
-// 					return -(distance * ii) - offset + initialOffset;
-// 				},
-// 			})
-
-// 			const pastTween = gsap.to(past[i].querySelectorAll('path'), {
-// 				x: (index, element) => {
-// 					const offset = distanceBetweenChevrons * index;
-// 					return (distance * ii) + offset
-// 				},
-// 				autoAlpha: 1,
-// 				ease: 'expo.out',
-// 				duration: 1.5,
-// 				stagger: 0.1
-// 			})
-// 			const futureTween = gsap.to(future[i].querySelectorAll('path'), {
-// 				x: (index, element) => {
-// 					const offset = distanceBetweenChevrons * index;
-// 					return -(distance * ii) - offset
-// 				},
-// 				autoAlpha: 1,
-// 				ease: 'expo.out',
-// 				duration: 1.5,
-// 				stagger: 0.1
-// 			})
-
-// 			const start = 0.2 * ii;
-// 			this.tl.add(pastTween, `start+=${start}`)
-// 			this.tl.add(futureTween, `start+=${start}`)
-
-// 		}
-		
-// 	}
 
 // 	createClockTl(){
 
