@@ -63,6 +63,7 @@ export class TimePickerPanel extends Panel {
 
 		this.reset.addEventListener('click', () => {	
 			solarClock.setDate();
+			this.subPanel.dateInputReset();
 			this.range.value = '0';
 		})
 
