@@ -4,7 +4,8 @@ import { Search } from "../partials/Search";
 import { shareInit } from "../partials/Share";
 import { Input } from "../ui/inputs/Input";
 import { addInputs, inputInterface, inputs } from "../ui/inputs/InputsManager";
-import { addPanelListener, addPanels, PanelsListener } from "../ui/panels/PanelsManager";
+import { addPanelListener, addPanels, panels, PanelsListener } from "../ui/panels/PanelsManager";
+import { TimePickerPanel } from "../ui/panels/TimePickerPanel";
 import { popups, updatePopups } from "../ui/popups/PopupsManager";
 import { Page } from "./Page";
 
@@ -59,6 +60,9 @@ export class OrbitViewer extends Page implements PanelsListener {
 		this.toggleLabelsInput.input.checked = true;
 		this.toggleLabelsInput.input.checkState();
 		this.toggleLabels();
+
+		const timePicker = panels.find(x => x.id === 'time-picker') as TimePickerPanel;
+		timePicker.reset();
 	}
 
 	toggleStars(){

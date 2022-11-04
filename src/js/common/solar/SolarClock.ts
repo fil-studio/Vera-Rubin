@@ -56,7 +56,7 @@ export class SolarClock {
      * The number of hours equivalent per second.
      * 0 means real-time, 1 one hour per second, 2 two hours per second, etc.
      */
-    get secsPerhour():number {
+    get secsPerHour():number {
         return this.targetSpeed;
     }
 
@@ -136,7 +136,7 @@ export class SolarClock {
             this.speed = this.targetSpeed;
         } else {
             this.speed = MathUtils.lerp(this.speed, this.targetSpeed, .16);
-        }
+        }                
         
         this.date.setTime(this.date.getTime() + dt * 1000 + this.speed * HRSPSEC * dt);
 
@@ -148,7 +148,7 @@ export class SolarClock {
         if(this.date.getTime() > this.edge2.getTime()) {
             this.date.setTime(this.edge2.getTime())
         }
-
+        
         return SolarTimeManager.getMJDonDate(this.date);
     }
 

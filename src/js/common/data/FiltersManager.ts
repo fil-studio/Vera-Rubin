@@ -57,20 +57,20 @@ export const distance = {
 	},
 	search: {
 		min: 0,
-		max: 0
+		max: 999999
 	}
 }
 
 export const discover = {
 	min: SolarTimeManager.getMJDonDate(new Date(1850)),
-	max: SolarTimeManager.getMJDonDate(),
+	max: SolarTimeManager.getMJDonDate(new Date()),
 	value: {
 		min: 0,
 		max: 1
 	},
 	search: {
-		min: 0,
-		max: 0
+		min: SolarTimeManager.getMJDonDate(new Date(1850)),
+		max: SolarTimeManager.getMJDonDate(new Date())
 	}
 }
 
@@ -141,7 +141,7 @@ export const applyFilters = (domFilters: NodeListOf<HTMLInputElement>) => {
 	
 	const needsUpdate = saveSelectedFilters(domFilters);	
 	const sameDistance = calculateDistance();
-	const sameDiscover = calculateDiscover();
+	const sameDiscover = calculateDiscover();	
 
 	if(!needsUpdate && sameDistance && sameDiscover) {
 		applyFilterSolarElements();
@@ -231,7 +231,7 @@ const calculateDistance = () => {
 
 	const newMin = MathUtils.map(distance.value.min, 0, 1, distance.min, distance.max);
 	const newMax = MathUtils.map(distance.value.max, 0, 1, distance.min, distance.max);
-
+	
 	const same = newMin === distance.search.min && newMax === distance.search.max;
 
 	distance.search.min = newMin;
@@ -240,7 +240,7 @@ const calculateDistance = () => {
 	return same;
 }
 
-const calculateDiscover = () => {
+const calculateDiscover = () => {	
 
 	const newMin = MathUtils.map(discover.value.min, 0, 1, discover.min, discover.max);
 	const newMax = MathUtils.map(discover.value.max, 0, 1, discover.min, discover.max);

@@ -146,6 +146,9 @@ export async function getMinMaxAByCategory () {
 	distance.min = min;
 	distance.max = max;
 	
+	distance.search.min = min;
+	distance.search.max = max;
+	
 }
 
 export const getMinMaxPlanetsA = (d:Array<OrbitDataElements>) => {

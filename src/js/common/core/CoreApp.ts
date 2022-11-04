@@ -379,10 +379,9 @@ export class CoreApp extends WebGLSketch {
 		super.update();
 
 		CameraManager.update();
-        console.log(this.solarClock.secsPerHour);
         
         if(this.clockChanged()) this.solarClock.secsPerHour = CLOCK_SETTINGS.speed;
-		const d = this.solarClock.update();
+		const d = this.solarClock.update();        
 		
 		particles.update(d, this.camera as PerspectiveCamera);
 		

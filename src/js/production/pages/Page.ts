@@ -28,13 +28,10 @@ export class Page {
 	}
 
 	show(){
-		
 	}
 
 	hide(){		
 		broadcastPanelsClose();
-		solarClock.pause();
-
 		for(const input of inputs) input.input.reset();
 	}
 	

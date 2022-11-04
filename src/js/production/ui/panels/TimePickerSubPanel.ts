@@ -14,8 +14,6 @@ export class TimePickerSubPanel extends Panel {
 		this.subPanelCancel = this.dom.querySelector('[data-button="close-edit"]');
 		this.subPanelInput = this.dom.querySelector('input[type="date"]');
 
-		this.subPanelInput.setAttribute('max', getMaxDate());
-		
 		this.dateInputReset();
 	}
 
@@ -47,8 +45,8 @@ export class TimePickerSubPanel extends Panel {
 		
 		if(!!!this.subPanelInput.valueAsDate) {
 			return;
-		}
-		const date = new Date(this.subPanelInput.valueAsDate);
+		}		
+		const date = new Date(this.subPanelInput.valueAsDate);		
 		solarClock.setDate(date);
 		
 	}
@@ -64,12 +62,4 @@ export class TimePickerSubPanel extends Panel {
 const getParentPanel = ():TimePickerPanel => {
 	const panel = panels.find(x => x.id === 'time-picker') as TimePickerPanel;	
 	return panel;
-}
-
-const getMaxDate = ():string => {
-	const d = new Date();
-	let dd = d.getDate();
-	let mm = d.getMonth() + 1;
-	const yyyy = d.getFullYear();
-	return `${yyyy}-${mm < 10 ? `0${mm}` : mm}-${dd<10 ? `0${dd}` : dd}`;
 }

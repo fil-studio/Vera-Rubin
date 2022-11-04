@@ -126,6 +126,8 @@ export class TimePickerPanel extends Panel {
 	}
 
 	reset(){
+		console.log('reset');
+		
 		solarClock.setDate();
 		this.subPanel.dateInputReset();
 		this.pause();
@@ -135,6 +137,7 @@ export class TimePickerPanel extends Panel {
 		this.range.valueAsNumber = 0;
 		this.timer.style.setProperty('--thumb-x', `0.5`);
 		this.value = 0;
+		CLOCK_SETTINGS.speed = this.value * CLOCK_SETTINGS.maxSpeed;
 	}
 
 	toggleSubPanel(){
