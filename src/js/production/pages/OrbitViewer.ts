@@ -62,7 +62,7 @@ export class OrbitViewer extends Page implements PanelsListener {
 		this.toggleLabels();
 
 		const timePicker = panels.find(x => x.id === 'time-picker') as TimePickerPanel;
-		timePicker.reset();
+		timePicker.leave();
 	}
 
 	toggleStars(){

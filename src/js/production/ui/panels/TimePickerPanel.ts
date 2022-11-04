@@ -10,9 +10,9 @@ import { TimePickerSubPanel } from "./TimePickerSubPanel";
 
 export enum STATE {
 	HIDDEN,
+	HIDDEN_EDITED,
 	ACTIVE,
 	EDIT,
-	HIDDEN_EDITED
 }
 
 
@@ -64,6 +64,12 @@ export class TimePickerPanel extends Panel {
 		this.arrowsTl = createArrowsTl();
 	}
 
+	leave(){
+		this.reset();
+		this.state = STATE.HIDDEN;
+		this.changeState();
+	}
+
 	onMousedown(e) {
 		this.dragging = true;
 
@@ -97,11 +103,10 @@ export class TimePickerPanel extends Panel {
 		
 		this.icon.addEventListener('mousedown', (e) => {
 			this.onMousedown(e);
-			if(this.state === 0){
-				this.state = STATE.ACTIVE;
-				this.changeState();
-				return;
-			}
+			if(this.state === STATE.ACTIVE) return;
+			this.state = STATE.ACTIVE;
+			this.changeState();
+			
 		})
 
 		window.addEventListener('mousemove', (e) => {
@@ -121,13 +126,24 @@ export class TimePickerPanel extends Panel {
 			this.toggleSubPanel();
 		})
 
-		super.addEventListeners();
+
+		const buttons = document.querySelectorAll(`[data-panel-button="${this.id}"]`);
+		if(buttons.length === 0) return;		
+
+		for(const button of buttons){
+			button.addEventListener('click', () => { 							
+				if(this.state === STATE.ACTIVE) {					
+					this.state = this.value === 0 ? STATE.HIDDEN : STATE.HIDDEN_EDITED;
+				} else {
+					this.state = STATE.ACTIVE;
+				}
+				this.changeState();
+			})
+		}
 		
 	}
 
-	reset(){
-		console.log('reset');
-		
+	reset(){		
 		solarClock.setDate();
 		this.subPanel.dateInputReset();
 		this.pause();
@@ -141,41 +157,32 @@ export class TimePickerPanel extends Panel {
 	}
 
 	toggleSubPanel(){
-		if(this.state === STATE.EDIT) this.subPanel.togglePanel();
-		else this.subPanel.closePanel(true);
-	}
-
-	togglePanel(): void {
-		if(this.active) {
+		if(this.state === STATE.EDIT) {
+			this.subPanel.togglePanel();
 			this.state = STATE.HIDDEN;
 			this.changeState();
-		}
-
-		super.togglePanel();
-
-		// 		this.active = this.state > 0;
-		// 		if(this.active) this.dom.classList.add('active');
-		// 		else this.dom.classList.remove('active');
-
-		// 		if(this.state === 2) this.subPanel.classList.add('active');
-		// 		else this.subPanel.classList.remove('active');
-
-		// 		if(this.state > 0) this.orbitButton.classList.add('hidden');
-		// 		else this.orbitButton.classList.remove('hidden');
-
-		// 		if(this.state === 1) this.animationPlay();
-		// 		if(this.state === 0) this.animationReset();
-		// 		if(this.state !== 2) this.dateInputReset();
+		} else this.subPanel.closePanel(true);
 	}
 
 	changeState(){
 		this.timer.setAttribute('state', `${this.state}`);
+
 		if(this.state === STATE.HIDDEN){
 			this.arrowsTlReverse();
 			setTimeout(() => {
 				this.timer.classList.remove('on-top');
 			}, 500);
+			this.closePanel();
 		}
+
+		if(this.state === STATE.HIDDEN_EDITED){
+			this.arrowsTlReverse();
+			setTimeout(() => {
+				this.timer.classList.remove('on-top');
+			}, 500);
+			this.closePanel();
+		}
+
 		if(this.state === STATE.ACTIVE){
 			this.timer.classList.add('on-top');			
 			this.arrowsTlPlay();

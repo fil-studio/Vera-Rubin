@@ -17,6 +17,7 @@
 			padding: 0 0 10px 0;
 			@include light-3;
 			transition: opacity 0.5s ease-in-out;
+			user-select: none;		
 		}
 
 		.fake-range {
@@ -92,21 +93,27 @@
 		z-index: $toFrontIndex + 1;
 	}
 
-	&[state="0"]{
+	&[state="0"]{ // Hidden
 		.timer-labels {
 			opacity: 0;
 		}
-
 		.fake-range {
 			background-color: transparent;
 		}
 
 	}
-	&[state="1"]{
-		transform: translate(-50%, -40px);
-
+	&[state="1"]{ // Hidden edited
+		.timer-labels {
+			opacity: 0.5;
+		}
+		.fake-range {
+			background-color: rgba(98,102,102, 0.4);
+		}
 	}
-	&[state="2"]{
+	&[state="2"]{ // Active
+		transform: translate(-50%, -40px);
+	}
+	&[state="3"]{ // Edited
 
 	}
 
@@ -129,6 +136,7 @@
 .timer-picker-description {
 	text-align: center;
 	padding-bottom: 35px;
+	user-select: none;
 }
 
 .time-picker-details {
