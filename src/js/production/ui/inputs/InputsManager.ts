@@ -1,6 +1,5 @@
 import { Checkbox } from "./Checkbox";
 import { DateInput } from "./DateInput";
-import { DoubleRange } from "./DoubleRange";
 import { DoubleRangeDistance } from "./DoubleRangeDistance";
 import { DoubleRangeYear } from "./DoubleRangeYear";
 import { Asteroids } from "./filters/Asteroids";
@@ -12,7 +11,6 @@ import { PlanetsMoons } from "./filters/PlantsMoons";
 import { TransNeptunianObjects } from "./filters/TransNeptunianObjects";
 import { Input } from "./Input";
 import { Radio } from "./Radio";
-import { TimePickerRange } from "./___TimePickerRange";
 import { ZoomRange } from "./ZoomRange";
 
 export interface inputInterface {
@@ -61,7 +59,6 @@ export const addInputs = () => {
 				} 
 				if(type === 'range') {
 					if(el.hasAttribute('data-zoom')) item.input = new ZoomRange(el)
-					// if(el.hasAttribute('data-timer')) item.input = new TimePickerRange(el)
 				}
 				if(el.hasAttribute('data-date')) item.input = new DateInput(el);
 

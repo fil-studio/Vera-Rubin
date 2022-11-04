@@ -19,10 +19,6 @@ export class Panel implements PanelsListener {
 
 	}
 
-	leave(){
-		this.closePanel();
-	}
-
 	create(){
 	}
 

@@ -1,6 +1,8 @@
+import { MathUtils } from "@jocabola/math";
 import { isMobile } from "@jocabola/utils";
 import gsap from "gsap";
 import { solarClock } from "../../../common/core/CoreApp";
+import { CLOCK_SETTINGS } from "../../../common/core/Globals";
 import { formatDate } from "../../utils/Dates";
 import { Panel } from "./Panel";
 import { panels } from "./PanelsManager";
@@ -17,8 +19,9 @@ export enum STATE {
 export class TimePickerPanel extends Panel {
 	timer: HTMLElement;
 	icon: HTMLElement;
+	fakeRange: HTMLElement;
 
-	state:STATE = 0;
+	state: STATE = 0;
 
 	resetButton: HTMLButtonElement;
 	editButton: HTMLButtonElement;
@@ -33,11 +36,17 @@ export class TimePickerPanel extends Panel {
 	date: Date; 
 	domDate: HTMLElement;
 
-	arrowsTl:GSAPTimeline;
+	arrowsTl: GSAPTimeline;
+
+	dragging: boolean = false;
+	draggingOriginalX: number = 0;
+	draggingOriginalValue: number = 0;
+	draggingRangeW: number = 0;
 
 	create(){
 		this.timer = document.querySelector('.timer');
 		this.icon = this.timer.querySelector('.timer-icon');
+		this.fakeRange = this.timer.querySelector('.fake-range');
 
 		const buttonsZone = this.dom.querySelector('.time-picker-details');
 		this.resetButton = buttonsZone.querySelector('[data-timer="reset"]');
@@ -47,6 +56,7 @@ export class TimePickerPanel extends Panel {
 		this.subPanel = panels.find(x => x.id === 'time-picker-subpanel') as TimePickerSubPanel;
 		
 		this.range = this.timer.querySelector('input');
+		this.value = this.range.valueAsNumber;
 
 		this.date = new Date();
 		this.domDate = this.dom.querySelector('.time-picker-details p span');
@@ -54,9 +64,39 @@ export class TimePickerPanel extends Panel {
 		this.arrowsTl = createArrowsTl();
 	}
 
+	onMousedown(e) {
+		this.dragging = true;
+
+		const r = this.fakeRange.getBoundingClientRect();
+		this.draggingRangeW = r.width;
+
+		this.draggingOriginalX = e.clientX;
+
+		this.draggingOriginalValue = MathUtils.map(this.value, -1, 1, 0, this.draggingRangeW);
+
+		window.addEventListener('mouseup', () => {
+			this.dragging = false;
+			this.draggingOriginalX = 0;
+		}, { once: true })
+	
+	}
+
+	onMousemove(e) {
+		if(!this.dragging) return;
+
+		const movementDistance = this.draggingOriginalValue + (e.clientX - this.draggingOriginalX);		
+		const newValue = MathUtils.clamp(MathUtils.map(movementDistance, 0, this.draggingRangeW, -1, 1), -1, 1);
+		
+		this.timer.style.setProperty('--thumb-x', `${MathUtils.map(newValue, -1, 1, 0, 1)}`);
+		this.range.valueAsNumber = newValue;
+		this.value = newValue;		
+		
+	}
+
 	addEventListeners(): void {
 		
 		this.icon.addEventListener('mousedown', (e) => {
+			this.onMousedown(e);
 			if(this.state === 0){
 				this.state = STATE.ACTIVE;
 				this.changeState();
@@ -64,13 +104,16 @@ export class TimePickerPanel extends Panel {
 			}
 		})
 
+		window.addEventListener('mousemove', (e) => {
+			this.onMousemove(e);
+		})
+
 		this.resetButton.addEventListener('click', () => {	
 			this.reset()
 		})
 
 		this.pauseButton.addEventListener('click', () => {	
-			this.state = STATE.ACTIVE;
-			this.range.value = '0';
+			this.pause();
 		})
 
 		this.editButton.addEventListener('click', () => {
@@ -85,7 +128,13 @@ export class TimePickerPanel extends Panel {
 	reset(){
 		solarClock.setDate();
 		this.subPanel.dateInputReset();
-		this.range.value = '0';
+		this.pause();
+	}
+
+	pause(){
+		this.range.valueAsNumber = 0;
+		this.timer.style.setProperty('--thumb-x', `0.5`);
+		this.value = 0;
 	}
 
 	toggleSubPanel(){
@@ -141,8 +190,12 @@ export class TimePickerPanel extends Panel {
 	}
 
 	update(): void {
+		if(this.state === STATE.HIDDEN) return;
+		
 		const date = formatDate(solarClock.currentDate);
 		this.domDate.innerText = date;		
+		
+		CLOCK_SETTINGS.speed = this.value * CLOCK_SETTINGS.maxSpeed;
 	}
 }
 
@@ -159,11 +212,6 @@ const createArrowsTl = ():GSAPTimeline => {
 		gsap.set(path, { autoAlpha: 0 })
 	}
 
-	// Range tween
-	// gsap.set(this.range, { scaleX: 0, transformOrigin: 'center' });
-	// tl.add(gsap.to(this.range, { scaleX: 1, duration: 2, ease: 'expo.out' }), 'start');
-
-	// Create chevron tweens
 	const past = wrapper.querySelectorAll('[class^="past"]');
 	const future = wrapper.querySelectorAll('[class^="future"]');
 
@@ -220,62 +268,6 @@ const createArrowsTl = ():GSAPTimeline => {
 }
 
 
-// export class TimePickerPanel extends Panel {
-// 	orbitButton: HTMLButtonElement;
-// 	thumb: HTMLButtonElement;
-// 	subPanel: HTMLElement;
-
-// 	date: Date; 
-// 	domDate: HTMLElement;
-
-// 	reset: HTMLButtonElement;
-// 	edit: HTMLButtonElement;
-// 	pause: HTMLButtonElement;
-
-// 	state: STATE = 0;
-
-// 	range: HTMLInputElement;
-// 	value: number = 0;
-// 	holding: boolean = false;
-
-// 	subPanelApply: HTMLButtonElement;
-// 	subPanelCancel: HTMLButtonElement;
-// 	subPanelInput: HTMLInputElement;
-
-// 	tl: GSAPTimeline;
-// 	tlPlayed: boolean = false;
-
-// 	tlClock: GSAPTimeline;
-	
-// 	constructor(id){
-// 		super(id);
-// 		this.updateTimer();
-// 	}
-
-// 	create(): void {
-
-// 		// Date 
-// 		this.date = new Date();
-// 		this.domDate = this.dom.querySelector('.time-picker-details p span');
-
-// 		// DOM
-// 		this.orbitButton = document.querySelector(`.time-picker`);
-// 		this.thumb = this.dom.querySelector('.time-picker-icon');
-// 		this.range = this.dom.querySelector('.time-picker-input input');
-
-// 		this.createTl();
-// 		this.createClockTl();
-// 	}
-
-// 	leave(){
-// 		super.leave();
-
-// 		this.range.value = '0';
-
-// 	}
-
-
-
 // 	createClockTl(){
 
 // 		const busques = this.dom.querySelectorAll('.time-picker-icon-wrapper svg g path');
@@ -309,67 +301,7 @@ const createArrowsTl = ():GSAPTimeline => {
 
 
 
-// 	closePanel(): void {
-// 		this.state = 0;
-// 		this.togglePanel();
-// 	}
 
-// 	togglePanel(): void {
-
-// 		this.active = this.state > 0;
-// 		if(this.active) this.dom.classList.add('active');
-// 		else this.dom.classList.remove('active');
-
-// 		if(this.state === 2) this.subPanel.classList.add('active');
-// 		else this.subPanel.classList.remove('active');
-
-// 		if(this.state > 0) this.orbitButton.classList.add('hidden');
-// 		else this.orbitButton.classList.remove('hidden');
-
-// 		if(this.state === 1) this.animationPlay();
-// 		if(this.state === 0) this.animationReset();
-// 		if(this.state !== 2) this.dateInputReset();
-		
-// 	}
-
-// 	addEventListeners(){
-
-// 		const buttons = document.querySelectorAll(`[data-panel-button="${this.id}"]`);
-// 		if(buttons.length === 0) return;
-
-// 		for(const button of buttons){
-// 			button.addEventListener('click', () => { 		
-// 				if(this.active) this.state = 0;
-// 				else this.state = 1;
-
-// 				this.togglePanel();
-// 			})
-// 		}
-
-// 		this.reset.addEventListener('click', () => {	
-// 			solarClock.setDate();
-// 			this.range.value = '0';
-// 		})
-
-// 		this.pause.addEventListener('click', () => {	
-// 			this.range.value = '0';
-// 		})
-
-// 		this.edit.addEventListener('click', () => {
-// 			this.state = 2;
-// 			this.togglePanel();
-// 		})
-
-// 		this.subPanelApply.addEventListener('click', () => {
-// 			this.updateTimer();
-// 		})
-
-// 		this.subPanelCancel.addEventListener('click', () => {
-// 			this.state = 1;
-// 			this.togglePanel();
-// 		})
-
-// 	}
 
 // 	update(){
 

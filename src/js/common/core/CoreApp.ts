@@ -15,7 +15,7 @@ import { SunLightHelper } from "../solar/SunLightHelper";
 import { CLOCK_SETTINGS, DEV } from "./Globals";
 
 import Stats from 'three/examples/jsm/libs/stats.module.js';
-import { historyBack, LOCATION } from "../../production/pagination/History";
+import { LOCATION } from "../../production/pagination/History";
 import { hideLoader } from "../../production/ui/loader";
 import { categories, getMinMaxAByCategory, getMinMaxPlanetsA } from "../data/Categories";
 import { fetchSolarElements } from "../data/FetchSolarElements";
@@ -371,7 +371,7 @@ export class CoreApp extends WebGLSketch {
         this.vfx.enableBackground = value;
     }
 
-    clockChanged():boolean {
+    clockChanged():boolean {                
         return (CLOCK_SETTINGS.speed !== this.solarClock.secsPerHour);
     }
 
@@ -379,8 +379,9 @@ export class CoreApp extends WebGLSketch {
 		super.update();
 
 		CameraManager.update();
-
-        if(this.clockChanged())this.solarClock.secsPerHour = CLOCK_SETTINGS.speed;
+        console.log(this.solarClock.secsPerHour);
+        
+        if(this.clockChanged()) this.solarClock.secsPerHour = CLOCK_SETTINGS.speed;
 		const d = this.solarClock.update();
 		
 		particles.update(d, this.camera as PerspectiveCamera);
