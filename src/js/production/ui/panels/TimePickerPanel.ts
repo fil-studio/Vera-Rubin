@@ -4,52 +4,122 @@ import gsap from "gsap";
 import { solarClock } from "../../../common/core/CoreApp";
 import { formatDate } from "../../utils/Dates";
 import { Panel } from "./Panel";
+import { panels } from "./PanelsManager";
+import { TimePickerSubPanel } from "./TimePickerSubPanel";
 
-enum STATE {
+export enum STATE {
 	HIDDEN,
 	ACTIVE,
-	EDIT
+	EDIT,
+	HIDDEN_EDITED
 }
 
 
 export class TimePickerPanel extends Panel {
 	timer: HTMLElement;
 	icon: HTMLElement;
+
 	state:STATE = 0;
+
+	reset: HTMLButtonElement;
+	edit: HTMLButtonElement;
+	pause: HTMLButtonElement;
+
+	subPanel: TimePickerSubPanel;
+
 
 	create(){
 		this.timer = document.querySelector('.timer');
-		this.icon = this.timer.querySelector('.timer-icon')
+		this.icon = this.timer.querySelector('.timer-icon');
+
+		const buttonsZone = this.dom.querySelector('.time-picker-details');
+		this.reset = buttonsZone.querySelector('[data-timer="reset"]');
+		this.edit = buttonsZone.querySelector('[data-timer="edit"]');
+		this.pause = buttonsZone.querySelector('[data-timer="pause"]');
+
+		this.subPanel = panels.find(x => x.id === 'time-picker-subpanel') as TimePickerSubPanel;
+		
 	}
 
 	addEventListeners(): void {
 		
 		this.icon.addEventListener('mousedown', (e) => {
 			if(this.state === 0){
-				this.state = 1;
+				this.state = STATE.ACTIVE;
 				this.changeState();
 				return;
 			}
-			if(this.state === 1){
-				this.state = 0;
-				this.changeState();
-				return;
-			}
+			// if(this.state === 1){
+			// 	this.state = STATE.HIDDEN;
+			// 	this.changeState();
+			// 	return;
+			// }
 		})
+
+		// 		this.reset.addEventListener('click', () => {	
+		// 			solarClock.setDate();
+		// 			this.range.value = '0';
+		// 		})
+
+		// 		this.pause.addEventListener('click', () => {	
+		// 			this.range.value = '0';
+		// 		})
+
+		this.edit.addEventListener('click', () => {
+			this.state = STATE.EDIT;
+			this.toggleSubPanel();
+		})
+
+		// 		this.subPanelApply.addEventListener('click', () => {
+		// 			this.updateTimer();
+		// 		})
+
+		// 		this.subPanelCancel.addEventListener('click', () => {
+		// 			this.state = 1;
+		// 			this.togglePanel();
+		// 		})
+
 
 		super.addEventListeners();
 		
 	}
 
+	toggleSubPanel(){
+		if(this.state === STATE.EDIT) this.subPanel.togglePanel();
+		else this.subPanel.closePanel(true);
+	}
+
+	togglePanel(): void {
+		if(this.active) {
+			this.state = STATE.HIDDEN;
+			this.changeState();
+		}
+
+		super.togglePanel();
+
+		// 		this.active = this.state > 0;
+		// 		if(this.active) this.dom.classList.add('active');
+		// 		else this.dom.classList.remove('active');
+
+		// 		if(this.state === 2) this.subPanel.classList.add('active');
+		// 		else this.subPanel.classList.remove('active');
+
+		// 		if(this.state > 0) this.orbitButton.classList.add('hidden');
+		// 		else this.orbitButton.classList.remove('hidden');
+
+		// 		if(this.state === 1) this.animationPlay();
+		// 		if(this.state === 0) this.animationReset();
+		// 		if(this.state !== 2) this.dateInputReset();
+	}
+
 	changeState(){
 		this.timer.setAttribute('state', `${this.state}`);
-		if(this.state === 0){
+		if(this.state === STATE.HIDDEN){
 			setTimeout(() => {
 				this.timer.classList.remove('on-top');
 			}, 500);
-			this.closePanel();
 		}
-		if(this.state === 1){
+		if(this.state === STATE.ACTIVE){
 			this.timer.classList.add('on-top');
 			this.togglePanel();
 		}
@@ -99,18 +169,6 @@ export class TimePickerPanel extends Panel {
 // 		this.orbitButton = document.querySelector(`.time-picker`);
 // 		this.thumb = this.dom.querySelector('.time-picker-icon');
 // 		this.range = this.dom.querySelector('.time-picker-input input');
-// 		this.subPanel = this.dom.querySelector('.sub-panel');
-
-// 		// Sub Panel Stuff
-// 		const buttonsZone = this.dom.querySelector('.time-picker-details');
-
-// 		this.reset = buttonsZone.querySelector('[data-timer="reset"]');
-// 		this.edit = buttonsZone.querySelector('[data-timer="edit"]');
-// 		this.pause = buttonsZone.querySelector('[data-timer="pause"]');
-
-// 		this.subPanelApply = this.subPanel.querySelector('[data-button="apply-date"]');
-// 		this.subPanelCancel = this.subPanel.querySelector('[data-button="close-edit"]');
-// 		this.subPanelInput = this.subPanel.querySelector('input[type="date"]');
 
 // 		this.createTl();
 // 		this.createClockTl();

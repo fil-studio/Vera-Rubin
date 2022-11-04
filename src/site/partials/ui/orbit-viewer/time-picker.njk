@@ -22,6 +22,42 @@
 
 </div>
 
+<div class="panel panel-bottom-center" data-panel="time-picker-subpanel">
+
+	<div class="panel-section">
+		<div class="sub-panel">
+			<div class="input-wrapper date-picker custom-input" name="date-picker" data-date="1">
+
+					<input type="date">
+
+					<div class="date-item">
+						<p>{{ generic[lang].strings.day }}</p>
+						<h4 data-empty="DD">DD</h4>
+					</div>
+					<div class="date-item">
+						<p>{{ generic[lang].strings.month }}</p>
+						<h4 data-empty="MM"></h4>
+					</div>
+					<div class="date-item">
+						<p>{{ generic[lang].strings.year }}</p>
+						<h4 data-empty="{% if lang == 'en' %}YYYY{% else %}AAAA{% endif %}"></h4>
+					</div>
+
+			</div>
+
+			<div class="buttons-wrapper">
+
+				<button data-button="apply-date" class="ui__button grey-button">{{ generic[lang]['strings']['go-date'] }}</button>
+
+				<button data-button="close-edit" class="ui__button ghost-button">{{ generic[lang].strings.cancel }}</button>
+
+			</div>
+			
+		</div>
+	</div>
+
+</div>
+
 
 <div class="panel panel-bottom-center" data-panel="time-picker">
 
@@ -46,36 +82,6 @@
 			<button class="ui__button-small" data-timer="reset">{{ generic[lang].strings.reset }}</button>
 			<button class="ui__button-small" data-timer="edit">{{ generic[lang].strings.edit }}</button>
 		</div>
-	</div>
-
-	<div class="sub-panel">
-		<div class="input-wrapper date-picker custom-input" name="date-picker" data-date="1">
-
-				<input type="date">
-
-				<div class="date-item">
-					<p>{{ generic[lang].strings.day }}</p>
-					<h4 data-empty="DD">DD</h4>
-				</div>
-				<div class="date-item">
-					<p>{{ generic[lang].strings.month }}</p>
-					<h4 data-empty="MM"></h4>
-				</div>
-				<div class="date-item">
-					<p>{{ generic[lang].strings.year }}</p>
-					<h4 data-empty="{% if lang == 'en' %}YYYY{% else %}AAAA{% endif %}"></h4>
-				</div>
-
-		</div>
-
-		<div class="buttons-wrapper">
-
-			<button data-button="apply-date" class="ui__button grey-button">{{ generic[lang]['strings']['go-date'] }}</button>
-
-			<button data-button="close-edit" class="ui__button ghost-button">{{ generic[lang].strings.cancel }}</button>
-
-		</div>
-		
 	</div>
 
 </div>
