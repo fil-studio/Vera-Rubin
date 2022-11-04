@@ -3,8 +3,8 @@
 	bottom: 0;
 	left: 50%;
 	transform: translate(-50%, 0%);
-	padding: 20px 20px 30px;
-	border: 1px solid white;
+	padding: 20px 20px 28px;
+	transition: transform 0.5s ease-in-out;
 
 	.timer-range {	
 		display: flex;
@@ -15,10 +15,12 @@
 			justify-content: space-between;
 			width: 100%;
 			padding: 0 0 10px 0;
+			@include light-3;
+			transition: opacity 0.5s ease-in-out;
 		}
 
 		.fake-range {
-			width: 400px;
+			width: calc(var(--time-picker-max-width) - 40px);
 			height: 15px;
 
 			background-color: var(--black-2);
@@ -29,6 +31,7 @@
 			align-items: center;
 
 			position: relative;
+			transition: background-color 0.5s ease-in-out;
 
 			.timer-icon {
 				z-index: 2;
@@ -78,66 +81,69 @@
 	}
 }
 
-// .time-picker {
-// 	position: absolute;
-// 	bottom: 0;
-// 	left: 50%;
-// 	transform: translate(-50%, 0);
+.timer {
 
-// 	padding: var(--distance-15);
+	&.on-top {
+		z-index: $toFrontIndex + 1;
+	}
 
-// 	transition: opacity 0.5s ease-in-out;
+	&[state="0"]{
+		.timer-labels {
+			opacity: 0;
+		}
 
-// 	&.hidden {
-// 		opacity: 0;
-// 	}
+		.fake-range {
+			background-color: transparent;
+		}
 
-// 	button {
-// 		z-index: 2;
+	}
+	&[state="1"]{
+		transform: translate(-50%, -40px);
 
-// 		width: var(--icon-big);
-// 		height: var(--icon-big);
+	}
+	&[state="2"]{
 
-// 		background-color: var(--black-1);
+	}
 
-// 		display: flex;
-// 		justify-content: center;
-// 		align-items: center;
+}
 
-// 		border-radius: 100%;
+[data-panel="time-picker"] {
+	overflow: visible;
+	max-width: var(--time-picker-max-width);
 
-// 		cursor: pointer;
+	p {
+		@include light-3;
+	}
 
-// 		svg {
-// 			width: 20px;
-// 		}
+	span {
+		color: var(--white-0);
+		@include bold-3;
+	}
+}
 
-// 		path {
-// 			fill: var(--white-0);
-// 		}
-// 		g path {
-// 			fill: var(--black-1);
-// 		}
+.timer-picker-description {
+	text-align: center;
+	padding-bottom: 50px;
+}
 
-// 	}
+.time-picker-details {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 
-// }
+	span {
+		display: inline;
+		padding: 0 0 0 var(--distance-10);
+	}
 
-// [data-panel="time-picker"]{
-// 	overflow: visible;
-// 	max-width: var(--time-picker-max-width);
+	div {
+		display: flex;
+	}
 
-// 	p {
-// 		@include light-3;
-// 	}
-
-// 	span {
-// 		color: var(--white-0);
-		
-// 		@include bold-3;
-// 	}
-
-// }
+	button {
+		margin: 0 0 0 var(--distance-10);
+	}
+}
 
 // .time-picker-icon-wrapper {
 // 	display: flex;
@@ -248,9 +254,6 @@
 // 	transform: translateY(-30px) !important;
 // }
 
-// .timer-picker-description {
-// 	text-align: center;
-// }
 
 // .time-picker-input {
 // 	position: relative;
@@ -290,67 +293,93 @@
 // 	}
 // }
 
-// .time-picker-details {
-// 	display: flex;
-// 	justify-content: space-between;
-// 	align-items: center;
+// .time-picker {
+// 	position: absolute;
+// 	bottom: 0;
+// 	left: 50%;
+// 	transform: translate(-50%, 0);
 
-// 	span {
-// 		display: inline;
-// 		padding: 0 0 0 var(--distance-10);
-// 	}
+// 	padding: var(--distance-15);
 
-// 	div {
-// 		display: flex;
+// 	transition: opacity 0.5s ease-in-out;
+
+// 	&.hidden {
+// 		opacity: 0;
 // 	}
 
 // 	button {
-// 		margin: 0 0 0 var(--distance-10);
-// 	}
-// }
+// 		z-index: 2;
 
-// .sub-panel {
-// 	z-index: 1;
-// 	position: absolute;
-// 	bottom: 0;
-// 	left: 0;
+// 		width: var(--icon-big);
+// 		height: var(--icon-big);
 
-// 	border: var(--panels-border);
+// 		background-color: var(--black-1);
 
-// 	transform: translateY(100%);
-// 	transition: transform 0.5s ease-in-out;
-
-// 	padding: var(--distance-10) var(--distance-15);
-
-// 	background: #000;
-
-// 	width: 100%;
-// 	height: auto;
-// 	min-height: 100%;
-
-// 	&.active {
-// 		transform: translateY(0);
-// 	}
-
-// 	display: flex;
-// 	flex-direction: column;
-// 	justify-content: space-between;
-
-// 	> div {
-// 		padding: var(--distance-10) 0;
-// 		width: 100%;
-// 	}
-
-// 	.buttons-wrapper {
 // 		display: flex;
-// 		justify-content: space-between;
+// 		justify-content: center;
 // 		align-items: center;
 
-// 		button {
-// 			max-width: calc(50% - var(--distance-5));
+// 		border-radius: 100%;
+
+// 		cursor: pointer;
+
+// 		svg {
+// 			width: 20px;
 // 		}
+
+// 		path {
+// 			fill: var(--white-0);
+// 		}
+// 		g path {
+// 			fill: var(--black-1);
+// 		}
+
 // 	}
+
 // }
+
+.sub-panel {
+	z-index: 1;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+
+	border: var(--panels-border);
+
+	transform: translateY(100%);
+	transition: transform 0.5s ease-in-out;
+
+	padding: var(--distance-10) var(--distance-15);
+
+	background: #000;
+
+	width: 100%;
+	height: auto;
+	min-height: 100%;
+
+	&.active {
+		transform: translateY(0);
+	}
+
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+
+	> div {
+		padding: var(--distance-10) 0;
+		width: 100%;
+	}
+
+	.buttons-wrapper {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+		button {
+			max-width: calc(50% - var(--distance-5));
+		}
+	}
+}
 
 // .date-picker {
 // 	position: relative;

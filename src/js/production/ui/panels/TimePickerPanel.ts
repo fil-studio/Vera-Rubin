@@ -13,7 +13,47 @@ enum STATE {
 
 
 export class TimePickerPanel extends Panel {
-	
+	timer: HTMLElement;
+	icon: HTMLElement;
+	state:STATE = 0;
+
+	create(){
+		this.timer = document.querySelector('.timer');
+		this.icon = this.timer.querySelector('.timer-icon')
+	}
+
+	addEventListeners(): void {
+		
+		this.icon.addEventListener('mousedown', (e) => {
+			if(this.state === 0){
+				this.state = 1;
+				this.changeState();
+				return;
+			}
+			if(this.state === 1){
+				this.state = 0;
+				this.changeState();
+				return;
+			}
+		})
+
+		super.addEventListeners();
+		
+	}
+
+	changeState(){
+		this.timer.setAttribute('state', `${this.state}`);
+		if(this.state === 0){
+			setTimeout(() => {
+				this.timer.classList.remove('on-top');
+			}, 500);
+			this.closePanel();
+		}
+		if(this.state === 1){
+			this.timer.classList.add('on-top');
+			this.togglePanel();
+		}
+	}
 }
 
 
