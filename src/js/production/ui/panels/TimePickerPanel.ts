@@ -27,6 +27,12 @@ export class TimePickerPanel extends Panel {
 
 	subPanel: TimePickerSubPanel;
 
+	range: HTMLInputElement;
+	value: number = 0;
+	holding: boolean = false;
+
+	date: Date; 
+	domDate: HTMLElement;
 
 	create(){
 		this.timer = document.querySelector('.timer');
@@ -39,6 +45,10 @@ export class TimePickerPanel extends Panel {
 
 		this.subPanel = panels.find(x => x.id === 'time-picker-subpanel') as TimePickerSubPanel;
 		
+		this.range = this.timer.querySelector('input');
+
+		this.date = new Date();
+		this.domDate = this.dom.querySelector('.time-picker-details p span');
 	}
 
 	addEventListeners(): void {
@@ -49,35 +59,22 @@ export class TimePickerPanel extends Panel {
 				this.changeState();
 				return;
 			}
-			// if(this.state === 1){
-			// 	this.state = STATE.HIDDEN;
-			// 	this.changeState();
-			// 	return;
-			// }
 		})
 
-		// 		this.reset.addEventListener('click', () => {	
-		// 			solarClock.setDate();
-		// 			this.range.value = '0';
-		// 		})
+		this.reset.addEventListener('click', () => {	
+			solarClock.setDate();
+			this.range.value = '0';
+		})
 
-		// 		this.pause.addEventListener('click', () => {	
-		// 			this.range.value = '0';
-		// 		})
+		this.pause.addEventListener('click', () => {	
+			this.state = STATE.ACTIVE;
+			this.range.value = '0';
+		})
 
 		this.edit.addEventListener('click', () => {
 			this.state = STATE.EDIT;
 			this.toggleSubPanel();
 		})
-
-		// 		this.subPanelApply.addEventListener('click', () => {
-		// 			this.updateTimer();
-		// 		})
-
-		// 		this.subPanelCancel.addEventListener('click', () => {
-		// 			this.state = 1;
-		// 			this.togglePanel();
-		// 		})
 
 
 		super.addEventListeners();
@@ -123,6 +120,11 @@ export class TimePickerPanel extends Panel {
 			this.timer.classList.add('on-top');
 			this.togglePanel();
 		}
+	}
+
+	update(): void {
+		const date = formatDate(solarClock.currentDate);
+		this.domDate.innerText = date;		
 	}
 }
 
@@ -287,28 +289,7 @@ export class TimePickerPanel extends Panel {
 
 // 	}
 
-// 	dateInputReset(){
 
-// 		setTimeout(() => {
-// 			const items = this.subPanel.querySelectorAll('.date-item h4');
-// 			for(const item of items) item.innerText = item.getAttribute('data-empty');
-// 		}, 500);
-
-
-// 	}
-
-// 	updateTimer(){
-
-// 		if(!!!this.subPanelInput.valueAsDate) {
-// 			return;
-// 		}
-
-// 		const date = new Date(this.subPanelInput.valueAsDate);
-// 		solarClock.setDate(date);
-
-// 		this.state = 1;
-// 		this.togglePanel();		
-// 	}
 
 // 	closePanel(): void {
 // 		this.state = 0;
