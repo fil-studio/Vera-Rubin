@@ -16,6 +16,9 @@ export const shareInit = (dom:HTMLElement) => {
 
 	const fb = dom.querySelectorAll('.share-button.facebook') as NodeListOf<HTMLLinkElement>;
 	for(const link of fb) shareFacebook(link);
+
+	const urlSolarItems = dom.querySelectorAll('.popup-info .copy-button') as NodeListOf<HTMLLinkElement>;
+	for(const link of urlSolarItems) shareURL(link, true);
 	
 	
 }
@@ -43,14 +46,14 @@ const shareEmail = (dom:HTMLLinkElement) => {
 	dom.setAttribute('href', `mailto:?subject=${subject};body=${body} ${window.location.origin}/${getLanguage()}`)
 }
 
-const shareURL = (dom:HTMLLinkElement) => {
+const shareURL = (dom:HTMLLinkElement, solarItem:boolean = false) => {
+
+	const url = solarItem ?`${window.location.origin}/${getLanguage()}/orbit-viewer/${dom.getAttribute('data-id')}` : `${window.location.origin}/${getLanguage()}`
 
 	dom.addEventListener('click', () => {
 		copied(dom);
-		copyToClipboard(`${window.location.origin}/${getLanguage()}`)
+		copyToClipboard(url)
 	})
-
-
 }
 
 const copied = (dom:HTMLLinkElement) => {

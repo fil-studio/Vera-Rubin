@@ -5,6 +5,7 @@ import { SolarElement } from "../../../common/solar/SolarElement";
 import { OrbitDataElements } from "../../../common/solar/SolarUtils";
 import { OrbitControlsIn, OrbitControlsOut } from "../../pagination/animations/OrbitControls";
 import { LOCATION } from "../../pagination/History";
+import { shareInit } from "../../partials/Share";
 import { broadcastPanelsClose } from "../panels/PanelsManager";
 import { PopupInfo } from "./PopupInfo";
 import { PopupLabel } from "./PopupLabel";
@@ -35,6 +36,9 @@ export const initPopups = () => {;
 		});
 		
 	}
+
+	shareInit(document.querySelector('.popups-infos'));
+
 }
 
 export const linkPlanetToPopup = (solarElement:SolarElement, data:OrbitDataElements) => {
