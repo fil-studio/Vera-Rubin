@@ -1,5 +1,6 @@
 import { el } from "@jocabola/utils";
 import { capitalize } from "../../editor/utils/strings";
+import { broadcastPanelsClose } from "../ui/panels/PanelsManager";
 import { enablePopup, PopupInterface, popups } from "../ui/popups/PopupsManager";
 
 enum STATE {
@@ -43,6 +44,7 @@ export class Search {
 
 		const lenseButton = this.dom.querySelector('.search-lense');
 		lenseButton.addEventListener('click', () => {
+			broadcastPanelsClose();
 			this.updateState(1);
 			this.updateSearch();
 		})
@@ -89,6 +91,15 @@ export class Search {
 		document.body.setAttribute('data-search-state', this.state.toString());
 	}
 
+	resultClick(item){
+
+		enablePopup(item);
+		this.input.value = '';
+		this.updateState(0);
+		this.updateSearch();
+
+	}
+
 	createItem(p:PopupInterface){
 		if(this.items.find(x => x === p.name)) return
 		this.items.push(p.name);
@@ -99,26 +110,31 @@ export class Search {
 		item.innerText = capitalize(p.name);
 		this.results.appendChild(item);
 
+		item.addEventListener('click', () => {
+			this.resultClick(p.name);
+		})
+
 		this.results.classList.add('has-results');
 
 	}
 
 	destroyItem(item:string){
-		this.items.splice(this.items.indexOf(item), 1);
+		this.items = this.items.filter(x => x !== item);		
 
 		const d = this.results.querySelector(`[data-name="${item}"]`);
+		d.removeEventListener('click', () => {
+			this.resultClick(item);
+		})
 		d.remove();
 
 		if(this.items.length === 0) this.results.classList.remove('has-results');
 	}
 
 	updateSearch(){
-		console.log(this.input.value);
 
 		const v = this.input.value;
 
 		if(v === ''){
-			console.log('entra');
 			for(const item of this.items) this.destroyItem(item);
 			return;
 		}
