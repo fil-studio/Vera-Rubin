@@ -1,7 +1,8 @@
 import { MathUtils } from "@jocabola/math";
 import { isMobile } from "@jocabola/utils";
+import { lchown } from "fs-extra";
 import gsap from "gsap";
-import { solarClock } from "../../../common/core/CoreApp";
+import { CoreAppSingleton, solarClock } from "../../../common/core/CoreApp";
 import { CLOCK_SETTINGS } from "../../../common/core/Globals";
 import { formatDate } from "../../utils/Dates";
 import { Panel } from "./Panel";
@@ -43,6 +44,8 @@ export class TimePickerPanel extends Panel {
 	draggingOriginalValue: number = 0;
 	draggingRangeW: number = 0;
 
+	clockTicks: NodeListOf<HTMLElement>;
+
 	create(){
 		this.timer = document.querySelector('.timer');
 		this.icon = this.timer.querySelector('.timer-icon');
@@ -62,6 +65,9 @@ export class TimePickerPanel extends Panel {
 		this.domDate = this.dom.querySelector('.time-picker-details p span');
 
 		this.arrowsTl = createArrowsTl();
+
+		this.clockTicks = this.icon.querySelectorAll('.ticks path');
+		this.resetClock();
 	}
 
 	leave(){
@@ -199,13 +205,39 @@ export class TimePickerPanel extends Panel {
 		this.arrowsTl.reverse();
 	}
 
+	resetClock(){
+		
+		for(const tick of this.clockTicks){
+			tick.style.transformOrigin = '50% 50%';
+		}
+
+	}
+
+	updateClock(){
+
+		const date = solarClock.currentDate;
+		const m = date.getMinutes();
+		const h = (date.getHours() + 24) % 12;
+		const r1 = MathUtils.map(m, 0, 59, 0, 354);
+		const r2 = MathUtils.map(h, 0, 11, 0, 330);		
+
+		this.clockTicks[0].style.transform = `rotate(${r1}deg)`
+		this.clockTicks[1].style.transform = `rotate(${r2}deg)`		
+		
+	}
+
 	update(): void {
+
+		const date = formatDate(solarClock.currentDate);
+
+		this.updateClock();
+		
 		if(this.state === STATE.HIDDEN) return;
 		
-		const date = formatDate(solarClock.currentDate);
 		this.domDate.innerText = date;		
 		
 		CLOCK_SETTINGS.speed = this.value * CLOCK_SETTINGS.maxSpeed;
+
 	}
 }
 

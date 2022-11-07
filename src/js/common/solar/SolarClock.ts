@@ -139,7 +139,7 @@ export class SolarClock {
         }                
         
         this.date.setTime(this.date.getTime() + dt * 1000 + this.speed * HRSPSEC * dt);
-
+        
         // cap
         if(this.date.getTime() < this.edge1.getTime()) {
             this.date.setTime(this.edge1.getTime())
