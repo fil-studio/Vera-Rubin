@@ -1,5 +1,5 @@
 import { MathUtils } from "@jocabola/math";
-import { isMobile } from "@jocabola/utils";
+import { isMobile, isTouchDevice } from "@jocabola/utils";
 import { lchown } from "fs-extra";
 import gsap from "gsap";
 import { CoreAppSingleton, solarClock } from "../../../common/core/CoreApp";
@@ -76,13 +76,13 @@ export class TimePickerPanel extends Panel {
 		this.changeState();
 	}
 
-	onMousedown(e) {
+	onMousedown(x) {
 		this.dragging = true;
 
 		const r = this.fakeRange.getBoundingClientRect();
 		this.draggingRangeW = r.width;
 
-		this.draggingOriginalX = e.clientX;
+		this.draggingOriginalX = x;
 
 		this.draggingOriginalValue = MathUtils.map(this.value, -1, 1, 0, this.draggingRangeW);
 
@@ -90,13 +90,18 @@ export class TimePickerPanel extends Panel {
 			this.dragging = false;
 			this.draggingOriginalX = 0;
 		}, { once: true })
+		
+		window.addEventListener('touchend', () => {
+			this.dragging = false;
+			this.draggingOriginalX = 0;
+		}, { once: true })
 	
 	}
 
-	onMousemove(e) {
+	onMousemove(x) {
 		if(!this.dragging) return;
 
-		const movementDistance = this.draggingOriginalValue + (e.clientX - this.draggingOriginalX);		
+		const movementDistance = this.draggingOriginalValue + (x - this.draggingOriginalX);		
 		const newValue = MathUtils.clamp(MathUtils.map(movementDistance, 0, this.draggingRangeW, -1, 1), -1, 1);
 		
 		this.timer.style.setProperty('--thumb-x', `${MathUtils.map(newValue, -1, 1, 0, 1)}`);
@@ -108,15 +113,23 @@ export class TimePickerPanel extends Panel {
 	addEventListeners(): void {
 		
 		this.icon.addEventListener('mousedown', (e) => {
-			this.onMousedown(e);
+			this.onMousedown(e.clientX);
 			if(this.state === STATE.ACTIVE) return;
 			this.state = STATE.ACTIVE;
 			this.changeState();
-			
+		})
+		this.icon.addEventListener('touchstart', (e) => {			
+			this.onMousedown(e.touches[0].clientX);
+			if(this.state === STATE.ACTIVE) return;
+			this.state = STATE.ACTIVE;
+			this.changeState();
 		})
 
 		window.addEventListener('mousemove', (e) => {
-			this.onMousemove(e);
+			this.onMousemove(e.clientX);
+		})
+		window.addEventListener('touchmove', (e) => {
+			this.onMousemove(e.touches[0].clientX);
 		})
 
 		this.resetButton.addEventListener('click', () => {	
@@ -272,8 +285,8 @@ const createArrowsTl = ():GSAPTimeline => {
 
 		const ii = i + 1;
 
-		const distance = isMobile() ? 40 : 58;
-		const initialOffset = 20;
+		const distance = window.innerWidth < 678 ? window.innerWidth * 0.11 : 58;		
+		const initialOffset = window.innerWidth < 678 ? 5 : 20;
 		const distanceBetweenChevrons = 7;
 
 		gsap.set(past[i].querySelectorAll('path'), {
@@ -319,64 +332,3 @@ const createArrowsTl = ():GSAPTimeline => {
 
 	return tl;
 }
-
-
-// 	createClockTl(){
-
-// 		const busques = this.dom.querySelectorAll('.time-picker-icon-wrapper svg g path');
-// 		this.tlClock = gsap.timeline({ paused: true });
-
-// 		gsap.set(busques[0], { transformOrigin: '50% 100%', rotate: -800 });
-// 		gsap.set(busques[1], { transformOrigin: '20% 20%', rotate: -200 });
-
-// 		this.tlClock
-// 			.to(busques[0],{ rotate: 800, ease: 'linear' }, 0)
-// 			.to(busques[1],{ rotate: 200, ease: 'linear' }, 0)
-	
-// 	}
-
-// 	animationPlay(){
-// 		if(this.tlPlayed) return;
-// 		this.tlPlayed = true;
-
-// 		this.tl.pause();
-// 		this.tl.progress(0);
-
-// 		this.tl.play();
-
-// 	}
-
-// 	animationReset(){
-// 		if(!this.tlPlayed) return;
-// 		this.tlPlayed = false;
-
-// 	}
-
-
-
-
-
-// 	update(){
-
-// 		if(!this.active) return;
-
-// 		this.value = parseFloat(this.range.value);
-		
-// 		console.log(this.value);
-		
-// 		if(!this.holding){
-// 			this.value = MathUtils.lerp(this.value, 0, 0.1);
-// 			// this.range.value = this.value.toString();
-// 		}
-		
-// 		this.thumb.style.transform = `translateX(${50 * this.value}%)`;
-
-// 		// Update date
-// 		const date = formatDate(solarClock.currentDate);
-// 		this.domDate.innerText = date;		
-
-// 		// Update clock animation
-// 		this.tlClock.progress(MathUtils.map(this.value, -1, 1, 0, 1))
-				
-// 	}
-// }

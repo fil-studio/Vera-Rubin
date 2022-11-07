@@ -57,9 +57,9 @@ export class DoubleRange extends Input {
 
 		const dom = active === 1 ? this.dom.querySelector('input[name="first"]') as HTMLInputElement : this.dom.querySelector('input[name="second"]') as HTMLInputElement;
 
-		el.addEventListener('mousedown', (ev) => {
+		const mouseDown = (clientX) => {
 			dragging = true;
-			x = ev.clientX;
+			x = clientX;
 
 			const first = this.dom.querySelector('input[name="first"]') as HTMLInputElement;
 			const second = this.dom.querySelector('input[name="second"]') as HTMLInputElement;
@@ -69,21 +69,32 @@ export class DoubleRange extends Input {
 
 			const range = this.dom.getBoundingClientRect();
 			w = range.width;
-			
+
 			originalValue = MathUtils.map(active === 1 ? this.value1 : this.value2, 0, 1, 0, w);
-			
+
 			window.addEventListener('mouseup', () => {
 				dragging = false;
 				x = 0;
 				this.updateValues();
 			}, { once: true })
+			window.addEventListener('touchend', () => {
+				dragging = false;
+				x = 0;
+				this.updateValues();
+			}, { once: true })
+		}
 
+		el.addEventListener('mousedown', (e) => {
+			mouseDown(e.clientX);
+		})
+		el.addEventListener('touchstart', (e) => {
+			mouseDown(e.touches[0].clientX);
 		})
 
-		window.addEventListener('mousemove', (ev) => {
+		const mouseMove = (clientX) => {
 			if(!dragging) return;
 
-			const movementDistance = originalValue + (ev.clientX - x);
+			const movementDistance = originalValue + (clientX - x);
 
 			// offset to prevent handle overlap
 			const offset = 0.075;
@@ -97,6 +108,14 @@ export class DoubleRange extends Input {
 			else this.value2 = newValue;
 			dom.value = `${newValue}`;
 
+		}
+
+		window.addEventListener('mousemove', (e) => {
+			mouseMove(e.clientX);
+		})
+
+		window.addEventListener('touchmove', (e) => {
+			mouseMove(e.touches[0].clientX);
 		})
 	}
 
