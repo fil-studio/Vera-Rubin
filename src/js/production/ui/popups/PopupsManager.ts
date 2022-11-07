@@ -57,7 +57,7 @@ export const popupsLoaded = () => {
 export function enablePopup(name: string, info: boolean = true) {
 	
 	CoreAppSingleton.instance.lock();
-
+	
 	solarClock.pause();
 	broadcastPanelsClose();
 

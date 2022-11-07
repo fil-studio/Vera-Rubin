@@ -67,7 +67,7 @@ export class TimePickerPanel extends Panel {
 		this.arrowsTl = createArrowsTl();
 
 		this.clockTicks = this.icon.querySelectorAll('.ticks path');
-		this.resetClock();
+		this.initClock();
 	}
 
 	leave(){
@@ -170,6 +170,12 @@ export class TimePickerPanel extends Panel {
 		} else this.subPanel.closePanel(true);
 	}
 
+	closePanel(): void {			
+		this.state = this.value === 0 ? STATE.HIDDEN : STATE.HIDDEN_EDITED;
+		this.changeState();
+	}
+
+
 	changeState(){
 		this.timer.setAttribute('state', `${this.state}`);
 
@@ -178,7 +184,7 @@ export class TimePickerPanel extends Panel {
 			setTimeout(() => {
 				this.timer.classList.remove('on-top');
 			}, 500);
-			this.closePanel();
+			this.dom.classList.remove('active');
 		}
 
 		if(this.state === STATE.HIDDEN_EDITED){
@@ -186,13 +192,13 @@ export class TimePickerPanel extends Panel {
 			setTimeout(() => {
 				this.timer.classList.remove('on-top');
 			}, 500);
-			this.closePanel();
+			this.dom.classList.remove('active');
 		}
 
 		if(this.state === STATE.ACTIVE){
 			this.timer.classList.add('on-top');			
 			this.arrowsTlPlay();
-			this.togglePanel();
+			this.dom.classList.add('active');
 		}
 	}
 
@@ -205,7 +211,7 @@ export class TimePickerPanel extends Panel {
 		this.arrowsTl.reverse();
 	}
 
-	resetClock(){
+	initClock(){
 		
 		for(const tick of this.clockTicks){
 			tick.style.transformOrigin = '50% 50%';
@@ -215,11 +221,16 @@ export class TimePickerPanel extends Panel {
 
 	updateClock(){
 
+		const getHours = () => {
+			const h = date.getHours();
+			return h > 12 ? h - 12 : h;
+		}
+
 		const date = solarClock.currentDate;
 		const m = date.getMinutes();
-		const h = (date.getHours() + 24) % 12;
+		const h = getHours();
 		const r1 = MathUtils.map(m, 0, 59, 0, 354);
-		const r2 = MathUtils.map(h, 0, 11, 0, 330);		
+		const r2 = MathUtils.map(h, 1, 12, 30, 360);				
 
 		this.clockTicks[0].style.transform = `rotate(${r1}deg)`
 		this.clockTicks[1].style.transform = `rotate(${r2}deg)`		

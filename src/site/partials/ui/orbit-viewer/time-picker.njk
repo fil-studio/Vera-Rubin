@@ -1,7 +1,7 @@
 {% from 'ui/panel-times.njk' import panelTimes as panelTimes %}
 
 <div class="timer" state="0" data-animation-type="fade" style="--thumb-x:0.5">
-	<div class="timer-range">
+	<div class="timer-range"  data-animation-type="control-fade" >
 		<div class="timer-labels">
 			<p>{{ generic[lang].strings.past }}</p>		
 			<p>{{ generic[lang].strings.future }}</p>
