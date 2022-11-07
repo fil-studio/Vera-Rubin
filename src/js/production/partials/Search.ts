@@ -108,7 +108,7 @@ export class Search {
 		item.classList.add('ui__button', 'ghost-button');
 		item.setAttribute('data-name', p.name);
 		item.innerText = capitalize(p.name);
-		this.results.appendChild(item);
+		this.results.prepend(item);
 
 		item.addEventListener('click', () => {
 			this.resultClick(p.name);

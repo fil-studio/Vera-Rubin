@@ -1,5 +1,5 @@
 
-.search-panel {
+.search-bg {
 	z-index: 1;
 	position: absolute;
 	top: 0;
@@ -42,18 +42,17 @@
 .search-results {
 	position: absolute;
 	top: 100%;
-	left: 50%;
+	left: 0%;
 	z-index: 1;
-	transform: translate(-50%, 0%);
 	height: auto;
 	overflow-y: auto;
 	width: 100%;
-	max-width: var(--default-max-width);
 	text-align: center;
 	padding: var(--distance-20);
-	align-items: center;
 	display: flex;
 	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
 
 	opacity: 0;
 	transition: opacity 0.5s ease-in-out;
@@ -63,11 +62,8 @@
 	}
 
 	@include light-1;
-
-	max-height: calc(100vh - 100px);
-	@include device {
-		max-height: calc(100vh - 170px);
-	}
+	height: calc(100vh - 100px);
+	
 
 	.result-item {
 		margin: var(--distance-10);
@@ -80,6 +76,20 @@
 	&.has-results {
 		.no-results {
 			display: none;
+		}
+	}
+
+	.button-wrapper {
+		margin-top: var(--distance-10);
+		display: flex;
+		flex-grow: 1;
+		flex-shrink: 0;
+		justify-content: center;
+		align-items: flex-end;
+		width: 100%;
+
+		@include mobile {
+			padding-bottom: 80px;
 		}
 	}
 }
@@ -194,7 +204,7 @@ body[data-search-state="2"]{
 		}
 	}
 
-	.search-panel {
+	.search-bg {
 		z-index: $toFrontIndex;
 		opacity: 1;
 		pointer-events: all;
@@ -232,7 +242,7 @@ body[data-search-state="2"] {
 	}
 }
 
-body:not([data-search-state="1"]) .search-panel {
+body:not([data-search-state="1"]) .search-bg {
 	&, * {
 		pointer-events: none;
 	}
