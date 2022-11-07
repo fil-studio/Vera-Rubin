@@ -1,3 +1,4 @@
+import { enablePopup, popups } from "../ui/popups/PopupsManager";
 
 enum STATE {
 	IDLE,
@@ -8,11 +9,17 @@ enum STATE {
 export class Search {
 	dom: HTMLElement;
 	state: STATE = 0;
+
+	random:HTMLButtonElement;
 	constructor(dom: HTMLElement = null){
 
 		if(!!!dom) return;
 
 		this.dom = dom.querySelector('.search');
+
+		this.random = document.querySelector('[data-button="random-search"]');
+		console.log(this.random);
+		
 
 		this.addEventListeners();
 
@@ -48,6 +55,15 @@ export class Search {
 			if(e.key != 'Escape') return;
 
 			if(this.state === 0) return;
+
+			input.value = '';
+			this.updateState(0);
+		})
+
+		this.random.addEventListener('click', () => {
+
+			const randomItem = popups[Math.floor(Math.random()*popups.length)];
+			enablePopup(randomItem.name);
 
 			input.value = '';
 			this.updateState(0);
