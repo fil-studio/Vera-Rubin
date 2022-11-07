@@ -61,7 +61,7 @@ export class TimePickerPanel extends Panel {
 		this.range = this.timer.querySelector('input');
 		this.value = this.range.valueAsNumber;
 
-		this.date = new Date();
+		this.date = solarClock.currentDate;
 		this.domDate = this.dom.querySelector('.time-picker-details p span');
 
 		this.arrowsTl = createArrowsTl();

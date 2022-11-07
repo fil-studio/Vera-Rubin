@@ -1,4 +1,6 @@
-import { enablePopup, popups } from "../ui/popups/PopupsManager";
+import { el } from "@jocabola/utils";
+import { capitalize } from "../../editor/utils/strings";
+import { enablePopup, PopupInterface, popups } from "../ui/popups/PopupsManager";
 
 enum STATE {
 	IDLE,
@@ -10,15 +12,21 @@ export class Search {
 	dom: HTMLElement;
 	state: STATE = 0;
 
+	input:HTMLInputElement;
 	random:HTMLButtonElement;
+
+	items:Array<string> = [];
+	results:HTMLElement;
 	constructor(dom: HTMLElement = null){
 
 		if(!!!dom) return;
 
 		this.dom = dom.querySelector('.search');
+		this.input = this.dom.querySelector('.search-text-input input') as HTMLInputElement;
 
 		this.random = document.querySelector('[data-button="random-search"]');
-		console.log(this.random);
+
+		this.results = this.dom.querySelector('.search-results');
 		
 
 		this.addEventListeners();
@@ -27,27 +35,30 @@ export class Search {
 
 	addEventListeners(){
 
-		const input = this.dom.querySelector('.search-text-input input') as HTMLInputElement;
-		input.addEventListener('input', () => {						
-			if(input.value.length > 0) this.updateState(2);
+		this.input.addEventListener('input', () => {						
+			if(this.input.value.length > 0) this.updateState(2);
 			else this.updateState(1);
+			this.updateSearch();
 		})
 
 		const lenseButton = this.dom.querySelector('.search-lense');
 		lenseButton.addEventListener('click', () => {
 			this.updateState(1);
+			this.updateSearch();
 		})
 
 		const resetButton = this.dom.querySelector('.search-reset');
 		resetButton.addEventListener('click', () => {			
-			input.value = ''
+			this.input.value = ''
 			this.updateState(1);
+			this.updateSearch();
 		})
 
 		const cancelButton = this.dom.querySelector('.search-cancel');
 		cancelButton.addEventListener('click', () => {			
-			input.value = '';
+			this.input.value = '';
 			this.updateState(0);
+			this.updateSearch();
 		})
 
 		document.addEventListener('keydown', (e) => {			
@@ -56,8 +67,9 @@ export class Search {
 
 			if(this.state === 0) return;
 
-			input.value = '';
+			this.input.value = '';
 			this.updateState(0);
+			this.updateSearch();
 		})
 
 		this.random.addEventListener('click', () => {
@@ -65,8 +77,9 @@ export class Search {
 			const randomItem = popups[Math.floor(Math.random()*popups.length)];
 			enablePopup(randomItem.name);
 
-			input.value = '';
+			this.input.value = '';
 			this.updateState(0);
+			this.updateSearch();
 		})
 
 	}
@@ -74,5 +87,52 @@ export class Search {
 	updateState(state: number = 0){
 		this.state = state;
 		document.body.setAttribute('data-search-state', this.state.toString());
+	}
+
+	createItem(p:PopupInterface){
+		if(this.items.find(x => x === p.name)) return
+		this.items.push(p.name);
+
+		const item = el('div', 'result-item');
+		item.classList.add('ui__button', 'ghost-button');
+		item.setAttribute('data-name', p.name);
+		item.innerText = capitalize(p.name);
+		this.results.appendChild(item);
+
+		this.results.classList.add('has-results');
+
+	}
+
+	destroyItem(item:string){
+		this.items.splice(this.items.indexOf(item), 1);
+
+		const d = this.results.querySelector(`[data-name="${item}"]`);
+		d.remove();
+
+		if(this.items.length === 0) this.results.classList.remove('has-results');
+	}
+
+	updateSearch(){
+		console.log(this.input.value);
+
+		const v = this.input.value;
+
+		if(v === ''){
+			console.log('entra');
+			for(const item of this.items) this.destroyItem(item);
+			return;
+		}
+
+		const activePopups = popups.filter(x => x.name.includes(v) );		
+
+		for(const p of activePopups){
+			this.createItem(p);
+		}
+
+		for(const item of this.items){
+			if(activePopups.find(x => x.name === item)) continue;
+			this.destroyItem(item);
+		}
+		
 	}
 }

@@ -10,7 +10,15 @@ import { broadcastPanelsClose } from "../panels/PanelsManager";
 import { PopupInfo } from "./PopupInfo";
 import { PopupLabel } from "./PopupLabel";
 
-export const popups: Array<{name: string, visible: boolean, category: string, label: PopupLabel, info: PopupInfo}> = [];
+export interface PopupInterface {
+ name: string, 
+ visible: boolean, 
+ category: string, 
+ label: PopupLabel, 
+ info: PopupInfo
+}
+
+export const popups: Array<PopupInterface> = [];
 
 export const initPopups = () => {;
 

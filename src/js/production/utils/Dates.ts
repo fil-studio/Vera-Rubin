@@ -6,12 +6,12 @@ const checkLength = (num:number) : string => {
 export const getFormatDate = (date:Date) => {
 
 	const d = {	
-		y: checkLength(date.getUTCFullYear()),
-		m: checkLength(date.getUTCMonth() + 1),
-		d: checkLength(date.getUTCDate()),
-		h: checkLength(date.getUTCHours()),
-		min: checkLength(date.getUTCMinutes()),
-		s: checkLength(date.getUTCSeconds())
+		y: checkLength(date.getFullYear()),
+		m: checkLength(date.getMonth() + 1),
+		d: checkLength(date.getDate()),
+		h: checkLength(date.getHours()),
+		min: checkLength(date.getMinutes()),
+		s: checkLength(date.getSeconds())
 	}	
 
 	return d;

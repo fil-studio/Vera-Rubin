@@ -14,8 +14,8 @@ export class SolarClock {
     private paused:boolean = false;
     private started:boolean = false
     private elapsedTime:number = 0;
-    private speed:number = 1;
-    private targetSpeed:number = 1;
+    private speed:number = 0;
+    private targetSpeed:number = 0;
     private edge1:Date = new Date('1900-01-01T00:00:00');
     private edge2:Date = new Date('2100-01-01T00:00:00');
 
@@ -25,7 +25,7 @@ export class SolarClock {
      */
     constructor(clock:Clock) {
         this.iClock = clock;
-        this.date = new Date();
+        this.date = new Date();        
         this.iClock.stop();
     }
 
@@ -87,6 +87,8 @@ export class SolarClock {
      * @param date - The date where the simulation needs to be set. Default: now
      */
     setDate(date:Date=new Date()) {
+        console.log('set', date);
+        
         this.date = date;
     }
 
@@ -147,7 +149,7 @@ export class SolarClock {
 
         if(this.date.getTime() > this.edge2.getTime()) {
             this.date.setTime(this.edge2.getTime())
-        }
+        }        
         
         return SolarTimeManager.getMJDonDate(this.date);
     }

@@ -48,7 +48,6 @@ export class TimePickerSubPanel extends Panel {
 		}		
 		const date = new Date(this.subPanelInput.valueAsDate);		
 		solarClock.setDate(date);
-		
 	}
 
 	dateInputReset(){
