@@ -71,7 +71,10 @@
 							</div>
 						</div>
 						{# todo share button #}
-						<button class="ui__button ui__button-thin">{{ generic[lang].strings.share }}</button>
+						<button class="ui__button ui__button-thin copy-button" no-history="true" data-id="{{ element.slug }}">
+							<h4 class="copy">{{ generic[lang].menus['share-menu']['copied'] }}</h4>
+							{{ generic[lang].strings.share }}
+						</button>
 					</div>
 				</div>
 			</section>

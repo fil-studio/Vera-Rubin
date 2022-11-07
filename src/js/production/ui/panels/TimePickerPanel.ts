@@ -1,7 +1,8 @@
 import { MathUtils } from "@jocabola/math";
 import { isMobile } from "@jocabola/utils";
+import { lchown } from "fs-extra";
 import gsap from "gsap";
-import { solarClock } from "../../../common/core/CoreApp";
+import { CoreAppSingleton, solarClock } from "../../../common/core/CoreApp";
 import { CLOCK_SETTINGS } from "../../../common/core/Globals";
 import { formatDate } from "../../utils/Dates";
 import { Panel } from "./Panel";
@@ -43,6 +44,8 @@ export class TimePickerPanel extends Panel {
 	draggingOriginalValue: number = 0;
 	draggingRangeW: number = 0;
 
+	clockTicks: NodeListOf<HTMLElement>;
+
 	create(){
 		this.timer = document.querySelector('.timer');
 		this.icon = this.timer.querySelector('.timer-icon');
@@ -62,6 +65,9 @@ export class TimePickerPanel extends Panel {
 		this.domDate = this.dom.querySelector('.time-picker-details p span');
 
 		this.arrowsTl = createArrowsTl();
+
+		this.clockTicks = this.icon.querySelectorAll('.ticks path');
+		this.initClock();
 	}
 
 	leave(){
@@ -164,6 +170,12 @@ export class TimePickerPanel extends Panel {
 		} else this.subPanel.closePanel(true);
 	}
 
+	closePanel(): void {			
+		this.state = this.value === 0 ? STATE.HIDDEN : STATE.HIDDEN_EDITED;
+		this.changeState();
+	}
+
+
 	changeState(){
 		this.timer.setAttribute('state', `${this.state}`);
 
@@ -172,7 +184,7 @@ export class TimePickerPanel extends Panel {
 			setTimeout(() => {
 				this.timer.classList.remove('on-top');
 			}, 500);
-			this.closePanel();
+			this.dom.classList.remove('active');
 		}
 
 		if(this.state === STATE.HIDDEN_EDITED){
@@ -180,13 +192,13 @@ export class TimePickerPanel extends Panel {
 			setTimeout(() => {
 				this.timer.classList.remove('on-top');
 			}, 500);
-			this.closePanel();
+			this.dom.classList.remove('active');
 		}
 
 		if(this.state === STATE.ACTIVE){
 			this.timer.classList.add('on-top');			
 			this.arrowsTlPlay();
-			this.togglePanel();
+			this.dom.classList.add('active');
 		}
 	}
 
@@ -199,13 +211,44 @@ export class TimePickerPanel extends Panel {
 		this.arrowsTl.reverse();
 	}
 
+	initClock(){
+		
+		for(const tick of this.clockTicks){
+			tick.style.transformOrigin = '50% 50%';
+		}
+
+	}
+
+	updateClock(){
+
+		const getHours = () => {
+			const h = date.getHours();
+			return h > 12 ? h - 12 : h;
+		}
+
+		const date = solarClock.currentDate;
+		const m = date.getMinutes();
+		const h = getHours();
+		const r1 = MathUtils.map(m, 0, 59, 0, 354);
+		const r2 = MathUtils.map(h, 1, 12, 30, 360);				
+
+		this.clockTicks[0].style.transform = `rotate(${r1}deg)`
+		this.clockTicks[1].style.transform = `rotate(${r2}deg)`		
+		
+	}
+
 	update(): void {
+
+		const date = formatDate(solarClock.currentDate);
+
+		this.updateClock();
+		
 		if(this.state === STATE.HIDDEN) return;
 		
-		const date = formatDate(solarClock.currentDate);
 		this.domDate.innerText = date;		
 		
 		CLOCK_SETTINGS.speed = this.value * CLOCK_SETTINGS.maxSpeed;
+
 	}
 }
 

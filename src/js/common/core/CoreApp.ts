@@ -2,7 +2,7 @@ import { WebGLSketch } from "@jocabola/gfx";
 import { io } from "@jocabola/io";
 import { AmbientLight, Clock, PerspectiveCamera, PointLight, TextureLoader } from "three";
 import { css2D } from "../../production/ui/popups/Css2D";
-import { initPopups, linkPlanetToPopup, popupsLoaded, resizePopups } from "../../production/ui/popups/PopupsManager";
+import { enablePopup, initPopups, linkPlanetToPopup, popupsLoaded, resizePopups } from "../../production/ui/popups/PopupsManager";
 import { loadData } from "../data/DataMap";
 import { getSolarSystemElements } from "../data/FiltersManager";
 import { initShaders } from "../gfx/shaders";
@@ -183,6 +183,7 @@ export class CoreApp extends WebGLSketch {
         // --------------------------------------------- Launch      
         document.querySelector('.site__wrapper').classList.remove('loading');  
         document.querySelector('.site__wrapper').classList.add('loaded');  
+
         this.launch();
     }
 
@@ -313,7 +314,19 @@ export class CoreApp extends WebGLSketch {
         if(LOCATION.current.id != 'orbit-viewer') {
             this.lock();
             CameraManager.goToTarget(this.sun, true);
+        } else {
+            if(solarSystemSelectedElement) {
+
+                const url = window.location.pathname.split('/');
+                const clean = url.filter(x => x !== '');           
+                                       
+                window.history.pushState('', '', `/${clean[0]}/${clean[1]}/`)
+                
+                const element = solarSystemSelectedElement;
+                enablePopup(element.elementID);
+            }
         }
+    
     }
 
     goToIntroView () {

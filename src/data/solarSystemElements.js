@@ -11,6 +11,7 @@ async function getPage() {
         elementID
         text
         elementDiameter
+        slug
 				elementCategory {
 					slug
 				}

@@ -2,7 +2,6 @@ import { CameraManager } from "../../common/core/CameraManager";
 import { CoreAppSingleton } from "../../common/core/CoreApp";
 import { Search } from "../partials/Search";
 import { shareInit } from "../partials/Share";
-import { Input } from "../ui/inputs/Input";
 import { addInputs, inputInterface, inputs } from "../ui/inputs/InputsManager";
 import { addPanelListener, addPanels, panels, PanelsListener } from "../ui/panels/PanelsManager";
 import { TimePickerPanel } from "../ui/panels/TimePickerPanel";
@@ -35,7 +34,7 @@ export class OrbitViewer extends Page implements PanelsListener {
 		this.onLoaded();
 		this.addEventListeners();
 
-		addPanelListener(this);
+		addPanelListener(this);		
 
 		this.enable(resolve);
 	}
