@@ -146,6 +146,7 @@ export const applyFilters = (domFilters: NodeListOf<HTMLInputElement>) => {
 
 	if(!needsUpdate && sameDistance && sameDiscover) {
 		applyFilterSolarElements();
+		broadcastPanelsClose();
 		return
 	}
 
