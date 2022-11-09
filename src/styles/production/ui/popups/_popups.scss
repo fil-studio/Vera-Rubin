@@ -43,7 +43,7 @@
 	display: none;
 }
 
-.popups-selected .site__wrapper {
+.popups-selected:not(.page__guided-experiences-tours) .site__wrapper {
 	.navigation,
 	.back-button {
 		opacity: 0;

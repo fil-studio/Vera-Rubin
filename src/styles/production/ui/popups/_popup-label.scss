@@ -45,6 +45,7 @@
 		h3 {
 			@include bold-3;
 			transition-property: opacity;
+			transition-duration: 0.5s;
 		}
 
 		p {
@@ -83,6 +84,12 @@
 	}
 	
 	.icon-text p {
+		opacity: 0;
+	}
+}
+
+.zoom-out .popup-label .icon-text {
+	h3, p { 
 		opacity: 0;
 	}
 }

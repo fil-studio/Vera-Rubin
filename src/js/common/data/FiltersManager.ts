@@ -1,5 +1,6 @@
 import { MathUtils } from "@jocabola/math";
 import { hideLoader, showLoader } from "../../production/ui/loader";
+import { broadcastPanelsClose } from "../../production/ui/panels/PanelsManager";
 import { popups } from "../../production/ui/popups/PopupsManager";
 import { CoreAppSingleton } from "../core/CoreApp";
 import { HASURA_URL, VISUAL_SETTINGS } from "../core/Globals";
@@ -150,8 +151,6 @@ export const applyFilters = (domFilters: NodeListOf<HTMLInputElement>) => {
 
 	broadcastFilterChange();
 
-	showLoader();
-
 	getSolarSystemElementsByFilter().then( (res) => {		
 		const d = res.mpcorb;                                  
 		buildSimWithData(d, false);
@@ -269,6 +268,9 @@ export async function getSolarSystemElements() {
 }
 
 export async function getSolarSystemElementsByFilter() {
+
+	showLoader();
+	broadcastPanelsClose();
 		
 	const url = `${HASURA_URL}/orbit-elements-by-filter/${VISUAL_SETTINGS[VISUAL_SETTINGS.current]}/${distance.search.min}/${distance.search.max}/${discover.search.min}/${discover.search.max}/${filters.asteroids}/${filters.centaurs}/${filters.comets}/${filters.interestellarObjects}/${filters.nearEarthObjects}/${filters.transNeptunianObjects}`;	
 

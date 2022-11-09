@@ -111,6 +111,12 @@
 
 .popups-infos {
 	.copy {
-		color: var(--black-0);
+		color: var(--black-2);
+		@include bold-3;
+	}
+
+	.copy-button.copied .copy {
+		transition: 0.2s ease-in-out;
+		transform: translate(-50%, -125%)
 	}
 }

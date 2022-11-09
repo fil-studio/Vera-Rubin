@@ -50,10 +50,12 @@
 }
 
 [data-template="guided-experiences-tours"]{
+	pointer-events: none;
 
 	.page-content {
 		background-color: transparent;
 		justify-content: center;
 		padding: 0;
+		pointer-events: none;
 	}
 }

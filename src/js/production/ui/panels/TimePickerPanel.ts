@@ -285,8 +285,8 @@ const createArrowsTl = ():GSAPTimeline => {
 
 		const ii = i + 1;
 
-		const distance = window.innerWidth < 678 ? window.innerWidth * 0.11 : 58;		
-		const initialOffset = window.innerWidth < 678 ? 5 : 20;
+		const distance = window.innerWidth < 678 ? window.innerWidth * 0.11 : 60;		
+		const initialOffset = window.innerWidth < 678 ? 5 : 40;
 		const distanceBetweenChevrons = 7;
 
 		gsap.set(past[i].querySelectorAll('path'), {

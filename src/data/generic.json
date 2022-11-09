@@ -15,7 +15,7 @@
 			"next": "Next",
 			"share": "Share",
 			"search": "Search",
-			"no-results": "No Solar Items found",
+			"no-results": "No objects found",
 			"complexity": "Complexity",
 			"duration": "Duration",
 			"easy": "Easy",
@@ -59,7 +59,7 @@
 				"how-to-use": "How to use the Orbit Viewer"
 			},
 			"share-menu": {
-				"title": "Share Skyviewer",
+				"title": "Share Orbitviewer",
 				"subtitle": "Let people know about us!",
 				"get-url": "Get URL",
 				"facebook": "Facebook",
@@ -98,7 +98,7 @@
 				"ultra": ["Ultra", "(Uses more more resources)"]
 			},
 			"about-menu": {
-				"title": "About skyviewer",
+				"title": "About Orbitviewer",
 				"subtitle": "Credits"
 			}
 		},
@@ -123,7 +123,7 @@
 				"How far is it today?",
 				"From the Sun:",
 				"From the Earth:",
-				"See this object in Skyviewer"
+				"See this object in Orbitviewer"
 			]
 		}
 	},
@@ -143,7 +143,7 @@
 			"next": "ES - Next",
 			"share": "ES - Share",
 			"search": "ES - Search",
-			"no-results": "ES - No Solar Items found",
+			"no-results": "ES - No objects found",
 			"complexity": "ES - Complexity",
 			"duration": "ES - Duration",
 			"easy": "ES - Easy",
@@ -188,7 +188,7 @@
 				"resolution": "ES - Resolution settings"
 			},
 			"share-menu": {
-				"title": "ES - Share Skyviewer",
+				"title": "ES - Share Orbitviewer",
 				"subtitle": "ES - Let people know about us!",
 				"get-url": "ES - Get URL",
 				"facebook": "ES - Facebook",
@@ -227,7 +227,7 @@
 				"ultra": ["ES - Ultra", "ES - (Uses more more resources)"]
 			},
 			"about-menu": {
-				"title": "ES - About skyviewer",
+				"title": "ES - About Orbitviewer",
 				"subtitle": "ES - Credits"
 			}
 		},
@@ -252,7 +252,7 @@
 				"ES - How far is it today?",
 				"ES - From the Sun:",
 				"ES - From the Earth:",
-				"ES - See this object in Skyviewer"
+				"ES - See this object in Orbitviewer"
 			]
 		}
 	}
