@@ -107,6 +107,7 @@
 
 			@include light-2;
 			color: var(--black-1);
+			white-space: nowrap;
 		}
 
 		.tooltip-active .tooltip {
