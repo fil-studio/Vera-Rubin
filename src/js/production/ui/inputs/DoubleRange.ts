@@ -6,7 +6,7 @@ export class DoubleRange extends Input {
 	value1: number = 0;
 	value2: number = 0;
 
-	handles: NodeListOf<HTMLElement>
+	handles: NodeListOf<HTMLElement>;
 	range: HTMLElement;
 	addEventListeners(): void {
 
@@ -16,35 +16,11 @@ export class DoubleRange extends Input {
 		this.value1 = first.valueAsNumber;
 		this.value2 = second.valueAsNumber;		
 
-		this.handles = this.dom.querySelectorAll('.handle div');
+		this.handles = this.dom.querySelectorAll('.handle .handle-grab');
 
 		for(const el of this.handles){
 			this.handleListeners(el)
-		}
-
-
-
-
-
-		// const offset = 0.07;
-
-		// this.updateValues();
-
-		// first.addEventListener('input', (e) => {	
-		// 	this.value2 = second.valueAsNumber;		
-		// 	if(first.valueAsNumber >= this.value2 - offset) first.valueAsNumber = this.value1;
-		// 	else this.value1 = first.valueAsNumber;
-		// 	this.dom.style.setProperty('--range-1', first.value);			
-		// 	this.updateValues();
-		// })
-		// second.addEventListener('input', (e) => {
-		// 	this.value1 = first.valueAsNumber;
-		// 	if(second.valueAsNumber - offset <= this.value1) second.valueAsNumber = this.value2;
-		// 	else this.value2 = second.valueAsNumber;			
-		// 	this.dom.style.setProperty('--range-2', second.value);
-		// 	this.updateValues();
-		// })
-		
+		}		
 	}
 
 	handleListeners(el){
@@ -76,18 +52,22 @@ export class DoubleRange extends Input {
 				dragging = false;
 				x = 0;
 				this.updateValues();
+				el.classList.remove('tooltip-active');
 			}, { once: true })
 			window.addEventListener('touchend', () => {
 				dragging = false;
 				x = 0;
 				this.updateValues();
+				el.classList.remove('tooltip-active');
 			}, { once: true })
 		}
 
 		el.addEventListener('mousedown', (e) => {
+			el.classList.add('tooltip-active');
 			mouseDown(e.clientX);
 		})
 		el.addEventListener('touchstart', (e) => {
+			el.classList.add('tooltip-active');
 			mouseDown(e.touches[0].clientX);
 		})
 
@@ -108,6 +88,7 @@ export class DoubleRange extends Input {
 			else this.value2 = newValue;
 			dom.value = `${newValue}`;
 
+			this.updateValues();
 		}
 
 		window.addEventListener('mousemove', (e) => {

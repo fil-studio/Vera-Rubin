@@ -78,7 +78,7 @@
 			left: calc(var(--range-2) * (100%));	
 		}
 
-		div {
+		.handle-grab {
 			position: absolute;
 			bottom: 0;
 			left: 50%;
@@ -91,8 +91,26 @@
 			border-radius: 22px;
 			pointer-events: all;
 			cursor: pointer;
+		}
 
-	
+		.tooltip {
+			position: absolute;
+			bottom: -8px;
+			left: 50%;
+			padding: 0 5px;
+			background: var(--white-0);
+			transform: translate(-50%, 100%);
+			border-radius: 5px;
+			opacity: 0;
+			transition: opacity 0.2s ease-in-out;
+			text-align: center;
+
+			@include light-2;
+			color: var(--black-1);
+		}
+
+		.tooltip-active .tooltip {
+			opacity: 1;
 		}
 	}
 
