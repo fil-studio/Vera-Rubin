@@ -44,7 +44,7 @@ export class SolarElement extends Object3D implements InteractiveObject {
     lockedPosition = {
         portrait: {
             distance: .03,
-            offset: new Vector3(0, -.0055, 0)
+            offset: new Vector3(0, -100, 0)
         },
         landscape: {
             distance: .03,
@@ -86,6 +86,8 @@ export class SolarElement extends Object3D implements InteractiveObject {
         
         this.lockedPosition.landscape.distance = max.length() * 2;
         this.lockedPosition.landscape.offset.set(0,max.length()+center.y,0);
+        this.lockedPosition.portrait.distance = max.length() * 2;
+        this.lockedPosition.portrait.offset.set(0,-max.length()-1000,0);
     }
 
     initMaterial(opts:PlanetOptions = {}){
