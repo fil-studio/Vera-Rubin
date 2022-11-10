@@ -1,6 +1,7 @@
 import gsap from "gsap";
 import { CameraManager } from "../../../common/core/CameraManager";
 import { CoreAppSingleton, solarClock } from "../../../common/core/CoreApp";
+import { DEV } from "../../../common/core/Globals";
 import { SolarElement } from "../../../common/solar/SolarElement";
 import { OrbitDataElements } from "../../../common/solar/SolarUtils";
 import { OrbitControlsIn, OrbitControlsOut } from "../../pagination/animations/OrbitControls";
@@ -53,7 +54,7 @@ export const linkSolarElementToPopup = (solarElement:SolarElement, data:OrbitDat
 	const popup = popups.find(x => x.name === solarElement.name);        
 	    
 	if(!popup) {
-		console.log('No popup by this name', solarElement.name);
+		if(DEV) console.log('No popup by this name', solarElement.name);
 		return;
 	}
 
