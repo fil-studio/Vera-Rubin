@@ -74,8 +74,6 @@ export class OrbitViewer extends Page implements PanelsListener {
 			else popup.label.dom.classList.add('customize-hidden');
 		}
 
-		console.log('toggleLabels');
-
 		CoreAppSingleton.instance.orbitsVisibility = !this.toggleLabelsInput.input.checked;
 	}
 

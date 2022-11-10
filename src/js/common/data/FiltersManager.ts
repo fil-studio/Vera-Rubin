@@ -294,7 +294,7 @@ const applyFilterSolarElements = () => {
 		item.visible = filters[CategoryToFilter[item.category]];
 	}
 
-	// Show hide labels & popups by category
+	// Show hide labels & popups by category	
 	for(const popup of popups){
 		if(!filters[CategoryToFilter[popup.category]]) popup.label.dom.classList.add('filters-hidden')
 		else popup.label.dom.classList.remove('filters-hidden')

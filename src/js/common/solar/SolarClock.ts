@@ -86,9 +86,7 @@ export class SolarClock {
      * 
      * @param date - The date where the simulation needs to be set. Default: now
      */
-    setDate(date:Date=new Date()) {
-        console.log('set', date);
-        
+    setDate(date:Date=new Date()) {        
         this.date = date;
     }
 

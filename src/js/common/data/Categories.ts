@@ -29,7 +29,7 @@ export const getCategory = (item: OrbitDataElements):SolarCategory => {
 	if(item.is_comet) avail_categories.push('comets');
 	if(item.is_centaur) avail_categories.push('centaurs');
 	if(item.is_asteroid) avail_categories.push('asteroids');
-
+	
 	let k = 100;
 	for (const id of avail_categories) {
 		const p = categoriesSort.indexOf(id);

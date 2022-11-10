@@ -96,7 +96,7 @@ export class EllipticalPath {
             dt.push(0);
 
             /* if(el.e > .94) {
-                console.log(this.pts.length, el.a, dist);
+                // console.log(this.pts.length, el.a, dist);
             } */
 
             const geo = new BufferGeometry();

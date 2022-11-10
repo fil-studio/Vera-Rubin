@@ -1,6 +1,7 @@
 import gsap from "gsap";
 import { CameraManager } from "../../../common/core/CameraManager";
 import { CoreAppSingleton, solarClock } from "../../../common/core/CoreApp";
+import { DEV } from "../../../common/core/Globals";
 import { SolarElement } from "../../../common/solar/SolarElement";
 import { OrbitDataElements } from "../../../common/solar/SolarUtils";
 import { OrbitControlsIn, OrbitControlsOut } from "../../pagination/animations/OrbitControls";
@@ -49,13 +50,19 @@ export const initPopups = () => {;
 
 }
 
-export const linkPlanetToPopup = (solarElement:SolarElement, data:OrbitDataElements) => {
-	const popup = popups.find(x => x.name === solarElement.name);            
-	if(popup) {
-		popup.category = solarElement.category;
-		popup.label.ref = solarElement;
-		popup.info.data = data;
+export const linkSolarElementToPopup = (solarElement:SolarElement, data:OrbitDataElements) => {
+	const popup = popups.find(x => x.name === solarElement.name);        
+	    
+	if(!popup) {
+		if(DEV) console.log('No popup by this name', solarElement.name);
+		return;
 	}
+
+	const cmsCategory = popup.label.dom.getAttribute('data-category');
+	solarElement.category = cmsCategory;
+	popup.category = solarElement.category;
+	popup.label.ref = solarElement;
+	popup.info.data = data;
 }
 
 export const popupsLoaded = () => {
