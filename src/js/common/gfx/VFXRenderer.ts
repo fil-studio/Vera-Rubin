@@ -87,10 +87,10 @@ export class VFXRenderer {
         // this.dofRT['samples'] = 4;
 
         this.glow = new BlurPass(this.sceneRT.texture[1],w, h, {
-            scale: .3,
+            scale: .4,
             radius: 1,
             iterations: 8,
-            quality: 0
+            quality: 2
         });
     }
 

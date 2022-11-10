@@ -289,7 +289,7 @@ export class CoreApp extends WebGLSketch {
 
         if(DEV) {
 
-            const stats = new Stats();
+            const stats = Stats();
             document.body.appendChild(stats.domElement);
             stats.domElement.style.left = '100px';
 
