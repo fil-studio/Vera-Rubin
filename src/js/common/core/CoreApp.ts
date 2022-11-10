@@ -2,7 +2,7 @@ import { WebGLSketch } from "@jocabola/gfx";
 import { io } from "@jocabola/io";
 import { AmbientLight, Clock, PerspectiveCamera, PointLight, TextureLoader } from "three";
 import { css2D } from "../../production/ui/popups/Css2D";
-import { enablePopup, initPopups, linkPlanetToPopup, popupsLoaded, resizePopups } from "../../production/ui/popups/PopupsManager";
+import { enablePopup, initPopups, linkSolarElementToPopup, popupsLoaded, resizePopups } from "../../production/ui/popups/PopupsManager";
 import { loadData } from "../data/DataMap";
 import { getSolarSystemElements } from "../data/FiltersManager";
 import { initShaders } from "../gfx/shaders";
@@ -199,7 +199,7 @@ export class CoreApp extends WebGLSketch {
 
 			const planet = new Planet(el.id as PlanetId, mel);
 
-            linkPlanetToPopup(planet, el);
+            linkSolarElementToPopup(planet, el);
             // Remove planets form solar items
             solarItems = solarItems.filter(e => e.elementID !== el.id)
             
@@ -226,7 +226,7 @@ export class CoreApp extends WebGLSketch {
                 color: 0xFA6868
             });
 
-            linkPlanetToPopup(planet, el);
+            linkSolarElementToPopup(planet, el);
             // Remove dwarfs form solar items
             solarItems = solarItems.filter(e => e.elementID !== el.id)
 
@@ -244,17 +244,18 @@ export class CoreApp extends WebGLSketch {
 
             el.tperi = JD2MJD(el.tperi);            
             const mel = mapOrbitElements(el);
+            
             const category = categories.find(x => x.slug === mel.category);
             
-            const planet = new SolarElement(el.id, mel, {
+            const solarElement = new SolarElement(el.id, mel, {
                 color: category.mainColor
             });
+            
+            linkSolarElementToPopup(solarElement, el);
 
-            linkPlanetToPopup(planet, el);
-
-            this.solarElements.push(planet);
-            this.scene.add(planet);
-            this.scene.add(planet.orbitPath.ellipse);
+            this.solarElements.push(solarElement);
+            this.scene.add(solarElement);
+            this.scene.add(solarElement.orbitPath.ellipse);
 
         }
     }

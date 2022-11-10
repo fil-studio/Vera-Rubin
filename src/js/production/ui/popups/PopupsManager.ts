@@ -49,13 +49,19 @@ export const initPopups = () => {;
 
 }
 
-export const linkPlanetToPopup = (solarElement:SolarElement, data:OrbitDataElements) => {
-	const popup = popups.find(x => x.name === solarElement.name);            
-	if(popup) {
-		popup.category = solarElement.category;
-		popup.label.ref = solarElement;
-		popup.info.data = data;
+export const linkSolarElementToPopup = (solarElement:SolarElement, data:OrbitDataElements) => {
+	const popup = popups.find(x => x.name === solarElement.name);        
+	    
+	if(!popup) {
+		console.log('No popup by this name', solarElement.name);
+		return;
 	}
+
+	const cmsCategory = popup.label.dom.getAttribute('data-category');
+	solarElement.category = cmsCategory;
+	popup.category = solarElement.category;
+	popup.label.ref = solarElement;
+	popup.info.data = data;
 }
 
 export const popupsLoaded = () => {
