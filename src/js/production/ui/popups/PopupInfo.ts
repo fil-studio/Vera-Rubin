@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { CategoriesMinMaxA } from "../../../common/data/Categories";
 import { getClosestDateToSun, getDistanceFromEarthNow, getDistanceFromSunNow, OrbitDataElements } from "../../../common/solar/SolarUtils";
 import { formatDateString } from "../../utils/Dates";
+import { isPortrait } from "../../utils/Helpers";
 import { disablePopup } from "./PopupsManager";
 
 
@@ -157,7 +158,19 @@ export class PopupInfo {
 			disablePopup();
 		})
 
+		const cover = this.dom.querySelector('.cover');
+		if(cover) {
+			cover.addEventListener('click', () => {
+				for(const section of this.sections){
+					if(section.classList.contains('active')) return;
+				}
+
+				this.sections[0].classList.add('active');
+			})
+		}
+
 		for(const section of this.sections){
+	
 			section.querySelector('.head').addEventListener('click', () => {	
 				if(section.classList.contains('active')) {
 					section.classList.remove('active');			
@@ -197,7 +210,6 @@ export class PopupInfo {
 
 		if(!closeUp) this.dom.classList.add('no-closeup');
 		
-
 		const delay = closeUp ? 4 : 2;	
 		const tl = gsap.timeline({ paused: true, delay })		
 
@@ -218,6 +230,7 @@ export class PopupInfo {
 				clearProps: 'all',
 				onComplete: () => {
 
+					if(isPortrait()) return;
 					// Prevents user spamclicking 
 					let active = false;
 					for(const section of this.sections){

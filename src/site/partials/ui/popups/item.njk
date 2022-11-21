@@ -28,6 +28,9 @@
 			{% include "ui/icons/times-circle.njk" %}
 		</button>
 
+		<div class="popup-title">
+			<h3 data="name"></h3>
+		</div>
 		{% if element.elementPreview[0].url %}<div class="cover" style="background-image: url({{ element.elementPreview[0].url }});"></div>{% endif %}
 		
 		<div class="hidden-tabs">
