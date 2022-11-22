@@ -51,6 +51,10 @@
 // Sorts
 .tours-list {
 
+	a.hidden {
+		display: none;
+	}
+
 	&[sort="new"]{
 		a {
 			order: var(--date);
@@ -106,5 +110,6 @@
 		}
 
 	}
-
 }
+
+

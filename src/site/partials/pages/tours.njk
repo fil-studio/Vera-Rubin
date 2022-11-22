@@ -31,8 +31,7 @@
       <p>{{ generic[lang].strings.search }}</p>
 
       <div class="active-search">
-        <input type="text" name="tour-search">
-        <label for="tour-search">{{ generic[lang]['strings']['search-placeholder'] }}</label>
+        <input type="text" name="tour-search" placeholder="{{ generic[lang]['strings']['search-placeholder'] }}">
       </div>
 
     </button>
@@ -42,9 +41,6 @@
   {# ACTIVE TOURS #}
   <div class="tours-list-wrapper">
     <div class="tours-list">
-      {{ loop(guidedExperiencesTours[lang], tour, lang ) }}
-      {{ loop(guidedExperiencesTours[lang], tour, lang ) }}
-      {{ loop(guidedExperiencesTours[lang], tour, lang ) }}
       {{ loop(guidedExperiencesTours[lang], tour, lang ) }}
     </div>
   </div>

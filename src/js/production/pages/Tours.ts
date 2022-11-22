@@ -7,9 +7,13 @@ export class Tours extends Page {
 	chevs:NodeListOf<HTMLElement>;
 	playing: boolean = false;
 
+
+	searchEl:HTMLElement;
+
 	onLoaded(){
 		this.chevs = this.dom.querySelectorAll('.tour-pagination svg');
 		this.checkWidth();
+		this.search();
 	}
 
 	playChev(chev, direction){
@@ -40,6 +44,8 @@ export class Tours extends Page {
 
 	checkWidth(){
 
+		return
+
 		if(!this.dom) return;
 
 		const list = this.dom.querySelector('.tours-list') as HTMLElement;
@@ -53,6 +59,7 @@ export class Tours extends Page {
 		};
 
 		for(const item of items){
+			if(item.classList.contains('hidden')) continue;
 			const r = item.getBoundingClientRect();
 			size.w += r.width;
 			size.h += r.height;
@@ -61,8 +68,7 @@ export class Tours extends Page {
 		list.style.width = 'auto';
 		list.style.height = 'auto';
 
-		if(isPortrait()) list.style.height = `${size.h}px`;
-		else list.style.width = `${size.w}px`;
+		if(!isPortrait()) list.style.width = `${size.w}px`;
 		
 	}
 
@@ -81,6 +87,40 @@ export class Tours extends Page {
 		})
 	}
 
+	hide(): void {
+		this.searchEl.classList.remove('active')
+	}
+
+	search(){
+		this.searchEl = this.dom.querySelector('.search-button');
+		this.searchEl.addEventListener('click', () => {
+			this.searchEl.classList.add('active');
+		})
+
+		const items = this.dom.querySelectorAll('[data-search]');
+
+		const input = this.searchEl.querySelector('input');
+		input.addEventListener('input', (e) => {
+			
+			if(input.value === '') {
+				for(const item of items) item.classList.remove('hidden');
+				this.searchEl.classList.remove('active')
+				return;
+			}			
+
+			this.searchEl.classList.add('active')
+
+			const val = input.value.toLowerCase();
+			for(const item of items){
+				const string = item.getAttribute('data-search').toLowerCase();
+				if(!string.includes(val)) item.classList.add('hidden');
+				else item.classList.remove('hidden');
+			}
+
+			this.checkWidth();
+			
+		})
+	}
 
 
 }
