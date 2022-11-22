@@ -49,6 +49,13 @@
 	}
 }
 
+[data-template="tours"] {
+	.page-content {
+		padding-right: 0;
+		padding-left: 0;
+	}
+}
+
 [data-template="guided-experiences-tours"]{
 	pointer-events: none;
 

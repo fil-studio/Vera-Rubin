@@ -1,4 +1,5 @@
 import gsap from "gsap";
+import { isPortrait } from "../utils/Helpers";
 import { Page } from "./Page";
 
 
@@ -8,6 +9,7 @@ export class Tours extends Page {
 
 	onLoaded(){
 		this.chevs = this.dom.querySelectorAll('.tour-pagination svg');
+		this.checkWidth();
 	}
 
 	playChev(chev, direction){
@@ -34,6 +36,38 @@ export class Tours extends Page {
 			}
 		})
 
+	}
+
+	checkWidth(){
+
+		if(!this.dom) return;
+
+		const list = this.dom.querySelector('.tours-list') as HTMLElement;
+		if(!list) return;
+		const items = list.querySelectorAll('a') as NodeListOf<HTMLAnchorElement>;
+		if(items.length === 0) return;
+
+		const size = {
+			w: 60,
+			h: 60
+		};
+
+		for(const item of items){
+			const r = item.getBoundingClientRect();
+			size.w += r.width;
+			size.h += r.height;
+		}
+
+		list.style.width = 'auto';
+		list.style.height = 'auto';
+
+		if(isPortrait()) list.style.height = `${size.h}px`;
+		else list.style.width = `${size.w}px`;
+		
+	}
+
+	onResize(): void {
+		this.checkWidth();
 	}
 
 	addEventListeners(): void {
