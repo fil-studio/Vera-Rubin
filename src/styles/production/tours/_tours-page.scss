@@ -10,6 +10,7 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: flex-start;
+		padding-bottom: 0;
 	}
 
 	@include desktop {
@@ -18,7 +19,7 @@
 		// flex-grow: 3;
 		// align-items: center;
 		// justify-content: space-around;
-		width: max-content;
+		width: auto;
 
 	}
 
@@ -29,12 +30,6 @@
 		max-width: 400px;
 		flex-grow: 0;
 		flex-shrink: 0;
-
-		@include device {
-			&:last-of-type {
-				padding-bottom: 0;
-			}
-		}
 
 	}
 }
@@ -55,58 +50,37 @@
 		display: none;
 	}
 
-	&[sort="new"]{
-		a {
-			order: var(--date);
-		}
-	}
-
+	&[sort="new"],
 	&[sort="old"]{
-		@include device {
-			flex-direction: column-reverse;
-		}
-		@include desktop {
-			flex-direction: row-reverse;
-		}
 		a {
 			order: var(--date);
 		}
 	}
 
-	&[sort="less-duration"]{
-		a {
-			order: var(--duration);
-		}
-	}
-
+	&[sort="less-duration"],
 	&[sort="more-duration"]{
-
-		@include device {
-			flex-direction: column-reverse;
-		}
-		@include desktop {
-			flex-direction: row-reverse;
-		}
 		a {
 			order: var(--duration);
 		}
 	}
 
-	&[sort="less-complexity"]{
+	&[sort="less-complexity"],
+	&[sort="more-complexity"] {
 		a {
 			order: var(--complexity);
 		}
 	}
 
-	&[sort="more-complexity"]{
+	&[sort="old"],
+	&[sort="more-complexity"],
+	&[sort="more-duration"] {
+
 		@include device {
 			flex-direction: column-reverse;
 		}
 		@include desktop {
 			flex-direction: row-reverse;
-		}
-		a {
-			order: var(--complexity);
+			justify-content: flex-end;
 		}
 
 	}
