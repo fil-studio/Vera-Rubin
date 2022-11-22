@@ -46,3 +46,65 @@
 		padding: 0 var(--distance-30);
 	}
 }
+
+
+// Sorts
+.tours-list {
+
+	&[sort="new"]{
+		a {
+			order: var(--date);
+		}
+	}
+
+	&[sort="old"]{
+		@include device {
+			flex-direction: column-reverse;
+		}
+		@include desktop {
+			flex-direction: row-reverse;
+		}
+		a {
+			order: var(--date);
+		}
+	}
+
+	&[sort="less-duration"]{
+		a {
+			order: var(--duration);
+		}
+	}
+
+	&[sort="more-duration"]{
+
+		@include device {
+			flex-direction: column-reverse;
+		}
+		@include desktop {
+			flex-direction: row-reverse;
+		}
+		a {
+			order: var(--duration);
+		}
+	}
+
+	&[sort="less-complexity"]{
+		a {
+			order: var(--complexity);
+		}
+	}
+
+	&[sort="more-complexity"]{
+		@include device {
+			flex-direction: column-reverse;
+		}
+		@include desktop {
+			flex-direction: row-reverse;
+		}
+		a {
+			order: var(--complexity);
+		}
+
+	}
+
+}

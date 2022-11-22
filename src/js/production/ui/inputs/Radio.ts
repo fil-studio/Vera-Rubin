@@ -8,6 +8,7 @@ export class Radio extends Input {
 
 		this.dom.addEventListener('click', (e) => {			
 			this.checkState();
+			this.updateValues();
 		})
 	}
 
@@ -29,6 +30,11 @@ export class Radio extends Input {
 		} else {
 			parent.classList.remove('checked')
 		}
+		
+	}
+
+	updateValues(){
+
 		
 	}
 

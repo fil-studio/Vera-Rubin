@@ -11,6 +11,7 @@ import { PlanetsMoons } from "./filters/PlantsMoons";
 import { TransNeptunianObjects } from "./filters/TransNeptunianObjects";
 import { Input } from "./Input";
 import { Radio } from "./Radio";
+import { RadioSortTours } from "./RadioSortTours";
 import { ZoomRange } from "./ZoomRange";
 
 export interface inputInterface {
@@ -52,7 +53,10 @@ export const addInputs = () => {
 					if(el.getAttribute('name') === 'centaurs') item.input = new Centaurs(el);
 					else item.input = new Checkbox(el)
 				}
-				if(type === 'radio') item.input = new Radio(el)
+				if(type === 'radio') {
+					if (el.getAttribute('name') === 'sort-radio') item.input = new RadioSortTours(el);
+					else item.input = new Radio(el)
+				}
 				if(type === 'double-range'){
 					if(el.getAttribute('name') === 'distance-range') item.input = new DoubleRangeDistance(el)
 					if(el.getAttribute('name') === 'discovery-range') item.input = new DoubleRangeYear(el)
