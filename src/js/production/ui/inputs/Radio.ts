@@ -1,6 +1,12 @@
 import { Input } from "./Input";
 
 export class Radio extends Input {
+	options:NodeListOf<HTMLInputElement>;
+
+	create(){
+			const name = this.dom.getAttribute('name');
+			this.options = document.querySelectorAll(`[name="${name}"]`);
+	}
 
 	addEventListeners(): void {
 
@@ -19,10 +25,7 @@ export class Radio extends Input {
 		const checked = el.checked;				
 
 		if(checked){
-
-			const name = this.dom.getAttribute('name');
-			const inputs = document.querySelectorAll(`[name="${name}"]`);
-			for(const input of inputs) {
+			for(const input of this.options) {
 				input.parentElement.classList.remove('checked')
 			}
 
