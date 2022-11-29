@@ -90,32 +90,32 @@ export class PopupInfo {
 		const names = this.dom.querySelectorAll('[data="name"]') as NodeListOf<HTMLElement>;
 		for(const name of names) name.innerText = this.data.fulldesignation;
 
-		const a = this.dom.querySelector('[data="a"]') as HTMLElement;
-		a.innerText = this.data.a.toFixed(2);
+		const a = this.dom.querySelector('[data="a"]') as HTMLElement;		
+		a.innerText = this.data.a ? this.data.a.toFixed(2) : '0.00';
 		const slideA = this.dom.querySelector('[data-slider="a"]') as HTMLElement;
 		this.applyItemPosition(slideA, this.data.a, 0, 100);
 
 		const e = this.dom.querySelector('[data="e"]') as HTMLElement;
-		e.innerText = this.data.e.toFixed(2);
+		e.innerText = this.data.e ? this.data.e.toFixed(2) : '0.00';
 		const slideE = this.dom.querySelector('[data-slider="e"]') as HTMLElement;
 		this.applyItemPosition(slideE, this.data.e, 0, 1);
 
 		const i = this.dom.querySelector('[data="incl"]') as HTMLElement;
-		i.innerText = this.data.incl.toFixed(2);
+		i.innerText = this.data.incl ? this.data.incl.toFixed(2) : '0.00';
 		const slideI = this.dom.querySelector('[data-slider="incl"]') as HTMLElement;
 		this.applyItemPosition(slideI, this.data.incl, 0, 180);
 
 		const peri = this.dom.querySelector('[data="peri"]') as HTMLElement;
-		peri.innerText = this.data.peri.toFixed(2);
+		peri.innerText = this.data.peri ? this.data.peri.toFixed(2) : '0.00';
 
 		const node = this.dom.querySelector('[data="node"]') as HTMLElement;
-		node.innerText = this.data.node.toFixed(2);
+		node.innerText = this.data.node ? this.data.node.toFixed(2) : '0.00';
 
 		const m = this.dom.querySelector('[data="m"]') as HTMLElement;
-		m.innerText = this.data.M.toFixed(2);
+		m.innerText = this.data.M ? this.data.M.toFixed(2) : '0.00';
 
 		const b = this.dom.querySelector('[data="brightness"]') as HTMLElement;
-		b.innerText = this.data.mpch.toFixed(2);
+		b.innerText = this.data.mpch ? this.data.mpch.toFixed(2) : '0.00';
 
 		// Fill data
 		const date = getClosestDateToSun(this.data);		

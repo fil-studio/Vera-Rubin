@@ -25,6 +25,12 @@ export class GuidedExperienceTour extends Page {
 		this.createSlides();
 
 		this.bullets = this.dom.querySelectorAll('.bullets div');
+	}
+
+	show(): void {
+		this.checkBullets();
+
+		this.activeSlide = 0;
 
 		for(const slide of this.slides){
 			if(slide === this.slides[this.activeSlide]) continue;
@@ -33,11 +39,30 @@ export class GuidedExperienceTour extends Page {
 				autoAlpha: 0,
 			})
 		}
+
+		this.move();
+	}
+
+	checkBullets(){
+		if (this.activeSlide === 0 || this.activeSlide === this.slides.length - 1) this.dom.querySelector('.bullets').classList.add('hidden');
+		else this.dom.querySelector('.bullets').classList.remove('hidden');
+
+		for(const bullet of this.bullets) bullet.classList.remove('active');
+		this.bullets[this.activeSlide].classList.add('active');
 	}
 
 	disable(): void {
 		super.disable();
+		
 		document.querySelector('.popups-labels').style.opacity = '';
+		this.hidePopups();
+
+		const content = this.slides[this.activeSlide].dom.querySelector('.content')
+		if(content) content.classList.add('folded');
+
+		for(const slide of this.slides)	slide.dom.classList.remove('active');
+		this.activeSlide = 0;
+		this.slides[this.activeSlide].dom.classList.add('active');
 	}
 
 	createSlides() {
@@ -47,7 +72,7 @@ export class GuidedExperienceTour extends Page {
 		for(const slide of slides){			
 			const closeup = slide.hasAttribute('data-closeup') ? slide.getAttribute('data-closeup') : null;
 
-			const slideItem = {
+			const _slide = {
 				index: parseInt(slide.getAttribute('data-slide-index')),
 				type: slide.getAttribute('data-slide'),
 				active: false,
@@ -55,14 +80,45 @@ export class GuidedExperienceTour extends Page {
 				tlIn: this.tlIn(slide, slide.getAttribute('data-slide')),
 				tlOut: this.tlOut(slide, slide.getAttribute('data-slide')),
 				closeup
-			}		
-			
-			this.slides.push(slideItem)
+			}					
+			this.slides.push(_slide)
+
+			if(_slide.type === 'defaultSlide'){
+				const content = _slide.dom.querySelector('.content')
+				content.addEventListener('click', () => {
+					content.classList.toggle('folded');
+				})
+			}
 		}
+
+		this.setSlidesHeight();
 	}
 
-	tlIn(dom, type):GSAPTimeline{
+	setSlidesHeight(){
+
+		for(const slide of this.slides){
+			if(slide.type != 'defaultSlide') continue;
+			
+			const content = slide.dom.querySelector('.content');
+			const p = content.querySelector('p');
+			if(!p) continue;
+
+			p.style.height = 'auto';
+			const rect = p.getBoundingClientRect();
+			p.style.height = '';
+			p.style.setProperty('--height', `${rect.height}px`);			
+
+			if(rect.height <= 50) content.classList.add('to-small-to-fold')
+		}
 		
+	}
+
+	onResize(): void {
+		super.onResize();
+		this.setSlidesHeight();
+	}	
+
+	tlIn(dom, type):GSAPTimeline{
 
 		const tl = gsap.timeline({paused: true, onComplete: () => {
 			this.changeInProgress = false;
@@ -153,6 +209,9 @@ export class GuidedExperienceTour extends Page {
 					this.slides[this.activeSlide].tlOut.play(0);
 					this.hidePopups();
 	
+					const content = this.slides[this.activeSlide].dom.querySelector('.content')
+					if (content) content.classList.add('folded');
+
 					if(type === 'prev') {
 						this.prev();
 						return;
@@ -167,11 +226,6 @@ export class GuidedExperienceTour extends Page {
 		}
 
 
-	}
-
-	hide(): void {
-		super.hide();
-		this.hidePopups()
 	}
 
 	hidePopups() {
@@ -199,7 +253,7 @@ export class GuidedExperienceTour extends Page {
 	}
 
 	move(){
-		
+
 		const closeup = this.slides[this.activeSlide].closeup;
 		if(closeup){
 			const solarElement = CoreAppSingleton.instance.solarElements.find(x => x.name === closeup);
@@ -209,8 +263,7 @@ export class GuidedExperienceTour extends Page {
 			CameraManager.goToTarget(CoreAppSingleton.instance.sun, true);
 		}
 
-		for(const bullet of this.bullets) bullet.classList.remove('active');
-		this.bullets[this.activeSlide].classList.add('active');
+		this.checkBullets();
 		
 		setTimeout(() => {
 

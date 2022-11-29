@@ -30,6 +30,10 @@
 	}
 }
 
+.ui__button.center {
+	text-align: center;
+}
+
 .ui__button.ghost-button,
 .ui__button-small.ghost-button {
 	background-color: transparent;
@@ -68,6 +72,10 @@
 		display: flex;
 		justify-content: space-between;
 
+		p {
+			text-align: right;
+		}
+
 		&.button__icon {
 			svg {
 				width: 20px;
@@ -81,7 +89,11 @@
 		}
 
 		&:has(.arrow-prev){
-			text-align: right;			
+			text-align: right;		
+			
+			p {
+				text-align: left;
+			}
 		}
 	}
 }
