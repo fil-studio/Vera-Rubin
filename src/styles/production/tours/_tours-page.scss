@@ -14,11 +14,6 @@
 	}
 
 	@include desktop {
-		// flex-direction: row;
-		// overflow-x: auto;
-		// flex-grow: 3;
-		// align-items: center;
-		// justify-content: space-around;
 		width: auto;
 
 	}
@@ -26,11 +21,13 @@
 
 	a {
 		width: 100%;
-		padding: 0 0 var(--distance-30);
 		max-width: 400px;
 		flex-grow: 0;
 		flex-shrink: 0;
 
+		@include mobile {
+			padding: 0 0 var(--distance-30);
+		}
 	}
 }
 
