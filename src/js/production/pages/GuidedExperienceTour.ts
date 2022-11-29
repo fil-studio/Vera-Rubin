@@ -65,11 +65,40 @@ export class GuidedExperienceTour extends Page {
 				tlIn: this.tlIn(slide, slide.getAttribute('data-slide')),
 				tlOut: this.tlOut(slide, slide.getAttribute('data-slide')),
 				closeup
-			}		
-			
+			}					
 			this.slides.push(slideItem)
+
+			if(slideItem.type === 'defaultSlide'){
+				const content = slideItem.dom.querySelector('.content')
+				content.addEventListener('click', () => {
+					content.classList.toggle('folded');
+				})
+			}
 		}
+
+		this.setSlidesHeight();
 	}
+
+	setSlidesHeight(){
+
+		for(const slide of this.slides){
+			if(slide.type != 'defaultSlide') continue;
+			
+			const p = slide.dom.querySelector('.content p');
+			if(!p) continue;
+
+			p.style.height = 'auto';
+			const rect = p.getBoundingClientRect();
+			p.style.height = '';
+			p.style.setProperty('--height', `${rect.height}px`);			
+		}
+		
+	}
+
+	onResize(): void {
+		super.onResize();
+		this.setSlidesHeight();
+	}	
 
 	tlIn(dom, type):GSAPTimeline{
 
