@@ -132,14 +132,14 @@ export class Search {
 
 	updateSearch(){
 
-		const v = this.input.value;
+		const v = this.input.value.toLowerCase();
 
 		if(v === ''){
 			for(const item of this.items) this.destroyItem(item);
 			return;
 		}
 
-		const activePopups = popups.filter(x => x.name.includes(v) );		
+		const activePopups = popups.filter(x => x.name.toLowerCase().includes(v) );		
 
 		for(const p of activePopups){
 			this.createItem(p);
