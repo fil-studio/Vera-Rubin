@@ -20,7 +20,7 @@
 
 			{% block content %}
 				<main data-template="{{ pageTemplate }}" class="page__content">					
-					{% if pageTemplate != 'index' %} 
+					{% if pageTemplate != 'index' and pageTemplate != 'customize-orbits' %} 
 						{# NAVIGATION #}
 						{% include 'navigation/navigation.njk' %}
 					{% endif %}
