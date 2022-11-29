@@ -205,6 +205,10 @@
 [data-slide="funFactSlide"] {
 	background-color: var(--teal-2);
 
+	@include device {
+		min-height: 100vh;
+	}
+
 	.icon {
 		width: 65px;
 		height: 65px;
