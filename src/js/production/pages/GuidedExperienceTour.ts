@@ -58,8 +58,8 @@ export class GuidedExperienceTour extends Page {
 	disable(): void {
 		super.disable();
 		
-		document.querySelector('.popups-labels').style.opacity = '';
 		this.hidePopups();
+		document.querySelector('.popups-labels').style.opacity = '';
 
 		const content = this.slides[this.activeSlide].dom.querySelector('.content')
 		if(content) content.classList.add('folded');
