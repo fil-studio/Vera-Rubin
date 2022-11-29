@@ -279,7 +279,7 @@
 				transition: height 0.3s ease-in-out;
 			}
 
-			&.folded {
+			&.folded:not(.to-small-to-fold) {
 				&:after {
 					opacity: 1;
 				}

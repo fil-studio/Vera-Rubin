@@ -57,7 +57,7 @@ export class GuidedExperienceTour extends Page {
 		for(const slide of slides){			
 			const closeup = slide.hasAttribute('data-closeup') ? slide.getAttribute('data-closeup') : null;
 
-			const slideItem = {
+			const _slide = {
 				index: parseInt(slide.getAttribute('data-slide-index')),
 				type: slide.getAttribute('data-slide'),
 				active: false,
@@ -66,10 +66,10 @@ export class GuidedExperienceTour extends Page {
 				tlOut: this.tlOut(slide, slide.getAttribute('data-slide')),
 				closeup
 			}					
-			this.slides.push(slideItem)
+			this.slides.push(_slide)
 
-			if(slideItem.type === 'defaultSlide'){
-				const content = slideItem.dom.querySelector('.content')
+			if(_slide.type === 'defaultSlide'){
+				const content = _slide.dom.querySelector('.content')
 				content.addEventListener('click', () => {
 					content.classList.toggle('folded');
 				})
@@ -79,18 +79,22 @@ export class GuidedExperienceTour extends Page {
 		this.setSlidesHeight();
 	}
 
+
 	setSlidesHeight(){
 
 		for(const slide of this.slides){
 			if(slide.type != 'defaultSlide') continue;
 			
-			const p = slide.dom.querySelector('.content p');
+			const content = slide.dom.querySelector('.content');
+			const p = content.querySelector('p');
 			if(!p) continue;
 
 			p.style.height = 'auto';
 			const rect = p.getBoundingClientRect();
 			p.style.height = '';
 			p.style.setProperty('--height', `${rect.height}px`);			
+
+			if(rect.height <= 50) content.classList.add('to-small-to-fold')
 		}
 		
 	}
@@ -191,6 +195,9 @@ export class GuidedExperienceTour extends Page {
 					this.slides[this.activeSlide].tlOut.play(0);
 					this.hidePopups();
 	
+					const content = this.slides[this.activeSlide].dom.querySelector('.content')
+					content.classList.add('folded');
+					
 					if(type === 'prev') {
 						this.prev();
 						return;
