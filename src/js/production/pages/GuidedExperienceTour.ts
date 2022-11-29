@@ -25,8 +25,12 @@ export class GuidedExperienceTour extends Page {
 		this.createSlides();
 
 		this.bullets = this.dom.querySelectorAll('.bullets div');
+	}
 
+	show(): void {
 		this.checkBullets();
+
+		this.activeSlide = 0;
 
 		for(const slide of this.slides){
 			if(slide === this.slides[this.activeSlide]) continue;
@@ -35,6 +39,8 @@ export class GuidedExperienceTour extends Page {
 				autoAlpha: 0,
 			})
 		}
+
+		this.move();
 	}
 
 	checkBullets(){
@@ -47,8 +53,8 @@ export class GuidedExperienceTour extends Page {
 
 	disable(): void {
 		super.disable();
+		
 		document.querySelector('.popups-labels').style.opacity = '';
-		this.slides[this.activeSlide].tlOut.play(1);
 		this.hidePopups();
 
 		const content = this.slides[this.activeSlide].dom.querySelector('.content')
@@ -57,7 +63,6 @@ export class GuidedExperienceTour extends Page {
 		for(const slide of this.slides)	slide.dom.classList.remove('active');
 		this.activeSlide = 0;
 		this.slides[this.activeSlide].dom.classList.add('active');
-		this.slides[this.activeSlide].tlIn.play(1);
 	}
 
 	createSlides() {
@@ -257,7 +262,6 @@ export class GuidedExperienceTour extends Page {
 		} else {
 			CameraManager.goToTarget(CoreAppSingleton.instance.sun, true);
 		}
-
 
 		this.checkBullets();
 		
