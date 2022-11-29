@@ -30,17 +30,21 @@ export class GuidedExperienceTour extends Page {
 	show(): void {
 		this.checkBullets();
 
-		this.activeSlide = 0;
-
 		for(const slide of this.slides){
-			if(slide === this.slides[this.activeSlide]) continue;
-			gsap.set(slide.dom, {
-				xPercent: -5,
-				autoAlpha: 0,
-			})
+			if(slide === this.slides[this.activeSlide]) {
+				gsap.set(slide.dom, {
+					xPercent: 0,
+					yPercent: 0,
+					autoAlpha: 1,
+					clear: 'all'
+				})
+			} else {
+				gsap.set(slide.dom, {
+					xPercent: -5,
+					autoAlpha: 0,
+				})
+			}
 		}
-
-		this.move();
 	}
 
 	checkBullets(){
@@ -60,9 +64,7 @@ export class GuidedExperienceTour extends Page {
 		const content = this.slides[this.activeSlide].dom.querySelector('.content')
 		if(content) content.classList.add('folded');
 
-		for(const slide of this.slides)	slide.dom.classList.remove('active');
 		this.activeSlide = 0;
-		this.slides[this.activeSlide].dom.classList.add('active');
 	}
 
 	createSlides() {
@@ -267,11 +269,7 @@ export class GuidedExperienceTour extends Page {
 		
 		setTimeout(() => {
 
-			for(const slide of this.slides)	slide.dom.classList.remove('active')
-
-			this.slides[this.activeSlide].dom.classList.add('active');
 			this.slides[this.activeSlide].tlIn.play(0);
-
 			
 		}, D * 1000);
 

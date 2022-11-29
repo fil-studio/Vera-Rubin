@@ -8,8 +8,10 @@ export class RadioSortTours extends Radio {
 
 	}
 	updateValues() {
-		
-		const page = document.querySelector('.page__content:not(.disabled)');
+
+		if(!this.dom.checked) return;
+		const page = document.querySelector('.page__content:not(.disabled)[data-template="tours"]');		
+		if(!page) return;
 		page.querySelector('.tours-list').setAttribute('sort', this.dom.value)
 		
 	}

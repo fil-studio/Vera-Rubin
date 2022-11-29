@@ -1,6 +1,7 @@
 import { Input } from "./Input";
 
 export class Radio extends Input {
+	dom: HTMLInputElement;
 	options:NodeListOf<HTMLInputElement>;
 
 	create(){

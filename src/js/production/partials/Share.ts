@@ -25,9 +25,7 @@ export const shareInit = (dom:HTMLElement) => {
 
 const shareFacebook = (dom:HTMLLinkElement) => {
 	const text = dom.getAttribute('data-text');
-	dom.removeAttribute('data-text');
-	console.log(window.location);
-	
+	dom.removeAttribute('data-text');	
 	dom.setAttribute('href', `https://www.facebook.com/sharer/sharer.php?quote=${text}&u=${window.location.href}`) 
 }
 
