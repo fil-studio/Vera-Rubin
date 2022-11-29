@@ -26,6 +26,8 @@ export class GuidedExperienceTour extends Page {
 
 		this.bullets = this.dom.querySelectorAll('.bullets div');
 
+		this.checkBullets();
+
 		for(const slide of this.slides){
 			if(slide === this.slides[this.activeSlide]) continue;
 			gsap.set(slide.dom, {
@@ -33,6 +35,14 @@ export class GuidedExperienceTour extends Page {
 				autoAlpha: 0,
 			})
 		}
+	}
+
+	checkBullets(){
+		if(this.activeSlide === 0) this.dom.querySelector('.bullets').classList.add('hidden');
+		else this.dom.querySelector('.bullets').classList.remove('hidden');
+
+		for(const bullet of this.bullets) bullet.classList.remove('active');
+		this.bullets[this.activeSlide].classList.add('active');
 	}
 
 	disable(): void {
@@ -62,7 +72,6 @@ export class GuidedExperienceTour extends Page {
 	}
 
 	tlIn(dom, type):GSAPTimeline{
-		
 
 		const tl = gsap.timeline({paused: true, onComplete: () => {
 			this.changeInProgress = false;
@@ -199,7 +208,7 @@ export class GuidedExperienceTour extends Page {
 	}
 
 	move(){
-		
+
 		const closeup = this.slides[this.activeSlide].closeup;
 		if(closeup){
 			const solarElement = CoreAppSingleton.instance.solarElements.find(x => x.name === closeup);
@@ -209,8 +218,8 @@ export class GuidedExperienceTour extends Page {
 			CameraManager.goToTarget(CoreAppSingleton.instance.sun, true);
 		}
 
-		for(const bullet of this.bullets) bullet.classList.remove('active');
-		this.bullets[this.activeSlide].classList.add('active');
+
+		this.checkBullets();
 		
 		setTimeout(() => {
 
