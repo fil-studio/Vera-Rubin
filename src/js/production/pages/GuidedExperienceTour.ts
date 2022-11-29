@@ -48,6 +48,16 @@ export class GuidedExperienceTour extends Page {
 	disable(): void {
 		super.disable();
 		document.querySelector('.popups-labels').style.opacity = '';
+		this.slides[this.activeSlide].tlOut.play(1);
+		this.hidePopups();
+
+		const content = this.slides[this.activeSlide].dom.querySelector('.content')
+		if(content) content.classList.add('folded');
+
+		for(const slide of this.slides)	slide.dom.classList.remove('active');
+		this.activeSlide = 0;
+		this.slides[this.activeSlide].dom.classList.add('active');
+		this.slides[this.activeSlide].tlIn.play(1);
 	}
 
 	createSlides() {
@@ -78,7 +88,6 @@ export class GuidedExperienceTour extends Page {
 
 		this.setSlidesHeight();
 	}
-
 
 	setSlidesHeight(){
 
@@ -196,8 +205,8 @@ export class GuidedExperienceTour extends Page {
 					this.hidePopups();
 	
 					const content = this.slides[this.activeSlide].dom.querySelector('.content')
-					content.classList.add('folded');
-					
+					if (content) content.classList.add('folded');
+
 					if(type === 'prev') {
 						this.prev();
 						return;
@@ -212,11 +221,6 @@ export class GuidedExperienceTour extends Page {
 		}
 
 
-	}
-
-	hide(): void {
-		super.hide();
-		this.hidePopups()
 	}
 
 	hidePopups() {

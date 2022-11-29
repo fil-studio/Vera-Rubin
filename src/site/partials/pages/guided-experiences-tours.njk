@@ -14,6 +14,7 @@
     {% for slide in experience.flexible %}
       <div></div>
     {% endfor %}
+    <div></div>
   </div>
 
   <section class="active" data-slide="initialSlide" data-slide-index="0">
@@ -94,5 +95,22 @@
     </section>
 
   {% endfor %}
+
+  <section data-slide="shareSlide" data-slide-index="{{ experience.flexible.length + 1 }}">
+
+    <div>
+
+    </div>
+
+    <div class="buttons__wrapper">
+
+      <a href="{{ '/' + lang + '/' + experience.tourPicker[0].slug | url}}" class="ui__button button__icon arrow-prev">
+        <p>{{ generic[lang].strings['tours-back'] }}</p>
+      </a>
+
+    </div>
+
+  </section>
+
 
 </div>

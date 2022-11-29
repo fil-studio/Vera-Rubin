@@ -163,7 +163,8 @@
 
 [data-slide="introSlide"],
 [data-slide="funFactSlide"],
-[data-slide="defaultSlide"] {
+[data-slide="defaultSlide"],
+[data-slide="shareSlide"] {
 
 	top: unset;
 	bottom: 0;
@@ -202,7 +203,8 @@
 }
 
 [data-slide="introSlide"],
-[data-slide="funFactSlide"] {
+[data-slide="funFactSlide"],
+[data-slide="shareSlide"] {
 	background-color: var(--teal-2);
 
 	@include mobile {
