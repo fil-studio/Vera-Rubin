@@ -104,8 +104,8 @@
 
     <div class="buttons__wrapper">
 
-      <a href="{{ '/' + lang + '/' + experience.tourPicker[0].slug | url}}" class="ui__button button__icon arrow-prev">
-        <p>{{ generic[lang].strings['tours-back'] }}</p>
+      <a href="{{ '/' + lang + '/' + experience.tourPicker[0].slug | url}}" class="ui__button">
+        <p>{{ generic[lang].strings['tours-back'] + ' ' + experience.tourPicker[0].title }}</p>
       </a>
 
     </div>

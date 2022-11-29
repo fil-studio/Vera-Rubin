@@ -49,7 +49,7 @@
 
     <a href="{{ '/' + lang + '/guided-experiences' | url }}" class="ui__button button__icon arrow-prev">
       {% include "ui/icons/arrow-prev.njk" %}
-      <p>{{ generic[lang]['strings']['tours-back'] }}</p>
+      <p>{{ generic[lang]['strings']['tours-back'] + ' ' + guidedExperiences[lang].title }}</p>
     </a>
 
   </div>
