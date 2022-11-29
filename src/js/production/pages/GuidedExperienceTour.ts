@@ -38,7 +38,7 @@ export class GuidedExperienceTour extends Page {
 	}
 
 	checkBullets(){
-		if(this.activeSlide === 0) this.dom.querySelector('.bullets').classList.add('hidden');
+		if (this.activeSlide === 0 || this.activeSlide === this.slides.length - 1) this.dom.querySelector('.bullets').classList.add('hidden');
 		else this.dom.querySelector('.bullets').classList.remove('hidden');
 
 		for(const bullet of this.bullets) bullet.classList.remove('active');
