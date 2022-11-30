@@ -89,16 +89,16 @@
 
           {% if slide.linksTitle %}<h4 class="links-title">{{ slide.linksTitle }}</h4>{% endif %}
           {% if slide.Link1 and slide.link1Text %}
-            <a href="{{ slide.Link1 }}"><span>1</span><p>{{ slide.link1Text }}</p></a>
+            <a href="{{ slide.Link1 | url}}"><span>1</span><p>{{ slide.link1Text }}</p></a>
           {% endif %}
           {% if slide.link2 and slide.link2Text %}
-            <a href="{{ slide.link2 }}"><span>2</span><p>{{ slide.link2Text }}</p></a>
+            <a href="{{ slide.link2 | url}}"><span>2</span><p>{{ slide.link2Text }}</p></a>
           {% endif %}
           {% if slide.link3 and slide.link3Text %}
-            <a href="{{ slide.link3 }}"><span>3</span><p>{{ slide.link3Text }}</p></a>
+            <a href="{{ slide.link3 | url}}"><span>3</span><p>{{ slide.link3Text }}</p></a>
           {% endif %}
           {% if slide.link4 and slide.link4Text %}
-            <a href="{{ slide.link4 }}"><span>4</span><p>{{ slide.link4Text }}</p></a>
+            <a href="{{ slide.link4 | url}}"><span>4</span><p>{{ slide.link4Text }}</p></a>
           {% endif %}
 
         </div>

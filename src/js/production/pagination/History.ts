@@ -28,8 +28,8 @@ export const historyLinksEventListener = () => {
 	for(const link of links){
 
 		if(link.hasAttribute('data-onchange') || link.hasAttribute('target') || link.hasAttribute('no-history')) continue;
-
-		if (link.href.indexOf(hostname)) {	
+		
+		if (link.href.indexOf(hostname) != -1) {	
 			
 			link.setAttribute('data-onchange', 'true');
 			
@@ -38,6 +38,8 @@ export const historyLinksEventListener = () => {
 				e.stopPropagation();				
 				onChange(link.getAttribute('href'));
 			});
+		} else {
+			link.setAttribute('target', '_blank');
 		}
 	}
 }
