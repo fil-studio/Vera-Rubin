@@ -1,5 +1,5 @@
 import { el } from "@jocabola/utils";
-import { capitalize } from "../../editor/utils/strings";
+import { capitalize } from "../../utils/strings";
 import { broadcastPanelsClose } from "../ui/panels/PanelsManager";
 import { enablePopup, PopupInterface, popups } from "../ui/popups/PopupsManager";
 

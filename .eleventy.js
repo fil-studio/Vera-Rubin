@@ -12,15 +12,15 @@ const mkdirp = require('mkdirp');
 
 const fil = `\u001b[1;35m[fil] `;
 
-const targets = ['production', 'editor'];
+const targets = ['production'];
 
 const env = process.env.ELEVENTY_ENV ? process.env.ELEVENTY_ENV.split(':') : [];
 const isProduction = env.indexOf('production') > -1;
 
 
 if (!isProduction) {
-	console.log(`${fil}Running server...`);
-	exec('node ./server/server.js');
+	// console.log(`${fil}Running server...`);
+	// exec('node ./server/server.js');
 
 	mkdirp.sync('src/data/_cache');
 }
@@ -62,7 +62,6 @@ const buildJS = (target, resolve, reject) => {
 			define: {
 				DEV_MODE: !isProduction,
 				TARGET_MODE: JSON.stringify(target),
-				VERSION: JSON.stringify(pkj.version),
 			},
 			loader: { '.glsl': 'text', '.vert': 'text', '.frag': 'text' },
 			outfile: OUT_JS,
