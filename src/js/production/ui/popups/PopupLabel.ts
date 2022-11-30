@@ -52,7 +52,7 @@ export class PopupLabel {
 	select(){
 		this.ref.selected = true;
 		this.dom.classList.add('selected');
-		if(this.ref.closeUp) this.dom.classList.add('no-info-hidden')
+		if(this.ref.closeUp) this.dom.classList.add('no-info-hidden');		
 		CameraManager.goToTarget(this.ref, false, !this.ref.closeUp);
 	}
 

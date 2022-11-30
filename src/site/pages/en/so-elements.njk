@@ -13,7 +13,7 @@ eleventyComputed:
 ---
 
 <script>
-	const solarSystemSelectedElement = {{ soe | dump | safe }};
+	window.solarSystemSelectedElement = {{ soe | dump | safe }};
 </script>
 
 {% include "pages/orbit-viewer.njk" %}

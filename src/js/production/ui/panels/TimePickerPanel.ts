@@ -246,7 +246,8 @@ export class TimePickerPanel extends Panel {
 
 		const date = this.date; 	
 		const t = performance.now() * 0.001;
-		if(!this.dragging) date.setTime(Date.now() + (this.value * 20000000) * t);
+		// if(!this.dragging) date.setTime(Date.now() + (this.value * 20000000) * t);
+		date.setTime(Date.now() + (this.value * 20000000) * t);
 		const m = date.getMinutes();
 		const h = getHours();
 

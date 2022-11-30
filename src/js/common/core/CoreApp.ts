@@ -312,19 +312,24 @@ export class CoreApp extends WebGLSketch {
 
         this.launched = true;
 
+        
         if(LOCATION.current.id != 'orbit-viewer') {
             this.lock();
             CameraManager.goToTarget(this.sun, true);
         } else {
-            if(solarSystemSelectedElement) {
+            const element = window['solarSystemSelectedElement'];
+
+            if(element) {
 
                 const url = window.location.pathname.split('/');
                 const clean = url.filter(x => x !== '');           
-                                       
+
                 window.history.pushState('', '', `/${clean[0]}/${clean[1]}/`)
-                
-                const element = solarSystemSelectedElement;
-                enablePopup(element.elementID);
+
+                setTimeout(() => {
+                    enablePopup(element.elementID);
+                }, 100);
+      
             }
         }
     
