@@ -83,18 +83,21 @@
 		}
 
 		&.icon__right {
+			p {
+				text-align: left;
+			}
 			svg {
 				order: 1;
 			}
 		}
 
-		&:has(.arrow-prev){
-			text-align: right;		
+		// &:has(.arrow-prev){
+		// 	text-align: right;		
 			
-			p {
-				text-align: left;
-			}
-		}
+		// 	p {
+		// 		text-align: left;
+		// 	}
+		// }
 	}
 }
 

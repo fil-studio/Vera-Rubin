@@ -15,7 +15,6 @@ export const PATHS = {
 	assets: '/assets',
 };
 
-
 export const CONTROLS = {
 	min: 5,
 	max: 60000,
