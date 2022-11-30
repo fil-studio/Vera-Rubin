@@ -49,6 +49,20 @@ async function getPage() {
 								typeHandle
 								slideContent
 						}
+							... on flexible_shareSlide_BlockType {
+								typeHandle
+								slideTitle
+								slideText
+								linksTitle
+								Link1
+								link1Text
+								link2
+								link2Text
+								link3
+								link3Text
+								link4
+								link4Text
+						}
 					}
 				}
   `;

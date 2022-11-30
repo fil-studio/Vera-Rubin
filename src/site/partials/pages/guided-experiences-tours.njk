@@ -45,7 +45,7 @@
 
   {% for slide in experience.flexible %}
 
-    <section data-slide="{{ slide.typeHandle }}" data-slide-index="{{ loop.index }}" {{ 'data-closeup=' + slide.closeUp[0].elementID  if slide.closeUp.length}}>
+    <section data-slide="{{ slide.typeHandle }}" data-slide-index="{{ loop.index }}" {{ 'data-closeup=' + slide.closeUp[0].elementID if slide.closeUp.length}}>
 
       {% if slide.typeHandle == 'introSlide' or slide.typeHandle == 'funFactSlide' %}
 
@@ -69,51 +69,67 @@
             <p>{{ slide.slideContent }}</p>
           </div>
 
-      {% else %}
+      {% elif slide.typeHandle == 'defaultSlide' %}
           <div class="content folded">
             <h4>{{ slide.subTitle }}</h4>
             <h3>{{ slide.slideTitle }}</h3>
             <p>{{ slide.slideContent }}</p>
           </div>
+
+      {% else %}
+
+        <h3>{{ slide.slideTitle }}</h3>
+        <h4>{{ slide.slideText }}</h4>
+
+        <div class="share-buttons-wrapper">
+          {% include 'ui/share-buttons.njk' %}
+        </div>
+
+        <div class="share-links">
+
+          {% if slide.linksTitle %}<h4 class="links-title">{{ slide.linksTitle }}</h4>{% endif %}
+          {% if slide.Link1 and slide.link1Text %}
+            <a href="{{ slide.Link1 }}"><span>1</span><p>{{ slide.link1Text }}</p></a>
+          {% endif %}
+          {% if slide.link2 and slide.link2Text %}
+            <a href="{{ slide.link2 }}"><span>2</span><p>{{ slide.link2Text }}</p></a>
+          {% endif %}
+          {% if slide.link3 and slide.link3Text %}
+            <a href="{{ slide.link3 }}"><span>3</span><p>{{ slide.link3Text }}</p></a>
+          {% endif %}
+          {% if slide.link4 and slide.link4Text %}
+            <a href="{{ slide.link4 }}"><span>4</span><p>{{ slide.link4Text }}</p></a>
+          {% endif %}
+
+        </div>
+
       {% endif %}
 
 
       <div class="buttons__wrapper">
-        
-        <button data-button="{{ slide.typeHandle + '-' + loop.index + 'prev' }}" class="ui__button button__icon arrow-prev">
-          {% include "ui/icons/arrow-prev.njk" %}
-          <p>Back</p>
-        </button>
 
-        <button data-button="{{ slide.typeHandle + '-' + loop.index + 'next' }}" class="ui__button button__icon icon__right">
-          {% include "ui/icons/arrow-next.njk" %}
-          <p>Next</p>
-        </button>
+        {% if slide.typeHandle != 'shareSlide' %}
+        
+          <button data-button="{{ slide.typeHandle + '-' + loop.index + 'prev' }}" class="ui__button button__icon arrow-prev">
+            {% include "ui/icons/arrow-prev.njk" %}
+            <p>Back</p>
+          </button>
+
+          <button data-button="{{ slide.typeHandle + '-' + loop.index + 'next' }}" class="ui__button button__icon icon__right">
+            {% include "ui/icons/arrow-next.njk" %}
+            <p>Next</p>
+          </button>
+        {% else %}
+          <a href="{{ '/' + lang + '/' + experience.tourPicker[0].slug | url}}" class="ui__button">
+            <p>{{ generic[lang].strings['tours-back'] + ' ' + experience.tourPicker[0].title }}</p>
+          </a>
+        {% endif %}
 
       </div>
 
     </section>
 
   {% endfor %}
-
-  <section data-slide="shareSlide" data-slide-index="{{ experience.flexible.length + 1 }}">
-
-    <h3>{{ generic[lang].strings['tours-share-title'] }}</h3>
-    <h4>{{ generic[lang].strings['tours-share-text'] }}</h4>
-
-    <div class="share-buttons-wrapper">
-      {% include 'ui/share-buttons.njk' %}
-    </div>
-
-    <div class="buttons__wrapper">
-
-      <a href="{{ '/' + lang + '/' + experience.tourPicker[0].slug | url}}" class="ui__button">
-        <p>{{ generic[lang].strings['tours-back'] + ' ' + experience.tourPicker[0].title }}</p>
-      </a>
-
-    </div>
-
-  </section>
 
 
 </div>

@@ -85,6 +85,7 @@
 [data-slide] {
 	max-height: 100vh;
 	overflow-y: auto;
+	pointer-events: all;
 
 	.buttons__wrapper {
 		display: flex;
@@ -310,13 +311,64 @@
 	}
 
 	h4 {
-		@include normal-0;
-		text-align: center;
+		@include bold-2;
+		text-align: left;
 		margin-bottom: var(--distance-30);
+
+		&.links-title {
+			text-align: left;
+		}
 	}
 
 	.share-buttons-wrapper {
 		width: 100%;
+		border-bottom: 3px solid #fff;
+		padding-bottom: 40px;
+		margin-bottom: 40px;
+	}
+
+	.share-links {
+
+		display: flex;
+		flex-direction: column;
+
+		a {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			min-height: 40px;
+			margin: 0 0 20px;
+		}
+
+		span {
+			text-align: center;
+			@include bold-2;
+			flex-shrink: 0;
+			position: relative;
+			z-index: 1;
+			padding: 0 20px;
+			margin: 0 10px 0 0;
+
+			&:before {
+				content: '';
+				z-index: -1;
+				border-radius: 100%;
+				background-color: var(--green-1);
+				width: 40px;
+				height: 40px;
+				position: absolute;
+				top: 50%;
+				left:50%;
+				transform: translate(-50%,-50%);
+			}
+		}
+
+		p {
+			flex-grow: 1;
+		}
+
+
+
 	}
 
 	.share-button {
