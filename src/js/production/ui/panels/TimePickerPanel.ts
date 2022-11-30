@@ -32,6 +32,7 @@ export class TimePickerPanel extends Panel {
 
 	range: HTMLInputElement;
 	value: number = 0;
+	animationValue: number = 0;
 	holding: boolean = false;
 
 	date: Date; 
@@ -246,8 +247,8 @@ export class TimePickerPanel extends Panel {
 
 		const date = this.date; 	
 		const t = performance.now() * 0.001;
-		// if(!this.dragging) date.setTime(Date.now() + (this.value * 20000000) * t);
-		date.setTime(Date.now() + (this.value * 20000000) * t);
+		this.animationValue = MathUtils.lerp(this.animationValue, this.value, 0.8);
+		date.setTime(Date.now() + (this.animationValue * 20000000) * t);
 		const m = date.getMinutes();
 		const h = getHours();
 
