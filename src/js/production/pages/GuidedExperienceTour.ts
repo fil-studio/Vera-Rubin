@@ -90,6 +90,9 @@ export class GuidedExperienceTour extends Page {
 				content.addEventListener('click', () => {
 					content.classList.toggle('folded');
 				})
+				content.addEventListener('touchstart', () => {
+					content.classList.toggle('folded');
+				})
 			}
 		}
 
