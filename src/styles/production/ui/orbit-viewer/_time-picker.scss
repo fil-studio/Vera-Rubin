@@ -251,3 +251,12 @@
 	}
 }
 
+.timer-dragging {
+	[data-panel="time-picker"],
+	.timer {
+		p,
+		button {
+			user-select: none;
+		}
+	}
+}

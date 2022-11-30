@@ -61,7 +61,7 @@ export class TimePickerPanel extends Panel {
 		this.range = this.timer.querySelector('input');
 		this.value = this.range.valueAsNumber;
 
-		this.date = solarClock.currentDate;
+		this.date = new Date();
 		this.domDate = this.dom.querySelector('.time-picker-details p span');
 
 		this.arrowsTl = createArrowsTl();
@@ -89,17 +89,23 @@ export class TimePickerPanel extends Panel {
 		window.addEventListener('mouseup', () => {
 			this.dragging = false;
 			this.draggingOriginalX = 0;
+			document.body.classList.remove('timer-dragging');
 		}, { once: true })
 		
 		window.addEventListener('touchend', () => {
 			this.dragging = false;
 			this.draggingOriginalX = 0;
+			document.body.classList.remove('timer-dragging');
 		}, { once: true })
 	
 	}
 
+
+
 	onMousemove(x) {
 		if(!this.dragging) return;
+
+		document.body.classList.add('timer-dragging');
 
 		const movementDistance = this.draggingOriginalValue + (x - this.draggingOriginalX);		
 		const newValue = MathUtils.clamp(MathUtils.map(movementDistance, 0, this.draggingRangeW, -1, 1), -1, 1);
@@ -188,7 +194,6 @@ export class TimePickerPanel extends Panel {
 		this.changeState();
 	}
 
-
 	changeState(){
 		this.timer.setAttribute('state', `${this.state}`);
 
@@ -239,9 +244,12 @@ export class TimePickerPanel extends Panel {
 			return h > 12 ? h - 12 : h;
 		}
 
-		const date = solarClock.currentDate;
+		const date = this.date; 	
+		const t = performance.now() * 0.001;
+		if(!this.dragging) date.setTime(Date.now() + (this.value * 20000000) * t);
 		const m = date.getMinutes();
 		const h = getHours();
+
 		const r1 = MathUtils.map(m, 0, 59, 0, 354);
 		const r2 = MathUtils.map(h, 1, 12, 30, 360);				
 
@@ -285,7 +293,7 @@ const createArrowsTl = ():GSAPTimeline => {
 
 		const ii = i + 1;
 
-		const distance = window.innerWidth < 678 ? window.innerWidth * 0.11 : 60;		
+		const distance = window.innerWidth < 678 ? window.innerWidth * 0.05 : 60;		
 		const initialOffset = window.innerWidth < 678 ? 5 : 40;
 		const distanceBetweenChevrons = 7;
 
